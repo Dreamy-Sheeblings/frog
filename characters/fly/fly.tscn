@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxodetp2amu0b"]
+
+[ext_resource type="Script" uid="uid://dcs6md7y101p0" path="res://characters/fly/fly.gd" id="1_w51ox"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_v0pvl"]
+radius = 11.0
+height = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v0pvl"]
+radius = 11.0
+
+[node name="Fly" type="Area2D" groups=["edibles"]]
+script = ExtResource("1_w51ox")
+
+[node name="Sprite" type="MeshInstance2D" parent="."]
+mesh = SubResource("CapsuleMesh_v0pvl")
+
+[node name="Cls" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_v0pvl")

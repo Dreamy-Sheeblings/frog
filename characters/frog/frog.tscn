@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1ljkia4u5wil"]
+
+[ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://characters/frog/frog.gd" id="1_aoej0"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_aoej0"]
+radius = 40.0
+height = 81.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_ogoj1"]
+size = Vector2(30, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aoej0"]
+size = Vector2(30, 20)
+
+[node name="Frog" type="Node2D"]
+script = ExtResource("1_aoej0")
+
+[node name="Body" type="MeshInstance2D" parent="."]
+modulate = Color(0.341176, 1, 0.0627451, 1)
+mesh = SubResource("CapsuleMesh_aoej0")
+
+[node name="Tongue" type="Area2D" parent="."]
+
+[node name="Sprite" type="MeshInstance2D" parent="Tongue"]
+modulate = Color(0.509804, 0.376471, 1, 1)
+position = Vector2(0, -58)
+mesh = SubResource("QuadMesh_ogoj1")
+
+[node name="Cls" type="CollisionShape2D" parent="Tongue"]
+position = Vector2(0, -58)
+shape = SubResource("RectangleShape2D_aoej0")
