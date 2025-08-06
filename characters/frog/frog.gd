@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var tongue = $Tongue
+@onready var tongue_cls = $Tongue/Cls
 
 var time: float = 0
 var original_position: Vector2
@@ -30,6 +31,7 @@ func on_tongue_area_entered(area):
 func _process(delta: float) -> void:
 	match current_state:
 		States.SWAY:
+			tongue_cls.disabled = true
 			if Input.is_action_just_pressed("ui_accept"):
 				# Lock in the direction and prepare to shoot
 				shoot_direction = Vector2.UP.rotated(tongue.rotation)
@@ -40,6 +42,7 @@ func _process(delta: float) -> void:
 			tongue.rotation_degrees = angle_degrees
 		
 		States.RELEASE_OUT:
+			tongue_cls.disabled = false
 			var move = shoot_direction * shoot_speed * delta
 			tongue.position += move
 			traveled_distance += move.length()
@@ -48,6 +51,7 @@ func _process(delta: float) -> void:
 				current_state = States.RELEASE_BACK
 
 		States.RELEASE_BACK:
+			tongue_cls.disabled = false
 			var to_origin = original_position - tongue.position
 			var move = to_origin.normalized() * return_speed * delta
 			if move.length() > to_origin.length():

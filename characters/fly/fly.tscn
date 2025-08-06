@@ -12,6 +12,10 @@ radius = 11.0
 [node name="Fly" type="Area2D" groups=["edibles"]]
 script = ExtResource("1_w51ox")
 
+[node name="StateTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [node name="Sprite" type="MeshInstance2D" parent="."]
 mesh = SubResource("CapsuleMesh_v0pvl")
 

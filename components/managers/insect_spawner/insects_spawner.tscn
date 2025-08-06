@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwpk101n37afm"]
+
+[ext_resource type="Script" uid="uid://dxw56ks5jnlgr" path="res://components/managers/insect_spawner/insects_spawner.gd" id="1_1pdku"]
+[ext_resource type="PackedScene" uid="uid://cxodetp2amu0b" path="res://characters/fly/fly.tscn" id="2_5fo2e"]
+
+[node name="InsectsSpawner" type="Node"]
+script = ExtResource("1_1pdku")
+fly_scene = ExtResource("2_5fo2e")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
