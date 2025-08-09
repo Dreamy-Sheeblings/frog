@@ -12,10 +12,14 @@ var return_speed := 1000.0
 var max_distance := 350.0
 var traveled_distance := 0.0
 
+var out_stuck_rage := 100
+var stuck_area: Area2D
+
 enum States {
 	SWAY,
 	RELEASE_OUT,
-	RELEASE_BACK
+	RELEASE_BACK,
+	STUCK
 }
 
 var current_state: States = States.SWAY
@@ -30,6 +34,10 @@ func on_tongue_area_entered(area):
 	if area.is_in_group("edibles"):
 		current_state = States.RELEASE_BACK
 		area.queue_free()
+	if area.is_in_group("stuck"):
+		out_stuck_rage = 50
+		stuck_area = area
+		current_state = States.STUCK
 
 func _process(delta: float) -> void:
 	tongue_line.points = [Vector2.ZERO, to_local(tongue_cls.global_position)]
@@ -55,6 +63,7 @@ func _process(delta: float) -> void:
 				current_state = States.RELEASE_BACK
 
 		States.RELEASE_BACK:
+			out_stuck_rage = 100
 			tongue_cls.disabled = true
 			var to_origin = original_position - tongue.position
 			var move = to_origin.normalized() * return_speed * delta
@@ -63,3 +72,12 @@ func _process(delta: float) -> void:
 				current_state = States.SWAY
 			else:
 				tongue.position += move
+
+		States.STUCK:
+			tongue_cls.disabled = true
+			out_stuck_rage -= 1
+			if out_stuck_rage >= 100:
+				stuck_area.queue_free()
+				current_state = States.RELEASE_BACK
+			if Input.is_action_just_pressed("ui_accept"):
+				out_stuck_rage += 25

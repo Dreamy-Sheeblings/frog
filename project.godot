@@ -27,6 +27,8 @@ window/stretch/mode="viewport"
 
 edibles="insects that main characters can swallow"
 entities_layer=""
+stuck="Sticky Area"
+objects_layer=""
 
 [rendering]
 

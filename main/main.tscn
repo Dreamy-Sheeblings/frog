@@ -8,11 +8,13 @@
 
 [node name="InsectsSpawner" parent="." instance=ExtResource("1_pjrb6")]
 
+[node name="ObjectsLayer" type="Node2D" parent="." groups=["objects_layer"]]
+
 [node name="InsectsEnities" type="Node2D" parent="." groups=["entities_layer"]]
 y_sort_enabled = true
 
 [node name="Spider" parent="InsectsEnities" instance=ExtResource("2_xwkvk")]
-position = Vector2(155, -14)
+position = Vector2(155, -25)
 
 [node name="Frog" parent="." instance=ExtResource("1_53q0u")]
 position = Vector2(320, 360)

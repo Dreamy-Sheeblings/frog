@@ -9,15 +9,15 @@ size = Vector2(20, 24)
 size = Vector2(20, 24)
 
 [node name="Spider" type="Area2D" groups=["edibles"]]
-modulate = Color(1, 0.14902, 1, 1)
 script = ExtResource("1_t1u7d")
 
 [node name="Mesh" type="MeshInstance2D" parent="."]
+modulate = Color(1, 0.14902, 1, 1)
 mesh = SubResource("QuadMesh_5tgb4")
 
 [node name="Cls" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5tgb4")
 
-[node name="WebTimer" type="Timer" parent="."]
+[node name="LifeTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
