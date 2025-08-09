@@ -1,14 +1,15 @@
 extends Node2D
 
-@onready var tongue = $Tongue
-@onready var tongue_cls = $Tongue/Cls
+@onready var tongue = $TongueHead
+@onready var tongue_cls = $TongueHead/Cls
+@onready var tongue_line = $TongueLine
 
 var time: float = 0
 var original_position: Vector2
 var shoot_direction: Vector2
 var shoot_speed := 800.0
-var return_speed := 600.0
-var max_distance := 300.0
+var return_speed := 1000.0
+var max_distance := 350.0
 var traveled_distance := 0.0
 
 enum States {
@@ -18,8 +19,10 @@ enum States {
 }
 
 var current_state: States = States.SWAY
+var viewport_rect: Rect2
 
 func _ready() -> void:
+	viewport_rect = get_viewport().get_visible_rect()
 	original_position = tongue.position
 	tongue.area_entered.connect(on_tongue_area_entered)
 
@@ -29,6 +32,7 @@ func on_tongue_area_entered(area):
 		area.queue_free()
 
 func _process(delta: float) -> void:
+	tongue_line.points = [Vector2.ZERO, to_local(tongue_cls.global_position)]
 	match current_state:
 		States.SWAY:
 			tongue_cls.disabled = true
@@ -51,7 +55,7 @@ func _process(delta: float) -> void:
 				current_state = States.RELEASE_BACK
 
 		States.RELEASE_BACK:
-			tongue_cls.disabled = false
+			tongue_cls.disabled = true
 			var to_origin = original_position - tongue.position
 			var move = to_origin.normalized() * return_speed * delta
 			if move.length() > to_origin.length():

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=6 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://characters/frog/frog.gd" id="1_aoej0"]
+[ext_resource type="Texture2D" uid="uid://v8ho3luremn6" path="res://characters/frog/tongue.png" id="2_7ooxj"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_aoej0"]
 radius = 40.0
@@ -19,13 +20,20 @@ script = ExtResource("1_aoej0")
 modulate = Color(0.341176, 1, 0.0627451, 1)
 mesh = SubResource("CapsuleMesh_aoej0")
 
-[node name="Tongue" type="Area2D" parent="."]
+[node name="TongueLine" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0)
+width = 16.0
+default_color = Color(0.823529, 0.0901961, 0.0901961, 1)
+texture = ExtResource("2_7ooxj")
+texture_mode = 1
 
-[node name="Sprite" type="MeshInstance2D" parent="Tongue"]
+[node name="TongueHead" type="Area2D" parent="."]
+
+[node name="Sprite" type="MeshInstance2D" parent="TongueHead"]
 modulate = Color(0.509804, 0.376471, 1, 1)
 position = Vector2(0, -58)
 mesh = SubResource("QuadMesh_ogoj1")
 
-[node name="Cls" type="CollisionShape2D" parent="Tongue"]
+[node name="Cls" type="CollisionShape2D" parent="TongueHead"]
 position = Vector2(0, -58)
 shape = SubResource("RectangleShape2D_aoej0")

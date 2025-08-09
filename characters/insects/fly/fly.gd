@@ -2,6 +2,7 @@ class_name Fly
 extends Area2D
 
 @onready var state_timer := $StateTimer
+@onready var life_timer := $LifeTimer
 
 var alive: bool = false
 var base_radius := 20.0
@@ -32,6 +33,7 @@ func _ready() -> void:
 
 	viewport_rect = get_viewport().get_visible_rect()
 	state_timer.timeout.connect(_on_mode_timer_timeout)
+	life_timer.timeout.connect(on_life_timer_timeout)
 	# Buzzing init
 	phase_offset = randf_range(0.0, TAU)
 	noise_seed_offset = randf_range(0.0, 1000.0)
@@ -58,6 +60,7 @@ func _process(delta: float) -> void:
 				center = center.move_toward(fly_target, 40 * delta)
 				if center.distance_to(fly_target) < 5.0:
 					current_state = States.BUZZ
+					life_timer.start()
 					_reset_timer()
 			States.FLY:
 				var to_target = fly_target - center
@@ -66,6 +69,12 @@ func _process(delta: float) -> void:
 									randf_range(viewport_rect.position.x + 25, viewport_rect.end.x - 25),
 									randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 120)
 								)
+				else:
+					center += to_target.normalized() * 40 * delta
+			States.FLY_OUT:
+				var to_target = fly_target - center
+				if to_target.length() < 5.0:
+					queue_free() # Fly has exited, remove it
 				else:
 					center += to_target.normalized() * 40 * delta
 
@@ -81,6 +90,32 @@ func _on_mode_timer_timeout() -> void:
 	# Toggle between BUZZ and FLY
 	current_state = States.FLY if current_state == States.BUZZ else States.BUZZ
 	_reset_timer()
+
+func get_random_offscreen_position(margin: float = 50.0) -> Vector2:
+	var side := randi() % 3 # 0=Top, 1=Right, 2=Bottom, 3=Left
+
+	match side:
+		0: # Top
+			return Vector2(
+				randf_range(viewport_rect.position.x, viewport_rect.end.x),
+				viewport_rect.position.y - margin
+			)
+		1: # Right
+			return Vector2(
+				viewport_rect.end.x + margin,
+				randf_range(viewport_rect.position.y, viewport_rect.end.y)
+			)
+		2: # Left
+			return Vector2(
+				viewport_rect.position.x - margin,
+				randf_range(viewport_rect.position.y, viewport_rect.end.y)
+			)
+	return Vector2.ZERO # fallback
+
+func on_life_timer_timeout() -> void:
+	state_timer.stop()
+	fly_target = get_random_offscreen_position(30)
+	current_state = States.FLY_OUT
 
 func _reset_timer() -> void:
 	state_timer.wait_time = randf_range(3.0, 5.0)
