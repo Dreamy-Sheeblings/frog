@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bug1l8g3cbkep"]
+[gd_scene load_steps=3 format=3 uid="uid://bug1l8g3cbkep"]
 
 [ext_resource type="PackedScene" uid="uid://c1ljkia4u5wil" path="res://characters/frog/frog.tscn" id="1_53q0u"]
 [ext_resource type="PackedScene" uid="uid://bwpk101n37afm" path="res://components/managers/insect_spawner/insects_spawner.tscn" id="1_pjrb6"]
-[ext_resource type="PackedScene" uid="uid://chfdaqxfq84dr" path="res://characters/insects/spider/spider.tscn" id="2_xwkvk"]
 
 [node name="Main" type="Node"]
 
@@ -13,8 +12,5 @@
 [node name="InsectsEnities" type="Node2D" parent="." groups=["entities_layer"]]
 y_sort_enabled = true
 
-[node name="Spider" parent="InsectsEnities" instance=ExtResource("2_xwkvk")]
-position = Vector2(155, -25)
-
 [node name="Frog" parent="." instance=ExtResource("1_53q0u")]
-position = Vector2(320, 360)
+position = Vector2(320, 320)

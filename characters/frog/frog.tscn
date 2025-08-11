@@ -1,11 +1,44 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=11 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://characters/frog/frog.gd" id="1_aoej0"]
+[ext_resource type="Texture2D" uid="uid://185675gicxj3" path="res://characters/frog/idle.png" id="2_6wucm"]
 [ext_resource type="Texture2D" uid="uid://v8ho3luremn6" path="res://characters/frog/tongue.png" id="2_7ooxj"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_aoej0"]
-radius = 40.0
-height = 81.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_ysx4s"]
+atlas = ExtResource("2_6wucm")
+region = Rect2(0, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6hnb"]
+atlas = ExtResource("2_6wucm")
+region = Rect2(200, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfbh0"]
+atlas = ExtResource("2_6wucm")
+region = Rect2(400, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgo6o"]
+atlas = ExtResource("2_6wucm")
+region = Rect2(600, 0, 200, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gbj2l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ysx4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6hnb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfbh0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgo6o")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="QuadMesh" id="QuadMesh_ogoj1"]
 size = Vector2(30, 20)
@@ -16,12 +49,13 @@ size = Vector2(30, 20)
 [node name="Frog" type="Node2D"]
 script = ExtResource("1_aoej0")
 
-[node name="Body" type="MeshInstance2D" parent="."]
-modulate = Color(0.341176, 1, 0.0627451, 1)
-mesh = SubResource("CapsuleMesh_aoej0")
+[node name="Body" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gbj2l")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="TongueLine" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0)
+points = PackedVector2Array(0, -18)
 width = 16.0
 default_color = Color(0.823529, 0.0901961, 0.0901961, 1)
 texture = ExtResource("2_7ooxj")

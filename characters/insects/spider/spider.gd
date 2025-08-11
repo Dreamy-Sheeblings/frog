@@ -12,9 +12,10 @@ enum States {
 	ASCEND
 }
 
-var current_state = States.DESCEND # Start in DESCEND state
+var current_state = States.DESCEND
 
-var start_position: Vector2 = position
+# var alive: bool = false
+var start_position: Vector2
 var descend_duration: float = 1
 var bounce_height: float = 10.0
 var bounce_duration: float = 0.2
@@ -23,9 +24,12 @@ var web_shooted := false
 
 func _ready() -> void:
 	life_timer.timeout.connect(on_life_timer_timeout)
+	await get_tree().process_frame
+	start_position = global_position
 	drop_spider()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+
 	match current_state:
 		States.IDLE:
 			pass
@@ -34,6 +38,7 @@ func _process(delta: float) -> void:
 		
 func drop_spider() -> void:
 	randomize()
+	
 	var descend_distance = randf_range(100, 180)
 	var target_y = position.y + descend_distance
 	var bounce_up_y = target_y - bounce_height

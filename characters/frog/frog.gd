@@ -9,7 +9,7 @@ var original_position: Vector2
 var shoot_direction: Vector2
 var shoot_speed := 800.0
 var return_speed := 1000.0
-var max_distance := 350.0
+var max_distance := 320.0
 var traveled_distance := 0.0
 
 var out_stuck_rage := 100
@@ -40,9 +40,10 @@ func on_tongue_area_entered(area):
 		current_state = States.STUCK
 
 func _process(delta: float) -> void:
-	tongue_line.points = [Vector2.ZERO, to_local(tongue_cls.global_position)]
+	tongue_line.points = [Vector2(0, -10), to_local(tongue_cls.global_position)]
 	match current_state:
 		States.SWAY:
+			tongue_line.visible = false
 			tongue_cls.disabled = true
 			if Input.is_action_just_pressed("ui_accept"):
 				# Lock in the direction and prepare to shoot
@@ -54,6 +55,7 @@ func _process(delta: float) -> void:
 			tongue.rotation_degrees = angle_degrees
 		
 		States.RELEASE_OUT:
+			tongue_line.visible = true
 			tongue_cls.disabled = false
 			var move = shoot_direction * shoot_speed * delta
 			tongue.position += move
@@ -63,17 +65,19 @@ func _process(delta: float) -> void:
 				current_state = States.RELEASE_BACK
 
 		States.RELEASE_BACK:
+			tongue_line.visible = true
 			out_stuck_rage = 100
 			tongue_cls.disabled = true
 			var to_origin = original_position - tongue.position
 			var move = to_origin.normalized() * return_speed * delta
-			if move.length() > to_origin.length():
+			if move.length() >= to_origin.length():
 				tongue.position = original_position
 				current_state = States.SWAY
 			else:
 				tongue.position += move
 
 		States.STUCK:
+			tongue_line.visible = true
 			tongue_cls.disabled = true
 			out_stuck_rage -= 1
 			if out_stuck_rage >= 100:
