@@ -27,10 +27,11 @@ enum States {
 var current_state = States.FLY_IN
 var fly_target: Vector2 = Vector2.ZERO
 var viewport_rect: Rect2
+var last_position := Vector2.ZERO
 
 func _ready() -> void:
 	randomize()
-
+	last_position = global_position
 	viewport_rect = get_viewport().get_visible_rect()
 	state_timer.timeout.connect(_on_mode_timer_timeout)
 	life_timer.timeout.connect(on_life_timer_timeout)
@@ -47,10 +48,11 @@ func _ready() -> void:
 	)
 
 func _process(delta: float) -> void:
+	
+	$AnimSprite.flip_h = (fly_target.x > center.x)
 	if not alive:
 		center = global_position
 		alive = true
-		
 	else:
 		angle += delta * speed
 		var t := Time.get_ticks_msec() / 1000.0

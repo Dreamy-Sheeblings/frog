@@ -3,13 +3,15 @@ extends Node2D
 @onready var tongue = $TongueHead
 @onready var tongue_cls = $TongueHead/Cls
 @onready var tongue_line = $TongueLine
+@onready var body_anim = $Body
+@onready var tongue_head_state_sprite = $TongueHead/StateSprite
 
 var time: float = 0
 var original_position: Vector2
 var shoot_direction: Vector2
 var shoot_speed := 800.0
 var return_speed := 1000.0
-var max_distance := 320.0
+var max_distance := 310.0
 var traveled_distance := 0.0
 
 var out_stuck_rage := 100
@@ -40,9 +42,11 @@ func on_tongue_area_entered(area):
 		current_state = States.STUCK
 
 func _process(delta: float) -> void:
-	tongue_line.points = [Vector2(0, -10), to_local(tongue_cls.global_position)]
+	tongue_line.points = [Vector2(0, -8), to_local(tongue_cls.global_position)]
 	match current_state:
 		States.SWAY:
+			body_anim.play("idle")
+			tongue_head_state_sprite.play("target")
 			tongue_line.visible = false
 			tongue_cls.disabled = true
 			if Input.is_action_just_pressed("ui_accept"):
@@ -55,6 +59,8 @@ func _process(delta: float) -> void:
 			tongue.rotation_degrees = angle_degrees
 		
 		States.RELEASE_OUT:
+			body_anim.play("eat")
+			tongue_head_state_sprite.play("lick")
 			tongue_line.visible = true
 			tongue_cls.disabled = false
 			var move = shoot_direction * shoot_speed * delta
@@ -65,6 +71,7 @@ func _process(delta: float) -> void:
 				current_state = States.RELEASE_BACK
 
 		States.RELEASE_BACK:
+			tongue_head_state_sprite.play("lick")
 			tongue_line.visible = true
 			out_stuck_rage = 100
 			tongue_cls.disabled = true
@@ -77,6 +84,7 @@ func _process(delta: float) -> void:
 				tongue.position += move
 
 		States.STUCK:
+			tongue_head_state_sprite.play("lick")
 			tongue_line.visible = true
 			tongue_cls.disabled = true
 			out_stuck_rage -= 1
