@@ -48,7 +48,6 @@ func _ready() -> void:
 	)
 
 func _process(delta: float) -> void:
-	
 	$AnimSprite.flip_h = (fly_target.x > center.x)
 	if not alive:
 		center = global_position
@@ -76,7 +75,7 @@ func _process(delta: float) -> void:
 			States.FLY_OUT:
 				var to_target = fly_target - center
 				if to_target.length() < 5.0:
-					queue_free() # Fly has exited, remove it
+					queue_free()
 				else:
 					center += to_target.normalized() * 40 * delta
 

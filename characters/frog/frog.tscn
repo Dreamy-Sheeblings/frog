@@ -1,13 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=11 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://characters/frog/frog.gd" id="1_aoej0"]
 [ext_resource type="Texture2D" uid="uid://cs7m1n8md2b0y" path="res://characters/frog/frog.png" id="2_6wucm"]
-[ext_resource type="Texture2D" uid="uid://v8ho3luremn6" path="res://characters/frog/tongue.png" id="2_7ooxj"]
 [ext_resource type="Texture2D" uid="uid://bu6o3a68hmagd" path="res://characters/frog/tongue_head.png" id="4_ysx4s"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wgo6o"]
-atlas = ExtResource("2_6wucm")
-region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6wucm"]
 atlas = ExtResource("2_6wucm")
@@ -25,16 +20,12 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("2_6wucm")
 region = Rect2(32, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgo6o"]
+atlas = ExtResource("2_6wucm")
+region = Rect2(96, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_gbj2l"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wgo6o")
-}],
-"loop": true,
-"name": &"eat",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6wucm")
@@ -51,61 +42,41 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 8.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gbj2l"]
-atlas = ExtResource("4_ysx4s")
-region = Rect2(0, 0, 25, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qhujb"]
-atlas = ExtResource("4_ysx4s")
-region = Rect2(25, 0, 25, 20)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_qv0us"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gbj2l")
-}],
-"loop": true,
-"name": &"lick",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qhujb")
+"texture": SubResource("AtlasTexture_wgo6o")
 }],
 "loop": true,
-"name": &"target",
+"name": &"mouth_opened",
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_aoej0"]
-size = Vector2(25, 20)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ysx4s"]
+size = Vector2(20, 16)
 
 [node name="Frog" type="Node2D"]
 script = ExtResource("1_aoej0")
 
-[node name="Body" type="AnimatedSprite2D" parent="."]
+[node name="SwallowTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_gbj2l")
-animation = &"eat"
+animation = &"mouth_opened"
 autoplay = "idle"
-frame_progress = 0.406238
 
-[node name="TongueLine" type="Line2D" parent="."]
-points = PackedVector2Array(0, -18)
-width = 16.0
-texture = ExtResource("2_7ooxj")
-texture_mode = 1
+[node name="TongueTarget" type="Area2D" parent="."]
 
-[node name="TongueHead" type="Area2D" parent="."]
-
-[node name="StateSprite" type="AnimatedSprite2D" parent="TongueHead"]
+[node name="Sprite2D" type="Sprite2D" parent="TongueTarget"]
 position = Vector2(0, -58)
-sprite_frames = SubResource("SpriteFrames_qv0us")
-animation = &"lick"
+texture = ExtResource("4_ysx4s")
+hframes = 2
+frame = 1
 
-[node name="Cls" type="CollisionShape2D" parent="TongueHead"]
+[node name="Cls" type="CollisionShape2D" parent="TongueTarget"]
 position = Vector2(0, -58)
-shape = SubResource("RectangleShape2D_aoej0")
+shape = SubResource("RectangleShape2D_ysx4s")
+
+[node name="TongueList" type="Node2D" parent="."]

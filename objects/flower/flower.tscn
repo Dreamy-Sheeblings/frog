@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtk5ayypfg4ym"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_kb25r"]
+radius = 25.5
+height = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7nvf4"]
+radius = 26.0
+
+[node name="Flower" type="Area2D" groups=["flower"]]
+
+[node name="Mesh" type="MeshInstance2D" parent="."]
+modulate = Color(0.67265, 0.345624, 1, 1)
+mesh = SubResource("SphereMesh_kb25r")
+
+[node name="Cls" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7nvf4")

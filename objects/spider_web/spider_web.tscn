@@ -9,7 +9,7 @@ height = 40.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vric"]
 radius = 20.0
 
-[node name="Web" type="Area2D" groups=["stuck"]]
+[node name="SpiderWeb" type="Area2D" groups=["stuck"]]
 script = ExtResource("1_1vric")
 
 [node name="Sprite" type="MeshInstance2D" parent="."]

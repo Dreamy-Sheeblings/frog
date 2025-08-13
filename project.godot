@@ -29,6 +29,17 @@ edibles="insects that main characters can swallow"
 entities_layer=""
 stuck="Sticky Area"
 objects_layer=""
+flower="For bee to pollinate"
+
+[importer_defaults]
+
+mp3={
+"bar_beats": 4,
+"beat_count": 0,
+"bpm": 0.0,
+"loop": false,
+"loop_offset": 0.0
+}
 
 [rendering]
 
