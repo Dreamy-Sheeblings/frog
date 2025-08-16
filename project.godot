@@ -15,6 +15,10 @@ run/main_scene="uid://bug1l8g3cbkep"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameEvents="*res://auto_loads/game_events/game_events.tscn"
+
 [display]
 
 window/size/viewport_width=640
@@ -30,6 +34,10 @@ entities_layer=""
 stuck="Sticky Area"
 objects_layer=""
 flower="For bee to pollinate"
+
+[gui]
+
+theme/custom="uid://c80sbce86mdm8"
 
 [importer_defaults]
 

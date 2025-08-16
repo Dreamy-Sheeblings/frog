@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://q0nuhm16ytck"]
+
+[ext_resource type="Script" uid="uid://ewl8w76cpbau" path="res://scenes/user_interface/combo_text/combo_text.gd" id="1_d8c15"]
+
+[node name="ComboText" type="Node2D"]
+script = ExtResource("1_d8c15")
+
+[node name="NumberLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(100, 32)
+offset_left = -50.0
+offset_top = -15.0
+offset_right = 50.0
+offset_bottom = 17.0
+theme_override_colors/font_outline_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_colors/font_shadow_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_offset_x = 0
+bbcode_enabled = true
+text = "[shake rate=25.0 level=1]100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(110, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.5
+offset_top = 15.0
+offset_right = 82.5
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_outline_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_colors/font_shadow_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_constants/outline_size = 15
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
+bbcode_enabled = true
+text = "[shake rate=5.0 level=1]COMBO"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://bug1l8g3cbkep"]
+
+[ext_resource type="PackedScene" uid="uid://bok7toi4jhycb" path="res://scenes/user_interface/rage_bar/rage_bar.tscn" id="1_l3cfh"]
+[ext_resource type="PackedScene" uid="uid://bwpk101n37afm" path="res://scenes/components/managers/insect_spawner/insects_spawner.tscn" id="2_6q06x"]
+[ext_resource type="PackedScene" uid="uid://c1ljkia4u5wil" path="res://scenes/characters/frog/frog.tscn" id="4_hujxm"]
+[ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_text/combo_text.tscn" id="5_6q06x"]
+[ext_resource type="PackedScene" uid="uid://bey7vb1aqwgem" path="res://scenes/user_interface/hunger_bar/hunger_bar.tscn" id="5_ow5a4"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_c651c"]
+
+[node name="Main" type="Node"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.392157, 0.792157, 0.792157, 1)
+position = Vector2(323.25, 149.25)
+scale = Vector2(647.5, 299.5)
+mesh = SubResource("QuadMesh_c651c")
+
+[node name="RageBar" parent="." instance=ExtResource("1_l3cfh")]
+
+[node name="HungerBar" parent="." instance=ExtResource("5_ow5a4")]
+
+[node name="InsectsSpawner" parent="." instance=ExtResource("2_6q06x")]
+
+[node name="ObjectsLayer" type="Node2D" parent="." groups=["objects_layer"]]
+
+[node name="InsectsEnities" type="Node2D" parent="." groups=["entities_layer"]]
+y_sort_enabled = true
+
+[node name="Frog" parent="." instance=ExtResource("4_hujxm")]
+position = Vector2(320, 310)
+
+[node name="FloatingText" parent="." instance=ExtResource("5_6q06x")]
+position = Vector2(110, 297)

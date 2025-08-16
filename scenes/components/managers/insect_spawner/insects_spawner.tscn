@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwpk101n37afm"]
+
+[ext_resource type="Script" uid="uid://dxw56ks5jnlgr" path="res://scenes/components/managers/insect_spawner/insects_spawner.gd" id="1_1pdku"]
+[ext_resource type="PackedScene" uid="uid://cxodetp2amu0b" path="res://scenes/characters/insects/fly/fly.tscn" id="2_5fo2e"]
+[ext_resource type="PackedScene" uid="uid://chfdaqxfq84dr" path="res://scenes/characters/insects/spider/spider.tscn" id="3_q6cc4"]
+
+[node name="InsectsSpawner" type="Node"]
+script = ExtResource("1_1pdku")
+fly_scene = ExtResource("2_5fo2e")
+spider_scene = ExtResource("3_q6cc4")
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="FlyTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="SpiderTimer" type="Timer" parent="."]
+wait_time = 8.0
