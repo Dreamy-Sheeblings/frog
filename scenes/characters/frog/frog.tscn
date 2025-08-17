@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=12 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://scenes/characters/frog/frog.gd" id="1_aoej0"]
 [ext_resource type="Texture2D" uid="uid://cs7m1n8md2b0y" path="res://scenes/characters/frog/frog.png" id="2_6wucm"]
-[ext_resource type="Texture2D" uid="uid://bu6o3a68hmagd" path="res://scenes/characters/frog/frog_tongue/tongue_head.png" id="4_ysx4s"]
+[ext_resource type="Texture2D" uid="uid://d3647nnbaey87" path="res://scenes/characters/frog/tongue_bar.png" id="3_onr3n"]
+[ext_resource type="Texture2D" uid="uid://cr7o2878rmfc3" path="res://scenes/characters/frog/tongue_progress.png" id="4_coxdj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6wucm"]
 atlas = ExtResource("2_6wucm")
@@ -76,11 +77,16 @@ autoplay = "idle"
 
 [node name="TongueTarget" type="Area2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="TongueTarget"]
-position = Vector2(0, -58)
-texture = ExtResource("4_ysx4s")
-hframes = 2
-frame = 1
+[node name="CooldownBar" type="TextureProgressBar" parent="TongueTarget"]
+offset_left = -16.0
+offset_top = -67.0
+offset_right = 16.0
+offset_bottom = -47.0
+max_value = 1.0
+step = 0.05
+fill_mode = 3
+texture_over = ExtResource("3_onr3n")
+texture_progress = ExtResource("4_coxdj")
 
 [node name="Cls" type="CollisionShape2D" parent="TongueTarget"]
 position = Vector2(0, -58)

@@ -8,7 +8,7 @@
 script = ExtResource("1_7idg1")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 3.0
 autostart = true
 
 [node name="HungerProgressBar" type="TextureProgressBar" parent="."]

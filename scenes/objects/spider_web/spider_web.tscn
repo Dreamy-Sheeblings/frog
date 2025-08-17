@@ -1,10 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b2s2sgyn30ny7"]
 
 [ext_resource type="Script" uid="uid://stivabibxjcm" path="res://scenes/objects/spider_web/spider_web.gd" id="1_1vric"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_0dg6o"]
-radius = 20.0
-height = 40.0
+[ext_resource type="Texture2D" uid="uid://bb1set1arlm6i" path="res://scenes/objects/spider_web/spider_web.png" id="2_sgxvl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vric"]
 radius = 20.0
@@ -12,8 +9,9 @@ radius = 20.0
 [node name="SpiderWeb" type="Area2D" groups=["stuck"]]
 script = ExtResource("1_1vric")
 
-[node name="Sprite" type="MeshInstance2D" parent="."]
-mesh = SubResource("SphereMesh_0dg6o")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_sgxvl")
 
 [node name="Cls" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1vric")

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bok7toi4jhycb" path="res://scenes/user_interface/rage_bar/rage_bar.tscn" id="1_l3cfh"]
 [ext_resource type="PackedScene" uid="uid://bwpk101n37afm" path="res://scenes/components/managers/insect_spawner/insects_spawner.tscn" id="2_6q06x"]
 [ext_resource type="PackedScene" uid="uid://c1ljkia4u5wil" path="res://scenes/characters/frog/frog.tscn" id="4_hujxm"]
-[ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_text/combo_text.tscn" id="5_6q06x"]
+[ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_counter/combo_counter.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://bey7vb1aqwgem" path="res://scenes/user_interface/hunger_bar/hunger_bar.tscn" id="5_ow5a4"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_c651c"]

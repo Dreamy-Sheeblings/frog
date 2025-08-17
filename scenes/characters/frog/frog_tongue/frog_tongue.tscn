@@ -21,7 +21,6 @@ texture_mode = 1
 [node name="Sprite" type="Sprite2D" parent="TongueHead"]
 position = Vector2(0, -58)
 texture = ExtResource("2_tryyp")
-hframes = 2
 
 [node name="Cls" type="CollisionShape2D" parent="TongueHead"]
 position = Vector2(0, -58)

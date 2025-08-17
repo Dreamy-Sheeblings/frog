@@ -20,7 +20,7 @@ var original_position = Vector2.ZERO
 var shoot_direction = Vector2.ZERO
 var traveled_distance := 0.0
 var max_distance := 310.0
-var stuck_area: Area2D
+var touch_area: Area2D
 var ate_sth: bool = false
 
 func _ready() -> void:
@@ -30,20 +30,22 @@ func _ready() -> void:
 	shoot_direction = Vector2.UP.rotated(head.rotation)
 
 func on_head_area_entered(area: Area2D) -> void:
-	if area.is_in_group("edibles"):
+	if area.is_in_group("edibles") and not ate_sth:
 		if current_state == States.STUCK:
 			return
 		current_state = States.PULL_BACK
-		GameEvents.emit_rage_increased(5)
+		GameEvents.emit_rage_increased(10)
 		ate_sth = true
-		area.queue_free()
+		touch_area = area
+		area.visible = false
 	if area.is_in_group("stuck"):
-		stuck_area = area
+		touch_area = area
 		current_state = States.STUCK
 
 func on_head_area_exited(area: Area2D) -> void:
-	if area.is_in_group("stuck") and area == stuck_area:
-		stuck_area.queue_free()
+	if area.is_in_group("stuck") and area == touch_area:
+		ate_sth = false
+		touch_area.queue_free()
 		current_state = States.PULL_BACK
 
 func _process(delta: float) -> void:
@@ -74,7 +76,11 @@ func _process(delta: float) -> void:
 
 		States.DISAPPEAR:
 			if ate_sth:
-				GameEvents.emit_frog_devour_something(1)
+				if touch_area is Fly:
+					GameEvents.emit_frog_devour_something(5)
+				elif touch_area is Spider:
+					GameEvents.emit_frog_devour_something(10)
+				touch_area.queue_free()
 			else:
 				GameEvents.emit_frog_devour_something(0)
 			queue_free()

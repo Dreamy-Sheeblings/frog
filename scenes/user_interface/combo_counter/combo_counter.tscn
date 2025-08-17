@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://q0nuhm16ytck"]
 
-[ext_resource type="Script" uid="uid://ewl8w76cpbau" path="res://scenes/user_interface/combo_text/combo_text.gd" id="1_d8c15"]
+[ext_resource type="Script" uid="uid://ewl8w76cpbau" path="res://scenes/user_interface/combo_counter/combo_counter.gd" id="1_d8c15"]
 
-[node name="ComboText" type="Node2D"]
+[node name="ComboCounter" type="Node2D"]
 script = ExtResource("1_d8c15")
 
 [node name="NumberLabel" type="RichTextLabel" parent="."]

@@ -2,6 +2,7 @@ class_name Frog
 extends Node2D
 
 @onready var tongue_target = $TongueTarget
+@onready var tongue_cooldown_bar: TextureProgressBar = $TongueTarget/CooldownBar
 @onready var anim_sprite = $AnimSprite
 @onready var swallow_timer: Timer = $Timers/SwallowTimer
 @onready var rage_timer: Timer = $Timers/RageTimer
@@ -18,6 +19,7 @@ var hunger_point: float = 50
 enum States {
 	SWAY,
 	EAT,
+	DIE
 }
 
 var current_state: States = States.SWAY
@@ -26,10 +28,14 @@ func _ready() -> void:
 	GameEvents.rage_increased.connect(on_rage_increased)
 	GameEvents.frog_devour_something.connect(on_frog_devour_something)
 	GameEvents.emit_hunger_progress_updated(hunger_point)
+	GameEvents.hunger_progress_updated.connect(on_hunger_progress_updated)
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
 	rage_timer.timeout.connect(on_rage_timer_timeout)
 
 func _process(delta: float) -> void:
+	var tongue_cooldown_elapsed := swallow_timer.wait_time - swallow_timer.time_left
+	var tongue_cooldown_progress := tongue_cooldown_elapsed / swallow_timer.wait_time
+	tongue_cooldown_bar.value = tongue_cooldown_progress
 	if tongue_list.get_child_count() > 0:
 		anim_sprite.play("mouth_opened")
 	else:
@@ -46,7 +52,7 @@ func _process(delta: float) -> void:
 					current_state = States.EAT
 					
 			time += delta
-			var angle_degrees = sin(time * 2.0) * 60.0
+			var angle_degrees = sin(time * 2.0) * 75.0
 			tongue_target.rotation_degrees = angle_degrees
 
 		States.EAT:
@@ -56,9 +62,17 @@ func _process(delta: float) -> void:
 				current_state = States.SWAY
 				swallow_timer.start()
 
+		States.DIE:
+			queue_free()
+
+func on_hunger_progress_updated(value: float) -> void:
+	hunger_point = value
+	if hunger_point <= 0:
+		current_state = States.DIE
 
 func on_swallow_timer_timeout() -> void:
 	lickable = true
+	swallow_timer.stop()
 
 func on_rage_timer_timeout() -> void:
 	rage_timer.stop()
@@ -66,6 +80,7 @@ func on_rage_timer_timeout() -> void:
 	lickable = false
 	rage_amount = 0
 	GameEvents.emit_rage_amount_updated(rage_amount)
+	swallow_timer.start()
 
 func on_rage_increased(number: int) -> void:
 	rage_amount += number
@@ -75,9 +90,9 @@ func on_rage_increased(number: int) -> void:
 		rage_timer.start()
 
 func on_frog_devour_something(number: int) -> void:
-	if number == 1:
+	if number > 0:
 		devour_combo_counter += 1
-		hunger_point += 15
+		hunger_point += number
 		GameEvents.emit_hunger_progress_updated(hunger_point)
 	else:
 		if not multi_lickable:

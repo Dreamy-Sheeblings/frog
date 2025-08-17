@@ -8,7 +8,8 @@ func _ready() -> void:
 	GameEvents.hunger_progress_updated.connect(on_hunger_progress_updated)
 
 func on_timer_timeout() -> void:
-	progress_bar.value -= 5
+	progress_bar.value -= 3
+	GameEvents.emit_hunger_progress_updated(progress_bar.value)
 
 func on_hunger_progress_updated(amount: float) -> void:
 	progress_bar.value = amount
