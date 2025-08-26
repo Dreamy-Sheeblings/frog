@@ -1,6 +1,8 @@
 class_name Dragonfly
 extends Area2D
 
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite
+
 var base_radius := 10.0 # Buzz radius (small for subtle wing noise)
 var radius_jitter := 20.0
 var buzz_speed := 6.0
@@ -13,7 +15,7 @@ var phase_offset := 0.0
 var noise_seed_offset := 0.0
 
 # Horizontal forward movement
-var forward_speed := 100.0
+var forward_speed := 150.0
 
 # Vertical buzzing range
 var vertical_range := 20.0 # How much up/down buzzing
@@ -21,8 +23,11 @@ var vertical_speed := 3.0 # Frequency of up/down buzzing
 
 func _ready() -> void:
 	randomize()
+	await get_tree().process_frame
 	center = global_position
-
+	if global_position.x > 0:
+		forward_speed *= -1
+		anim_sprite.flip_h = true
 	# Noise setup
 	phase_offset = randf_range(0.0, TAU)
 	noise_seed_offset = randf_range(0.0, 1000.0)

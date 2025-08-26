@@ -1,44 +1,43 @@
-[gd_scene load_steps=12 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=13 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://scenes/characters/frog/frog.gd" id="1_aoej0"]
 [ext_resource type="Texture2D" uid="uid://cs7m1n8md2b0y" path="res://scenes/characters/frog/frog.png" id="2_6wucm"]
+[ext_resource type="Shader" uid="uid://cd8key14dcmtn" path="res://scenes/characters/frog/rainbow_outline.gdshader" id="2_coxdj"]
 [ext_resource type="Texture2D" uid="uid://d3647nnbaey87" path="res://scenes/characters/frog/tongue_bar.png" id="3_onr3n"]
 [ext_resource type="Texture2D" uid="uid://cr7o2878rmfc3" path="res://scenes/characters/frog/tongue_progress.png" id="4_coxdj"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6wucm"]
-atlas = ExtResource("2_6wucm")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_800jx"]
+shader = ExtResource("2_coxdj")
+shader_parameter/outline_size = 0
+shader_parameter/speed = 0.5
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ysx4s"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_coxdj"]
 atlas = ExtResource("2_6wucm")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(0, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c6hnb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_800jx"]
 atlas = ExtResource("2_6wucm")
-region = Rect2(64, 0, 32, 32)
+region = Rect2(40, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bfbh0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_we62f"]
 atlas = ExtResource("2_6wucm")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(80, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wgo6o"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fdhm"]
 atlas = ExtResource("2_6wucm")
-region = Rect2(96, 0, 32, 32)
+region = Rect2(120, 0, 40, 40)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gbj2l"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6wucm")
+"texture": SubResource("AtlasTexture_coxdj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ysx4s")
+"texture": SubResource("AtlasTexture_800jx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c6hnb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bfbh0")
+"texture": SubResource("AtlasTexture_we62f")
 }],
 "loop": true,
 "name": &"idle",
@@ -46,7 +45,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wgo6o")
+"texture": SubResource("AtlasTexture_8fdhm")
 }],
 "loop": true,
 "name": &"mouth_opened",
@@ -62,16 +61,17 @@ script = ExtResource("1_aoej0")
 [node name="Timers" type="Node" parent="."]
 
 [node name="SwallowTimer" type="Timer" parent="Timers"]
-wait_time = 0.5
 
 [node name="RageTimer" type="Timer" parent="Timers"]
 wait_time = 5.0
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_800jx")
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_gbj2l")
-animation = &"mouth_opened"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.812522
 
 [node name="TongueList" type="Node2D" parent="."]
 

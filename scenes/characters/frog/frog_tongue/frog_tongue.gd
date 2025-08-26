@@ -7,6 +7,8 @@ extends Node2D
 
 var shoot_speed = 800.0
 var return_speed := 1000.0
+var camera: Camera2D
+var cam_shake_noise: FastNoiseLite
 
 enum States {
 	RELEASE_OUT,
@@ -24,6 +26,8 @@ var touch_area: Area2D
 var ate_sth: bool = false
 
 func _ready() -> void:
+	camera = get_node("/root/Main/GameCam")
+	cam_shake_noise = FastNoiseLite.new()
 	head.area_entered.connect(on_head_area_entered)
 	head.area_exited.connect(on_head_area_exited)
 	original_position = head.position
@@ -73,6 +77,8 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("ui_accept"):
 				var out_stuck_move = shoot_direction * 10
 				head.position = head.position - out_stuck_move
+				var shake_tween = create_tween()
+				shake_tween.tween_method(shake, 8, 1, 0.5)
 
 		States.DISAPPEAR:
 			if ate_sth:
@@ -80,7 +86,14 @@ func _process(delta: float) -> void:
 					GameEvents.emit_frog_devour_something(5)
 				elif touch_area is Spider:
 					GameEvents.emit_frog_devour_something(10)
+				elif touch_area is Dragonfly:
+					GameEvents.emit_frog_devour_something(15)
 				touch_area.queue_free()
 			else:
 				GameEvents.emit_frog_devour_something(0)
 			queue_free()
+
+func shake(intensity) -> void:
+	var cam_offset = cam_shake_noise.get_noise_1d(Time.get_ticks_msec()) * intensity
+	camera.offset.x = cam_offset
+	camera.offset.y = cam_offset

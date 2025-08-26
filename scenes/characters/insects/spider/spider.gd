@@ -2,19 +2,17 @@ class_name Spider
 extends Area2D
 
 @onready var web_scene: PackedScene = preload("res://scenes/objects/spider_web/spider_web.tscn")
-
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite
 @onready var life_timer: Timer = $LifeTimer
 
 enum States {
 	DESCEND,
-	IDLE,
 	WEB,
 	ASCEND
 }
 
 var current_state = States.DESCEND
 
-# var alive: bool = false
 var start_position: Vector2
 var descend_duration: float = 1
 var bounce_height: float = 10.0
@@ -26,15 +24,11 @@ func _ready() -> void:
 	life_timer.timeout.connect(on_life_timer_timeout)
 	await get_tree().process_frame
 	start_position = global_position
+	anim_sprite.play("drop")
 	drop_spider()
 
 func _process(_delta: float) -> void:
-
-	match current_state:
-		States.IDLE:
-			pass
-		States.WEB:
-			pass
+	pass
 		
 func drop_spider() -> void:
 	randomize()
@@ -79,10 +73,12 @@ func spider_ascend() -> void:
 
 func _on_descend_finished() -> void:
 	life_timer.start()
-	current_state = States.IDLE
+	anim_sprite.play("web")
+	current_state = States.WEB
 
 func on_life_timer_timeout() -> void:
 	if web_shooted:
+		anim_sprite.play("up")
 		spider_ascend()
 		return
 	var web_instance = web_scene.instantiate()

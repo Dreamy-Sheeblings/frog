@@ -1,27 +1,58 @@
-[gd_scene load_steps=7 format=3 uid="uid://chfdaqxfq84dr"]
+[gd_scene load_steps=10 format=3 uid="uid://chfdaqxfq84dr"]
 
 [ext_resource type="Script" uid="uid://d0gxvvdmb1e78" path="res://scenes/characters/insects/spider/spider.gd" id="1_t1u7d"]
 [ext_resource type="Texture2D" uid="uid://bnhxxq7iuqomn" path="res://scenes/characters/insects/spider/spider.png" id="2_td3ey"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ginsi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3eim"]
+atlas = ExtResource("2_td3ey")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt01b"]
 atlas = ExtResource("2_td3ey")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y77b5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_swoil"]
 atlas = ExtResource("2_td3ey")
 region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6mvc"]
+atlas = ExtResource("2_td3ey")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gncy"]
+atlas = ExtResource("2_td3ey")
+region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_t5xmt"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ginsi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_y77b5")
+"texture": SubResource("AtlasTexture_t3eim")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"drop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt01b")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swoil")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6mvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8gncy")
+}],
+"loop": true,
+"name": &"web",
 "speed": 8.0
 }]
 
@@ -33,9 +64,7 @@ script = ExtResource("1_t1u7d")
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_t5xmt")
-animation = &"idle"
-autoplay = "idle"
-frame_progress = 0.298337
+animation = &"web"
 
 [node name="Cls" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5tgb4")

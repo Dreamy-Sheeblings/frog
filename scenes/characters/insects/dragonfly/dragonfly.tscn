@@ -1,19 +1,49 @@
-[gd_scene load_steps=4 format=3 uid="uid://c338r67pw8ujb"]
+[gd_scene load_steps=8 format=3 uid="uid://c338r67pw8ujb"]
 
 [ext_resource type="Script" uid="uid://c815rxgap2lmh" path="res://scenes/characters/insects/dragonfly/dragonfly.gd" id="1_ltc5n"]
+[ext_resource type="Texture2D" uid="uid://cjdm2ftnga5vq" path="res://scenes/characters/insects/dragonfly/dragonfly.png" id="2_pu108"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_muqws"]
-size = Vector2(30, 15)
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu108"]
+atlas = ExtResource("2_pu108")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk0et"]
+atlas = ExtResource("2_pu108")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n46jq"]
+atlas = ExtResource("2_pu108")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aggp4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pu108")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jk0et")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n46jq")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 30.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_muqws"]
 size = Vector2(30, 15)
 
-[node name="Dragonfly" type="Area2D"]
+[node name="Dragonfly" type="Area2D" groups=["edibles"]]
 script = ExtResource("1_ltc5n")
 
-[node name="Sprite" type="MeshInstance2D" parent="."]
-modulate = Color(0.211765, 0.317647, 1, 1)
-mesh = SubResource("QuadMesh_muqws")
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_aggp4")
+animation = &"fly"
+autoplay = "fly"
+frame_progress = 0.656989
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Cls" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_muqws")

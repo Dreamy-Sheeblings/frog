@@ -37,9 +37,11 @@ func _process(delta: float) -> void:
 	var tongue_cooldown_progress := tongue_cooldown_elapsed / swallow_timer.wait_time
 	tongue_cooldown_bar.value = tongue_cooldown_progress
 	if tongue_list.get_child_count() > 0:
-		anim_sprite.play("mouth_opened")
+		if anim_sprite.animation != "mouth_opened":
+			anim_sprite.play("mouth_opened")
 	else:
-		anim_sprite.play("idle")
+		if anim_sprite.animation != "idle":
+			anim_sprite.play("idle")
 	match current_state:
 		States.SWAY:
 			tongue_target.visible = true
@@ -68,6 +70,7 @@ func _process(delta: float) -> void:
 func on_hunger_progress_updated(value: float) -> void:
 	hunger_point = value
 	if hunger_point <= 0:
+		print("frog died")
 		current_state = States.DIE
 
 func on_swallow_timer_timeout() -> void:
@@ -75,6 +78,7 @@ func on_swallow_timer_timeout() -> void:
 	swallow_timer.stop()
 
 func on_rage_timer_timeout() -> void:
+	set_rainbow_shader(0)
 	rage_timer.stop()
 	multi_lickable = false
 	lickable = false
@@ -86,6 +90,7 @@ func on_rage_increased(number: int) -> void:
 	rage_amount += number
 	GameEvents.emit_rage_amount_updated(rage_amount)
 	if rage_amount >= 100 and not multi_lickable:
+		set_rainbow_shader(1)
 		multi_lickable = true
 		rage_timer.start()
 
@@ -98,3 +103,6 @@ func on_frog_devour_something(number: int) -> void:
 		if not multi_lickable:
 			devour_combo_counter = 0
 	GameEvents.emit_devour_combo_text_updated(devour_combo_counter)
+
+func set_rainbow_shader(outline_size: float) -> void:
+	anim_sprite.material.set_shader_parameter("outline_size", outline_size)
