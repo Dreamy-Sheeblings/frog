@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwrub3om8dxeu"]
+
+[ext_resource type="Script" uid="uid://djjpm7hm76ymf" path="res://scenes/user_interface/upgrade_screen/upgrade_card/upgrade_card.gd" id="1_k83qc"]
+
+[node name="UpgradeCard" type="PanelContainer"]
+custom_minimum_size = Vector2(100, 120)
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_k83qc")
+
+[node name="Column" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Name"
+
+[node name="DescLabel" type="Label" parent="Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Description of the upgrade"
+autowrap_mode = 2

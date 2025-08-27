@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://c1m2k7w7ejfl8"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_xpbbr"]
+
+[resource]
+script = ExtResource("1_xpbbr")
+id = "tongue_swift"
+max_quantity = 7
+name = "Tongue Swiftness"
+description = "Increase shooting speed by 20%"

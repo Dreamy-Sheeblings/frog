@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://buklj02hubbhh"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_nnmwg"]
+
+[resource]
+script = ExtResource("1_nnmwg")
+id = "gobble_up"
+max_quantity = 5
+name = "Gobble It Up"
+description = "Reduce the swallowing speed by 15%"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://dx66wfa1t04tl"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_1k1u0"]
+
+[resource]
+script = ExtResource("1_1k1u0")
+id = "mighty_tongue"
+max_quantity = 4
+name = "Mighty Tongue"
+description = "Increase the tongue's toughness to get it out of stuck by 50%"

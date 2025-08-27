@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bok7toi4jhycb"]
 
-[ext_resource type="Script" uid="uid://dxjkwcq8ffrd8" path="res://scenes/user_interface/rage_bar/rage_bar.gd" id="1_yy17a"]
+[ext_resource type="Script" uid="uid://dxjkwcq8ffrd8" path="res://scenes/user_interface/exp_bar/exp_bar.gd" id="1_yy17a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yy17a"]
 bg_color = Color(0.00392157, 0.25098, 0.0823529, 1)
@@ -13,7 +13,7 @@ border_width_right = 4
 border_width_bottom = 2
 border_color = Color(0.00392157, 0.25098, 0.0823529, 1)
 
-[node name="RageBar" type="CanvasLayer"]
+[node name="ExpBar" type="CanvasLayer"]
 script = ExtResource("1_yy17a")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -30,5 +30,6 @@ layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/background = SubResource("StyleBoxFlat_yy17a")
 theme_override_styles/fill = SubResource("StyleBoxFlat_g8e2f")
-value = 50.0
+max_value = 1.0
+value = 0.5
 show_percentage = false

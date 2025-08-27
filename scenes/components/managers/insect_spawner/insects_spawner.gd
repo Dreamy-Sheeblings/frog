@@ -17,7 +17,6 @@ const MARGIN := 15
 
 func _ready() -> void:
 	insect_table.add_item(fly_scene, 15)
-	insect_table.add_item(dragonfly_scene, 3)
 	base_spawn_time = spawn_timer.wait_time
 	randomize()
 	view_rect = get_viewport().get_visible_rect()
@@ -56,8 +55,11 @@ func on_spawn_timer_timeout() -> void:
 func on_difficult_timer_timeout() -> void:
 	difficulty += 1
 	match difficulty:
+		3:
+			insect_table.add_item(dragonfly_scene, 3)
 		4:
 			insect_table.add_item(spider_scene, 10)
-	var time_off = (0.1 / 12) * difficulty
-	time_off = min(time_off, 0.8)
-	base_spawn_time = base_spawn_time - time_off
+	var time_off = (0.5 / 12) * difficulty
+	time_off = min(time_off, 1.2)
+	spawn_timer.wait_time = base_spawn_time - time_off
+	spawn_timer.start()

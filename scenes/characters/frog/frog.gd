@@ -16,6 +16,13 @@ var rage_amount := 0
 var devour_combo_counter := 0
 var hunger_point: float = 50
 
+#Stats
+const BASE_SHOOT_SPEED = 500
+var shoot_speed = BASE_SHOOT_SPEED
+var base_swallow_time
+const BASE_TONGUE_TOUGHNESS = 3.5
+var tongue_toughness = BASE_TONGUE_TOUGHNESS
+
 enum States {
 	SWAY,
 	EAT,
@@ -29,6 +36,8 @@ func _ready() -> void:
 	GameEvents.frog_devour_something.connect(on_frog_devour_something)
 	GameEvents.emit_hunger_progress_updated(hunger_point)
 	GameEvents.hunger_progress_updated.connect(on_hunger_progress_updated)
+	GameEvents.upgrade_added.connect(on_upgrade_added)
+	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
 	rage_timer.timeout.connect(on_rage_timer_timeout)
 
@@ -46,10 +55,12 @@ func _process(delta: float) -> void:
 		States.SWAY:
 			tongue_target.visible = true
 			if Input.is_action_just_pressed("ui_accept") and lickable:
-				var tongue_instance = tongue_scene.instantiate() as Node2D
+				var tongue_instance = tongue_scene.instantiate() as FrogTongue
 				tongue_list.add_child(tongue_instance)
 				tongue_instance.global_position = tongue_target.global_position
 				tongue_instance.rotation_degrees = tongue_target.rotation_degrees
+				tongue_instance.shoot_speed = shoot_speed
+				tongue_instance.toughness = tongue_toughness
 				if not multi_lickable:
 					current_state = States.EAT
 					
@@ -99,6 +110,7 @@ func on_frog_devour_something(number: int) -> void:
 		devour_combo_counter += 1
 		hunger_point += number
 		GameEvents.emit_hunger_progress_updated(hunger_point)
+		GameEvents.emit_exp_increased(1)
 	else:
 		if not multi_lickable:
 			devour_combo_counter = 0
@@ -106,3 +118,15 @@ func on_frog_devour_something(number: int) -> void:
 
 func set_rainbow_shader(outline_size: float) -> void:
 	anim_sprite.material.set_shader_parameter("outline_size", outline_size)
+
+func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
+	if upgrade.id == "tongue_swift":
+		var percent_increment = current_upgrades["tongue_swift"]["quantity"] * 0.2
+		shoot_speed = BASE_SHOOT_SPEED * (1 + percent_increment)
+	if upgrade.id == "gobble_up":
+		var percent_reduction = current_upgrades["gobble_up"]["quantity"] * 0.15
+		swallow_timer.wait_time = base_swallow_time * (1 - percent_reduction)
+		swallow_timer.start()
+	if upgrade.id == "mighty_tongue":
+		var percent_increment = current_upgrades["mighty_tongue"]["quantity"] * 0.5
+		tongue_toughness = BASE_TONGUE_TOUGHNESS * (1 + percent_increment)

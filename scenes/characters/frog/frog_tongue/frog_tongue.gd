@@ -1,11 +1,14 @@
 class_name FrogTongue
 extends Node2D
 
+const VIEW_MARGIN := 30
+
 @onready var line = $TongueLine
 @onready var head = $TongueHead
 @onready var head_cls = $TongueHead/Cls
 
-var shoot_speed = 800.0
+var shoot_speed = 0
+var toughness := 0
 var return_speed := 1000.0
 var camera: Camera2D
 var cam_shake_noise: FastNoiseLite
@@ -17,16 +20,17 @@ enum States {
 	DISAPPEAR
 }
 
+var view_rect: Rect2
 var current_state = States.RELEASE_OUT
 var original_position = Vector2.ZERO
 var shoot_direction = Vector2.ZERO
-var traveled_distance := 0.0
-var max_distance := 310.0
 var touch_area: Area2D
 var ate_sth: bool = false
+var eaten_points: int = 0
 
 func _ready() -> void:
 	camera = get_node("/root/Main/GameCam")
+	view_rect = get_viewport().get_visible_rect()
 	cam_shake_noise = FastNoiseLite.new()
 	head.area_entered.connect(on_head_area_entered)
 	head.area_exited.connect(on_head_area_exited)
@@ -40,9 +44,15 @@ func on_head_area_entered(area: Area2D) -> void:
 		current_state = States.PULL_BACK
 		GameEvents.emit_rage_increased(10)
 		ate_sth = true
-		touch_area = area
-		area.visible = false
+		if area is Fly:
+			eaten_points = 5
+		elif area is Dragonfly:
+			eaten_points = 7
+		elif area is Spider:
+			eaten_points = 10
+		area.queue_free()
 	if area.is_in_group("stuck"):
+		GameEvents.emit_tongue_stuck(true)
 		touch_area = area
 		current_state = States.STUCK
 
@@ -59,11 +69,12 @@ func _process(delta: float) -> void:
 			head_cls.disabled = false
 			var move = shoot_direction * shoot_speed * delta
 			head.position += move
-			traveled_distance += move.length()
-			if traveled_distance >= max_distance:
+			var safe_rect := view_rect.grow(-VIEW_MARGIN)
+			if not safe_rect.has_point(head.global_position):
 				current_state = States.PULL_BACK
 			
 		States.PULL_BACK:
+			GameEvents.emit_tongue_stuck(false)
 			head_cls.disabled = true
 			var to_origin = original_position - head.position
 			var move = to_origin.normalized() * return_speed * delta
@@ -75,22 +86,13 @@ func _process(delta: float) -> void:
 
 		States.STUCK:
 			if Input.is_action_just_pressed("ui_accept"):
-				var out_stuck_move = shoot_direction * 10
+				var out_stuck_move = shoot_direction * toughness
 				head.position = head.position - out_stuck_move
 				var shake_tween = create_tween()
 				shake_tween.tween_method(shake, 8, 1, 0.5)
 
 		States.DISAPPEAR:
-			if ate_sth:
-				if touch_area is Fly:
-					GameEvents.emit_frog_devour_something(5)
-				elif touch_area is Spider:
-					GameEvents.emit_frog_devour_something(10)
-				elif touch_area is Dragonfly:
-					GameEvents.emit_frog_devour_something(15)
-				touch_area.queue_free()
-			else:
-				GameEvents.emit_frog_devour_something(0)
+			GameEvents.emit_frog_devour_something(eaten_points)
 			queue_free()
 
 func shake(intensity) -> void:
