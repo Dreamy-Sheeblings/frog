@@ -64,6 +64,7 @@ func on_upgrade_selected(upgrade: Upgrade) -> void:
 func on_level_up(_current_level):
 	var upgrade_screen_instance = upgrade_screen_scene.instantiate()
 	add_child(upgrade_screen_instance)
+	AudioManager.lvl_up_sfx.play()
 
 	var chosen_upgrades = pick_upgrades()
 

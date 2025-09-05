@@ -57,6 +57,7 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("ui_accept") and lickable:
 				var tongue_instance = tongue_scene.instantiate() as FrogTongue
 				tongue_list.add_child(tongue_instance)
+				AudioManager.tongue_shoot_sfx.play()
 				tongue_instance.global_position = tongue_target.global_position
 				tongue_instance.rotation_degrees = tongue_target.rotation_degrees
 				tongue_instance.shoot_speed = shoot_speed
@@ -95,6 +96,7 @@ func on_swallow_timer_timeout() -> void:
 	swallow_timer.stop()
 
 func on_rage_timer_timeout() -> void:
+	AudioManager.rage_exit_sfx.play()
 	set_rainbow_shader(0)
 	rage_timer.stop()
 	multi_lickable = false
@@ -107,6 +109,7 @@ func on_rage_increased(number: int) -> void:
 	rage_amount += number
 	GameEvents.emit_rage_amount_updated(rage_amount)
 	if rage_amount >= 100 and not multi_lickable:
+		AudioManager.rage_enter_sfx.play()
 		set_rainbow_shader(1)
 		multi_lickable = true
 		rage_timer.start()
@@ -115,7 +118,9 @@ func on_frog_devour_something(hunger_num: int, exp_point: ) -> void:
 	if hunger_num > 0:
 		devour_combo_counter += 1
 		hunger_point += hunger_num
-		GameEvents.emit_hunger_progress_updated(hunger_point + devour_combo_counter)
+		AudioManager.swallow_sfx.play()
+		await get_tree().create_timer(0.5).timeout
+		GameEvents.emit_hunger_progress_updated(hunger_point + (devour_combo_counter * 0.25))
 		GameEvents.emit_exp_increased(exp_point)
 	else:
 		if not multi_lickable:

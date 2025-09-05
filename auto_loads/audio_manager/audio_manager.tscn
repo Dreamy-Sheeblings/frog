@@ -1,0 +1,59 @@
+[gd_scene load_steps=12 format=3 uid="uid://c1xrabkculklv"]
+
+[ext_resource type="Script" uid="uid://c8f6kbajjyvdk" path="res://auto_loads/audio_manager/audio_manager.gd" id="1_61g61"]
+[ext_resource type="AudioStream" uid="uid://pannqo2ee32g" path="res://assets/audio/frog/tongue/sfx_shoot_tongue.wav" id="2_haeon"]
+[ext_resource type="AudioStream" uid="uid://bqki1ssplp6ib" path="res://assets/audio/frog/sfx_swallow.wav" id="3_bc3oy"]
+[ext_resource type="AudioStream" uid="uid://chpjlo0qp2aaw" path="res://assets/audio/frog/tongue/sfx_tongue_hit.wav" id="3_m240t"]
+[ext_resource type="AudioStream" uid="uid://qtqv7xsr6iwp" path="res://assets/audio/frog/rage/sfx_enter_rage.wav" id="4_0qhmr"]
+[ext_resource type="AudioStream" uid="uid://b80oimfd640fn" path="res://assets/audio/frog/tongue/sfx_tongue_stuck.wav" id="4_fpwru"]
+[ext_resource type="AudioStream" uid="uid://c1jsawmpmycgj" path="res://assets/audio/frog/tongue/sfx_tongue_pull.wav" id="5_x6jqk"]
+[ext_resource type="AudioStream" uid="uid://ijgbbiurtoet" path="res://assets/audio/card/sfx_card_hover.wav" id="6_78sg7"]
+[ext_resource type="AudioStream" uid="uid://s0e5gqf0rwb2" path="res://assets/audio/frog/rage/sfx_exit_rage.wav" id="7_8ieki"]
+[ext_resource type="AudioStream" uid="uid://bbvlc3avg124y" path="res://assets/audio/frog/sfx_lvl_up.wav" id="8_x6jqk"]
+[ext_resource type="AudioStream" uid="uid://b7y6cexwu8m7u" path="res://assets/audio/card/sfx_card_selected.wav" id="11_4opek"]
+
+[node name="AudioManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_61g61")
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="TongueShoot" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("2_haeon")
+bus = &"sfx"
+
+[node name="TongueHit" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("3_m240t")
+bus = &"sfx"
+
+[node name="TongueStuck" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("4_fpwru")
+bus = &"sfx"
+
+[node name="TonguePull" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("5_x6jqk")
+bus = &"sfx"
+
+[node name="RageEnter" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("4_0qhmr")
+bus = &"sfx"
+
+[node name="RageExit" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("7_8ieki")
+bus = &"sfx"
+
+[node name="Swallow" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("3_bc3oy")
+bus = &"sfx"
+
+[node name="LvlUp" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("8_x6jqk")
+bus = &"sfx"
+
+[node name="CardHover" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("6_78sg7")
+bus = &"sfx"
+
+[node name="CardSelected" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("11_4opek")
+bus = &"sfx"

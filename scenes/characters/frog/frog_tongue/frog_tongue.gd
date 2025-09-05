@@ -42,6 +42,7 @@ func on_head_area_entered(area: Area2D) -> void:
 	if area.is_in_group("edibles") and not ate_sth:
 		if current_state == States.STUCK:
 			return
+		AudioManager.tongue_hit_sfx.play()
 		current_state = States.PULL_BACK
 		GameEvents.emit_rage_increased(10)
 		ate_sth = true
@@ -56,7 +57,9 @@ func on_head_area_entered(area: Area2D) -> void:
 			exp_points = 2
 		area.queue_free()
 	if area.is_in_group("stuck"):
+		return_speed = 500
 		GameEvents.emit_tongue_stuck(true)
+		AudioManager.tongue_stuck_sfx.play()
 		touch_area = area
 		current_state = States.STUCK
 
@@ -92,6 +95,7 @@ func _process(delta: float) -> void:
 			var dir = (target_pos - head.position).normalized()
 			head.position += dir * delta
 			if Input.is_action_just_pressed("ui_accept"):
+				AudioManager.tongue_pull_sfx.play()
 				var out_stuck_move = shoot_direction * toughness
 				head.position = head.position - out_stuck_move
 				var shake_tween = create_tween()

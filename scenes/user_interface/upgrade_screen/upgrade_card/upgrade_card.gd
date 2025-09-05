@@ -38,6 +38,7 @@ func select_card():
 		if other_card == self:
 			continue
 		other_card.disappear()
+	AudioManager.card_select_sfx.play()
 	await anim_player.animation_finished
 	selected.emit()
 
@@ -45,3 +46,4 @@ func on_mouse_entered() -> void:
 	if disabled:
 		return
 	$HoverAnimPlayer.play("hover")
+	AudioManager.card_hover_sfx.play()

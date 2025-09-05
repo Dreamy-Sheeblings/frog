@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxodetp2amu0b"]
+[gd_scene load_steps=10 format=3 uid="uid://cxodetp2amu0b"]
 
 [ext_resource type="Script" uid="uid://dcs6md7y101p0" path="res://scenes/characters/insects/fly/fly.gd" id="1_w51ox"]
 [ext_resource type="Texture2D" uid="uid://cd56fsp6eyvut" path="res://scenes/characters/insects/fly/fly.png" id="2_p35g7"]
+[ext_resource type="AudioStream" uid="uid://dk0ep8bssduft" path="res://assets/audio/insects/fly.mp3" id="3_dx8ku"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igwbq"]
 atlas = ExtResource("2_p35g7")
@@ -61,3 +62,9 @@ frame_progress = 0.677668
 
 [node name="Cls" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_v0pvl")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_dx8ku")
+volume_db = -5.0
+autoplay = true
+max_distance = 500.0
