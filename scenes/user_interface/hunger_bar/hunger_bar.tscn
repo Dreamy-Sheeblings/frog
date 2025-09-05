@@ -1,11 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://bey7vb1aqwgem"]
 
-[ext_resource type="Script" uid="uid://bifgvuuvcm6lj" path="res://scenes/user_interface/hunger_bar/hunger_bar.gd" id="1_7idg1"]
+[ext_resource type="Script" uid="uid://dspoq187oselw" path="res://scenes/user_interface/hunger_bar/hunger_bar.gd" id="1_7idg1"]
 [ext_resource type="Texture2D" uid="uid://bnw4lisf0odk6" path="res://scenes/user_interface/hunger_bar/hunger_bar.png" id="1_627gl"]
 [ext_resource type="Texture2D" uid="uid://d2rka4m3rx4qa" path="res://scenes/user_interface/hunger_bar/hunger_progress.png" id="2_7idg1"]
 
-[node name="HungerBar" type="CanvasLayer"]
+[node name="HungerBar" type="Node"]
 script = ExtResource("1_7idg1")
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -17,9 +21,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 237.0
+offset_left = 240.0
 offset_top = 83.0
-offset_right = 259.0
+offset_right = 262.0
 offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2

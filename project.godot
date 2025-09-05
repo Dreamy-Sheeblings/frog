@@ -33,7 +33,8 @@ edibles="insects that main characters can swallow"
 entities_layer=""
 stuck="Sticky Area"
 objects_layer=""
-flower="For bee to pollinate"
+tongue=""
+upgrade_card=""
 
 [gui]
 

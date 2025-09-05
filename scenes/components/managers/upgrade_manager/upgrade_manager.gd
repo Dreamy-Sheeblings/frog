@@ -10,7 +10,7 @@ const TARGET_EXP_GROWTH = 2
 var current_upgrades = {}
 
 var current_exp = 0
-var target_exp = 1
+var target_exp = 2
 
 var current_lvl = 1
 

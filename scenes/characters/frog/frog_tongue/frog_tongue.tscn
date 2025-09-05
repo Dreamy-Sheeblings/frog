@@ -16,7 +16,7 @@ width = 16.0
 texture = ExtResource("1_yff7m")
 texture_mode = 1
 
-[node name="TongueHead" type="Area2D" parent="."]
+[node name="TongueHead" type="Area2D" parent="." groups=["tongue"]]
 
 [node name="Sprite" type="Sprite2D" parent="TongueHead"]
 position = Vector2(0, -58)

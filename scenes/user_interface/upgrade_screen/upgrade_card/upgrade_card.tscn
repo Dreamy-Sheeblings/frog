@@ -1,26 +1,224 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwrub3om8dxeu"]
+[gd_scene load_steps=11 format=3 uid="uid://bwrub3om8dxeu"]
 
 [ext_resource type="Script" uid="uid://djjpm7hm76ymf" path="res://scenes/user_interface/upgrade_screen/upgrade_card/upgrade_card.gd" id="1_k83qc"]
+[ext_resource type="FontFile" uid="uid://shasmu4faph" path="res://assets/ui/Rockboxcond12.ttf" id="2_58ius"]
 
-[node name="UpgradeCard" type="PanelContainer"]
-custom_minimum_size = Vector2(100, 120)
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="Animation" id="Animation_xtvri"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_8tadg"]
+resource_name = "discard"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_58ius"]
+resource_name = "in"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_06d8b"]
+resource_name = "selected"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.4),
+"transitions": PackedFloat32Array(1, 2.14355, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.174533, 0.0872665, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xtvri"]
+_data = {
+&"RESET": SubResource("Animation_xtvri"),
+&"discard": SubResource("Animation_8tadg"),
+&"in": SubResource("Animation_58ius"),
+&"selected": SubResource("Animation_06d8b")
+}
+
+[sub_resource type="Animation" id="Animation_efvpq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_j3rt7"]
+resource_name = "hover"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0872665, 0.0872665, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_06d8b"]
+_data = {
+&"RESET": SubResource("Animation_efvpq"),
+&"hover": SubResource("Animation_j3rt7")
+}
+
+[node name="UpgradeCard" type="PanelContainer" groups=["upgrade_card"]]
+custom_minimum_size = Vector2(150, 150)
+offset_right = 162.0
+offset_bottom = 150.0
+pivot_offset = Vector2(75, 75)
 script = ExtResource("1_k83qc")
 
-[node name="Column" type="VBoxContainer" parent="."]
-layout_mode = 2
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xtvri")
+}
 
-[node name="NameLabel" type="Label" parent="Column"]
+[node name="HoverAnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_06d8b")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Column" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Column"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"AlternatePanel"
+
+[node name="NameLabel" type="Label" parent="MarginContainer/Column/PanelContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 30)
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_outline_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("2_58ius")
+theme_override_font_sizes/font_size = 32
 text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 2
 
-[node name="DescLabel" type="Label" parent="Column"]
+[node name="DescLabel" type="Label" parent="MarginContainer/Column"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_shadow_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_colors/font_outline_color = Color(0.00392157, 0.25098, 0.0823529, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("2_58ius")
+theme_override_font_sizes/font_size = 16
 text = "Description of the upgrade"
 autowrap_mode = 2

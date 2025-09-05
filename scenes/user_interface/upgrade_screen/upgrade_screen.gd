@@ -12,11 +12,16 @@ func _ready() -> void:
 func on_upgrade_selected(upgrade: Upgrade) -> void:
 	upgrade_selected.emit(upgrade)
 	get_tree().paused = false
+	$AnimPlayer.play("out")
+	await $AnimPlayer.animation_finished
 	queue_free()
 
 func set_upgrade_list(upgrades: Array[Upgrade]):
+	var delay = 0
 	for upgrade in upgrades:
 		var card_instance = upgrade_card_scene.instantiate()
 		card_row.add_child(card_instance)
 		card_instance.set_upgrade_info(upgrade)
+		card_instance.appear(delay)
 		card_instance.selected.connect(on_upgrade_selected.bind(upgrade))
+		delay += 0.2

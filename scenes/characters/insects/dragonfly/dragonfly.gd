@@ -15,11 +15,13 @@ var phase_offset := 0.0
 var noise_seed_offset := 0.0
 
 # Horizontal forward movement
-var forward_speed := 150.0
+var forward_speed := 120.0
 
 # Vertical buzzing range
 var vertical_range := 20.0 # How much up/down buzzing
 var vertical_speed := 3.0 # Frequency of up/down buzzing
+
+var view_rect: Rect2
 
 func _ready() -> void:
 	randomize()
@@ -34,8 +36,10 @@ func _ready() -> void:
 	noise.seed = randi()
 	noise.frequency = 0.8
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	get_tree().create_timer(10.0).timeout.connect(queue_free)
 
 func _process(delta: float) -> void:
+	
 	angle += delta * buzz_speed
 	var t := Time.get_ticks_msec() / 1000.0
 

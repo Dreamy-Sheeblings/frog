@@ -80,9 +80,15 @@ func _process(delta: float) -> void:
 
 func on_hunger_progress_updated(value: float) -> void:
 	hunger_point = value
+	if hunger_point > 0 and hunger_point <= 10:
+		GameEvents.emit_death_warning(true)
+	else:
+		GameEvents.emit_death_warning(false)
 	if hunger_point <= 0:
 		print("frog died")
 		current_state = States.DIE
+	if hunger_point >= 100:
+		print("win")
 
 func on_swallow_timer_timeout() -> void:
 	lickable = true
@@ -105,12 +111,12 @@ func on_rage_increased(number: int) -> void:
 		multi_lickable = true
 		rage_timer.start()
 
-func on_frog_devour_something(number: int) -> void:
-	if number > 0:
+func on_frog_devour_something(hunger_num: int, exp_point: ) -> void:
+	if hunger_num > 0:
 		devour_combo_counter += 1
-		hunger_point += number
-		GameEvents.emit_hunger_progress_updated(hunger_point)
-		GameEvents.emit_exp_increased(1)
+		hunger_point += hunger_num
+		GameEvents.emit_hunger_progress_updated(hunger_point + devour_combo_counter)
+		GameEvents.emit_exp_increased(exp_point)
 	else:
 		if not multi_lickable:
 			devour_combo_counter = 0

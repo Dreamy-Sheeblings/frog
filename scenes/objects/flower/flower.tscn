@@ -7,7 +7,7 @@ height = 50.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_7nvf4"]
 radius = 26.0
 
-[node name="Flower" type="Area2D" groups=["flower"]]
+[node name="Flower" type="Area2D"]
 
 [node name="Mesh" type="MeshInstance2D" parent="."]
 modulate = Color(0.67265, 0.345624, 1, 1)

@@ -5,6 +5,8 @@ extends Area2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimSprite
 @onready var life_timer: Timer = $LifeTimer
 
+@onready var web_string: Line2D = $WebString
+
 enum States {
 	DESCEND,
 	WEB,
@@ -28,7 +30,10 @@ func _ready() -> void:
 	drop_spider()
 
 func _process(_delta: float) -> void:
-	pass
+	web_string.points = [
+    	web_string.to_local(start_position),
+    	web_string.to_local(global_position)
+	]
 		
 func drop_spider() -> void:
 	randomize()

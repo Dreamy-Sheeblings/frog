@@ -44,9 +44,9 @@ func on_spawn_timer_timeout() -> void:
 		var side = randi() % 2
 		match side:
 			0: # Left side only
-				spawn_position = Vector2(-MARGIN, randf_range(view_rect.position.y, view_rect.end.y - 100))
+				spawn_position = Vector2(-MARGIN, randf_range(view_rect.position.y + 50, view_rect.end.y - 150))
 			1: # Right side only
-				spawn_position = Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y, view_rect.end.y - 100))
+				spawn_position = Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y, view_rect.end.y - 150))
 	
 	var entities_layer = get_tree().get_first_node_in_group("entities_layer")
 	entities_layer.add_child(insect_instance)
@@ -59,7 +59,7 @@ func on_difficult_timer_timeout() -> void:
 			insect_table.add_item(dragonfly_scene, 3)
 		4:
 			insect_table.add_item(spider_scene, 10)
-	var time_off = (0.5 / 12) * difficulty
-	time_off = min(time_off, 1.2)
+	var time_off = (1. / 12) * difficulty
+	time_off = min(time_off, 2)
 	spawn_timer.wait_time = base_spawn_time - time_off
 	spawn_timer.start()

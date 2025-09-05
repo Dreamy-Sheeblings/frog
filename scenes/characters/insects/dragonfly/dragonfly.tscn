@@ -1,7 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://c338r67pw8ujb"]
+[gd_scene load_steps=9 format=3 uid="uid://c338r67pw8ujb"]
 
 [ext_resource type="Script" uid="uid://c815rxgap2lmh" path="res://scenes/characters/insects/dragonfly/dragonfly.gd" id="1_ltc5n"]
 [ext_resource type="Texture2D" uid="uid://cjdm2ftnga5vq" path="res://scenes/characters/insects/dragonfly/dragonfly.png" id="2_pu108"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pu108"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 43.13
+gravity = Vector3(0, 98, 0)
+color = Color(0, 0.27451, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pu108"]
 atlas = ExtResource("2_pu108")
@@ -37,6 +44,11 @@ size = Vector2(30, 15)
 
 [node name="Dragonfly" type="Area2D" groups=["edibles"]]
 script = ExtResource("1_ltc5n")
+
+[node name="CPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -7)
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_pu108")
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -3)

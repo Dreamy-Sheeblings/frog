@@ -1,24 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://bug1l8g3cbkep"]
+[gd_scene load_steps=10 format=3 uid="uid://bug1l8g3cbkep"]
 
+[ext_resource type="PackedScene" uid="uid://cy25eoshuj2b5" path="res://scenes/user_interface/vignette/vignette.tscn" id="1_b1x3f"]
 [ext_resource type="PackedScene" uid="uid://bok7toi4jhycb" path="res://scenes/user_interface/exp_bar/exp_bar.tscn" id="1_l3cfh"]
 [ext_resource type="PackedScene" uid="uid://cagltfvifviwb" path="res://scenes/components/game_camera/game_camera.tscn" id="1_ow5a4"]
 [ext_resource type="PackedScene" uid="uid://bwpk101n37afm" path="res://scenes/components/managers/insect_spawner/insects_spawner.tscn" id="2_6q06x"]
+[ext_resource type="PackedScene" uid="uid://dqlh0edvegos2" path="res://scenes/environment/background/background.tscn" id="2_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://c1ljkia4u5wil" path="res://scenes/characters/frog/frog.tscn" id="4_hujxm"]
 [ext_resource type="PackedScene" uid="uid://c3per6co1gvt0" path="res://scenes/components/managers/upgrade_manager/upgrade_manager.tscn" id="4_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_counter/combo_counter.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://bey7vb1aqwgem" path="res://scenes/user_interface/hunger_bar/hunger_bar.tscn" id="5_ow5a4"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_c651c"]
-
 [node name="Main" type="Node"]
+
+[node name="Vignette" parent="." instance=ExtResource("1_b1x3f")]
 
 [node name="GameCam" parent="." instance=ExtResource("1_ow5a4")]
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-modulate = Color(0.392157, 0.792157, 0.792157, 1)
-position = Vector2(323.25, 149.25)
-scale = Vector2(647.5, 299.5)
-mesh = SubResource("QuadMesh_c651c")
+[node name="Background" parent="." instance=ExtResource("2_yyfjg")]
 
 [node name="HungerBar" parent="." instance=ExtResource("5_ow5a4")]
 
@@ -35,7 +33,7 @@ upgrade_manager = NodePath("../UpgradeManager")
 y_sort_enabled = true
 
 [node name="Frog" parent="." instance=ExtResource("4_hujxm")]
-position = Vector2(320, 310)
+position = Vector2(320, 280)
 
 [node name="ComboCounter" parent="." instance=ExtResource("5_6q06x")]
-position = Vector2(110, 297)
+position = Vector2(109, 280)

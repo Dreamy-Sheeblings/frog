@@ -27,6 +27,7 @@ var shoot_direction = Vector2.ZERO
 var touch_area: Area2D
 var ate_sth: bool = false
 var eaten_points: int = 0
+var exp_points: int = 0
 
 func _ready() -> void:
 	camera = get_node("/root/Main/GameCam")
@@ -46,10 +47,13 @@ func on_head_area_entered(area: Area2D) -> void:
 		ate_sth = true
 		if area is Fly:
 			eaten_points = 5
+			exp_points = 1
 		elif area is Dragonfly:
 			eaten_points = 7
+			exp_points = 999999
 		elif area is Spider:
 			eaten_points = 10
+			exp_points = 2
 		area.queue_free()
 	if area.is_in_group("stuck"):
 		GameEvents.emit_tongue_stuck(true)
@@ -58,9 +62,8 @@ func on_head_area_entered(area: Area2D) -> void:
 
 func on_head_area_exited(area: Area2D) -> void:
 	if area.is_in_group("stuck") and area == touch_area:
-		ate_sth = false
-		touch_area.queue_free()
 		current_state = States.PULL_BACK
+		ate_sth = false
 
 func _process(delta: float) -> void:
 	line.points = [position - Vector2(0, 8), to_local(head_cls.global_position)]
@@ -85,6 +88,9 @@ func _process(delta: float) -> void:
 				head.position += move
 
 		States.STUCK:
+			var target_pos = to_local(touch_area.global_position)
+			var dir = (target_pos - head.position).normalized()
+			head.position += dir * delta
 			if Input.is_action_just_pressed("ui_accept"):
 				var out_stuck_move = shoot_direction * toughness
 				head.position = head.position - out_stuck_move
@@ -92,7 +98,7 @@ func _process(delta: float) -> void:
 				shake_tween.tween_method(shake, 8, 1, 0.5)
 
 		States.DISAPPEAR:
-			GameEvents.emit_frog_devour_something(eaten_points)
+			GameEvents.emit_frog_devour_something(eaten_points, exp_points)
 			queue_free()
 
 func shake(intensity) -> void:

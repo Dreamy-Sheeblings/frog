@@ -44,7 +44,7 @@ func _ready() -> void:
 	# Flying into the screen
 	fly_target = Vector2(
 		randf_range(viewport_rect.position.x + 50, viewport_rect.end.x + 50),
-		randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 120)
+		randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 150)
 	)
 
 func _process(delta: float) -> void:
@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 				if to_target.length() < 5.0:
 					fly_target = Vector2(
 									randf_range(viewport_rect.position.x + 50, viewport_rect.end.x - 50),
-									randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 120)
+									randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 150)
 								)
 				else:
 					center += to_target.normalized() * 40 * delta

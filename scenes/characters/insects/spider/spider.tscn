@@ -1,7 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://chfdaqxfq84dr"]
+[gd_scene load_steps=12 format=3 uid="uid://chfdaqxfq84dr"]
 
 [ext_resource type="Script" uid="uid://d0gxvvdmb1e78" path="res://scenes/characters/insects/spider/spider.gd" id="1_t1u7d"]
 [ext_resource type="Texture2D" uid="uid://bnhxxq7iuqomn" path="res://scenes/characters/insects/spider/spider.png" id="2_td3ey"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_t3eim"]
+uv2_padding = 1.0
+
+[sub_resource type="MeshTexture" id="MeshTexture_dt01b"]
+mesh = SubResource("QuadMesh_t3eim")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t3eim"]
 atlas = ExtResource("2_td3ey")
@@ -61,6 +67,11 @@ size = Vector2(20, 24)
 
 [node name="Spider" type="Area2D" groups=["edibles"]]
 script = ExtResource("1_t1u7d")
+
+[node name="WebString" type="Line2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = SubResource("MeshTexture_dt01b")
+texture_mode = 1
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_t5xmt")
