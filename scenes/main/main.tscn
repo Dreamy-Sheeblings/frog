@@ -12,28 +12,35 @@
 
 [node name="Main" type="Node"]
 
-[node name="Vignette" parent="." instance=ExtResource("1_b1x3f")]
-
 [node name="GameCam" parent="." instance=ExtResource("1_ow5a4")]
-
-[node name="Background" parent="." instance=ExtResource("2_yyfjg")]
-
-[node name="HungerBar" parent="." instance=ExtResource("5_ow5a4")]
-
-[node name="ExpBar" parent="." node_paths=PackedStringArray("upgrade_manager") instance=ExtResource("1_l3cfh")]
-upgrade_manager = NodePath("../UpgradeManager")
 
 [node name="UpgradeManager" parent="." instance=ExtResource("4_yyfjg")]
 
 [node name="InsectsSpawner" parent="." instance=ExtResource("2_6q06x")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ExpBar" parent="CanvasLayer" node_paths=PackedStringArray("upgrade_manager") instance=ExtResource("1_l3cfh")]
+upgrade_manager = NodePath("../../UpgradeManager")
+
+[node name="ComboCounter" parent="CanvasLayer" instance=ExtResource("5_6q06x")]
+position = Vector2(109, 280)
+
+[node name="HungerBar" parent="CanvasLayer" instance=ExtResource("5_ow5a4")]
+
+[node name="Vignette" parent="." instance=ExtResource("1_b1x3f")]
+
+[node name="Background" parent="." instance=ExtResource("2_yyfjg")]
+
+[node name="Frog" parent="." instance=ExtResource("4_hujxm")]
+position = Vector2(320, 280)
 
 [node name="ObjectsLayer" type="Node2D" parent="." groups=["objects_layer"]]
 
 [node name="InsectsEnities" type="Node2D" parent="." groups=["entities_layer"]]
 y_sort_enabled = true
 
-[node name="Frog" parent="." instance=ExtResource("4_hujxm")]
-position = Vector2(320, 280)
-
-[node name="ComboCounter" parent="." instance=ExtResource("5_6q06x")]
-position = Vector2(109, 280)
+[node name="ColorRect" type="ColorRect" parent="." groups=["color_weather"]]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.0784314, 0.0784314, 0.0784314, 0)

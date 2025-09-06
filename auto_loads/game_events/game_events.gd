@@ -9,6 +9,7 @@ signal exp_increased(amount: int)
 signal upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary)
 signal tongue_stuck(is_tongue_stuck: bool)
 signal death_warning(warn: bool)
+signal storm_casted(is_storm_casted: bool)
 
 func emit_rage_increased(number: int):
 	rage_increased.emit(number)
@@ -36,3 +37,6 @@ func emit_tongue_stuck(is_tongue_stuck: bool):
 
 func emit_death_warning(warn: bool):
 	death_warning.emit(warn)
+
+func emit_storm_casted(is_storm_casted: bool):
+	storm_casted.emit(is_storm_casted)

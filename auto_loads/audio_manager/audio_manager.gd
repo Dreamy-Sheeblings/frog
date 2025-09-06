@@ -14,3 +14,6 @@ extends Node
 # Card
 @onready var card_hover_sfx: AudioStreamPlayer = $Sfx/CardHover
 @onready var card_select_sfx: AudioStreamPlayer = $Sfx/CardSelected
+# Environment
+@onready var rain_sfx: AudioStreamPlayer = $Sfx/Rain
+@onready var thunder_sfx: AudioStreamPlayer = $Sfx/Thunder

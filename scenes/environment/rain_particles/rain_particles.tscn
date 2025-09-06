@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3 uid="uid://c1iy8xsk4lomf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8olyg"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_4mye5"]
+_limits = [0.0, 0.3, 0.0, 1.0]
+_data = [Vector2(0, 0.0025869), 0.0, 0.0, 0, 0, Vector2(0.107029, 0.131851), 0.0, 0.0, 0, 0, Vector2(0.198083, 0.224859), 0.657882, 0.657882, 0, 0, Vector2(0.501597, 0.298949), 0.0, 0.0, 0, 0, Vector2(0.752396, 0.256912), -0.335147, -0.335147, 0, 0, Vector2(0.897764, 0.13658), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 7
+
+[sub_resource type="CurveTexture" id="CurveTexture_4ixy3"]
+curve = SubResource("Curve_4mye5")
+
+[sub_resource type="Gradient" id="Gradient_x25fx"]
+colors = PackedColorArray(1, 1, 1, 0.0784314, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ch484"]
+gradient = SubResource("Gradient_x25fx")
+
+[sub_resource type="Curve" id="Curve_nijmq"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_d32kc"]
+_limits = [0.0, 30.0, 0.0, 1.0]
+_data = [Vector2(0, 14.5763), 0.0, 0.0, 0, 0, Vector2(0.0623003, 24.5877), 55.45, 55.45, 0, 0, Vector2(0.244409, 30), 0.0, 0.0, 0, 0, Vector2(1, 30), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_rsb6w"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_qgcij"]
+curve_x = SubResource("Curve_nijmq")
+curve_y = SubResource("Curve_d32kc")
+curve_z = SubResource("Curve_rsb6w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x6rt0"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -200, 0)
+emission_shape_scale = Vector3(1, 0, 1)
+emission_shape = 3
+emission_box_extents = Vector3(320, 1, 1)
+angle_min = 0.800011
+angle_max = 1.00001
+spread = 80.0
+gravity = Vector3(0, 3000, 0)
+damping_min = 0.01
+damping_max = 0.01
+scale_min = 0.2
+scale_over_velocity_curve = SubResource("CurveXYZTexture_qgcij")
+color_initial_ramp = SubResource("GradientTexture1D_ch484")
+alpha_curve = SubResource("CurveTexture_4ixy3")
+
+[node name="RainParticles" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_8olyg")
+emitting = false
+amount = 3000
+preprocess = 2.0
+randomness = 0.5
+visibility_rect = Rect2(-350, -200, 700, 400)
+process_material = SubResource("ParticleProcessMaterial_x6rt0")

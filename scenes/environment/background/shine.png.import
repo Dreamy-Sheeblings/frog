@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3heo0d6xj0tc"
-path="res://.godot/imported/pond.png-6c481d8b82356d421f1537397dc3806b.ctex"
+uid="uid://bl7t03h6rw4w7"
+path="res://.godot/imported/shine.png-cd9ff520d93025517a4bcbf4f4153532.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/environment/background/pond.png"
-dest_files=["res://.godot/imported/pond.png-6c481d8b82356d421f1537397dc3806b.ctex"]
+source_file="res://scenes/environment/background/shine.png"
+dest_files=["res://.godot/imported/shine.png-cd9ff520d93025517a4bcbf4f4153532.ctex"]
 
 [params]
 

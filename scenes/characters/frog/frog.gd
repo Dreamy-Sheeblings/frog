@@ -40,6 +40,8 @@ func _ready() -> void:
 	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
 	rage_timer.timeout.connect(on_rage_timer_timeout)
+	await get_tree().create_timer(0.5).timeout
+	GameEvents.emit_storm_casted(true)
 
 func _process(delta: float) -> void:
 	var tongue_cooldown_elapsed := swallow_timer.wait_time - swallow_timer.time_left

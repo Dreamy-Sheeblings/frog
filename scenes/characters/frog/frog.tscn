@@ -76,6 +76,7 @@ frame_progress = 0.812522
 [node name="TongueList" type="Node2D" parent="."]
 
 [node name="TongueTarget" type="Area2D" parent="."]
+z_index = 100
 
 [node name="CooldownBar" type="TextureProgressBar" parent="TongueTarget"]
 offset_left = -16.0

@@ -40,6 +40,7 @@ stuck="Sticky Area"
 objects_layer=""
 tongue=""
 upgrade_card=""
+color_weather=""
 
 [gui]
 

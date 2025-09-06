@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c1xrabkculklv"]
+[gd_scene load_steps=14 format=3 uid="uid://c1xrabkculklv"]
 
 [ext_resource type="Script" uid="uid://c8f6kbajjyvdk" path="res://auto_loads/audio_manager/audio_manager.gd" id="1_61g61"]
 [ext_resource type="AudioStream" uid="uid://pannqo2ee32g" path="res://assets/audio/frog/tongue/sfx_shoot_tongue.wav" id="2_haeon"]
@@ -11,6 +11,8 @@
 [ext_resource type="AudioStream" uid="uid://s0e5gqf0rwb2" path="res://assets/audio/frog/rage/sfx_exit_rage.wav" id="7_8ieki"]
 [ext_resource type="AudioStream" uid="uid://bbvlc3avg124y" path="res://assets/audio/frog/sfx_lvl_up.wav" id="8_x6jqk"]
 [ext_resource type="AudioStream" uid="uid://b7y6cexwu8m7u" path="res://assets/audio/card/sfx_card_selected.wav" id="11_4opek"]
+[ext_resource type="AudioStream" uid="uid://gysfr33340j2" path="res://assets/audio/environment/sfx_rain.mp3" id="12_3iup4"]
+[ext_resource type="AudioStream" uid="uid://bx2h1v5r1yuov" path="res://assets/audio/environment/sfx_thunder.mp3" id="13_57epe"]
 
 [node name="AudioManager" type="Node"]
 process_mode = 3
@@ -20,40 +22,39 @@ script = ExtResource("1_61g61")
 
 [node name="TongueShoot" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("2_haeon")
-bus = &"sfx"
 
 [node name="TongueHit" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("3_m240t")
-bus = &"sfx"
 
 [node name="TongueStuck" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("4_fpwru")
-bus = &"sfx"
 
 [node name="TonguePull" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("5_x6jqk")
-bus = &"sfx"
 
 [node name="RageEnter" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("4_0qhmr")
-bus = &"sfx"
 
 [node name="RageExit" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("7_8ieki")
-bus = &"sfx"
 
 [node name="Swallow" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("3_bc3oy")
-bus = &"sfx"
 
 [node name="LvlUp" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("8_x6jqk")
-bus = &"sfx"
 
 [node name="CardHover" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("6_78sg7")
-bus = &"sfx"
 
 [node name="CardSelected" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("11_4opek")
+
+[node name="Rain" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("12_3iup4")
+volume_db = -5.0
+bus = &"sfx"
+
+[node name="Thunder" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("13_57epe")
 bus = &"sfx"

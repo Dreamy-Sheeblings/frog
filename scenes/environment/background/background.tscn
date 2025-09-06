@@ -1,12 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqlh0edvegos2"]
+[gd_scene load_steps=10 format=3 uid="uid://dqlh0edvegos2"]
 
 [ext_resource type="Script" uid="uid://1cfx8x53mph5" path="res://scenes/environment/background/background.gd" id="1_65uit"]
 [ext_resource type="Texture2D" uid="uid://ft8eawjl700a" path="res://scenes/environment/background/cloud.png" id="1_nvxjy"]
 [ext_resource type="Texture2D" uid="uid://bf6q4fg0uq10d" path="res://scenes/environment/background/sky.png" id="2_60vv0"]
-[ext_resource type="Texture2D" uid="uid://c3heo0d6xj0tc" path="res://scenes/environment/background/pond.png" id="2_65uit"]
+[ext_resource type="Shader" uid="uid://bndhje82i3848" path="res://scenes/environment/background/water.gdshader" id="4_651ni"]
+[ext_resource type="Texture2D" uid="uid://gvq20n47ruty" path="res://scenes/environment/background/lily-pads.png" id="6_an7io"]
+[ext_resource type="Texture2D" uid="uid://bu3h3k0rq6u6c" path="res://scenes/environment/background/pond-water.png" id="6_yan81"]
+[ext_resource type="PackedScene" uid="uid://c1iy8xsk4lomf" path="res://scenes/environment/rain_particles/rain_particles.tscn" id="7_yan81"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_an7io"]
+shader = ExtResource("4_651ni")
+shader_parameter/flow_dir = Vector2(-1, 0)
+shader_parameter/flow_speed = 0.03
+shader_parameter/wave_amp = 0.009
+shader_parameter/wave_freq = 28.0
+shader_parameter/wave_speed = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yan81"]
 
 [node name="Background" type="ParallaxBackground"]
 script = ExtResource("1_65uit")
+
+[node name="ThunderStrikeTimer" type="Timer" parent="."]
+wait_time = 5.0
 
 [node name="Sky" type="ParallaxLayer" parent="."]
 
@@ -23,9 +39,23 @@ scale = Vector2(5, 5)
 texture = ExtResource("1_nvxjy")
 centered = false
 
-[node name="Pond" type="ParallaxLayer" parent="."]
+[node name="Thunder" type="ParallaxLayer" parent="."]
 
-[node name="Sprite" type="Sprite2D" parent="Pond"]
+[node name="Water" type="ParallaxLayer" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Water"]
+material = SubResource("ShaderMaterial_an7io")
 scale = Vector2(5, 5)
-texture = ExtResource("2_65uit")
+texture = ExtResource("6_yan81")
 centered = false
+
+[node name="LilyPads" type="ParallaxLayer" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="LilyPads"]
+material = SubResource("ShaderMaterial_yan81")
+scale = Vector2(5, 5)
+texture = ExtResource("6_an7io")
+centered = false
+
+[node name="RainParticles" parent="." instance=ExtResource("7_yan81")]
+position = Vector2(320, 0)

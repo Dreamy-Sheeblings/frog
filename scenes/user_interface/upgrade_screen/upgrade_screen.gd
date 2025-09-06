@@ -15,8 +15,10 @@ func on_upgrade_selected(upgrade: Upgrade) -> void:
 	$AnimPlayer.play("out")
 	await $AnimPlayer.animation_finished
 	queue_free()
+	AudioManager.rain_sfx.pitch_scale = 1
 
 func set_upgrade_list(upgrades: Array[Upgrade]):
+	AudioManager.rain_sfx.pitch_scale = 0.25
 	var delay = 0
 	for upgrade in upgrades:
 		var card_instance = upgrade_card_scene.instantiate()
