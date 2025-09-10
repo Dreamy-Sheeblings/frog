@@ -46,7 +46,7 @@ func on_head_area_entered(area: Area2D) -> void:
 		current_state = States.PULL_BACK
 		GameEvents.emit_rage_increased(10)
 		ate_sth = true
-		if area is Fly:
+		if area is Fly or area is FireFly:
 			eaten_points = 5
 			exp_points = 1
 		elif area is Dragonfly:

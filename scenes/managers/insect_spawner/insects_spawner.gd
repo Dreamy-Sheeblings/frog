@@ -5,6 +5,7 @@ const DIFFICULTY_INTERVAL = 5
 @export var round_time_manager: Node
 
 @export var fly_scene: PackedScene
+@export var firefly_scene: PackedScene
 @export var spider_scene: PackedScene
 @export var dragonfly_scene: PackedScene
 
@@ -23,16 +24,23 @@ func _ready() -> void:
 	insect_table.add_item(fly_scene, 15)
 	base_spawn_time = spawn_timer.wait_time
 	randomize()
+	GameEvents.storm_casted.connect(on_storm_casted)
 	view_rect = get_viewport().get_visible_rect()
 	round_time_manager.difficulty_changed.connect(on_difficult_timer_timeout)
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
+
+func on_storm_casted(is_stormy: bool) -> void:
+	if is_stormy:
+		insect_table.add_item(firefly_scene, 18)
+	else:
+		insect_table.remove_item(firefly_scene)
 
 func on_spawn_timer_timeout() -> void:
 	spawn_timer.start()
 	var insect_scene = insect_table.pick_item()
 	var spawn_position = Vector2()
 	var insect_instance = insect_scene.instantiate() as Node2D
-	if insect_instance is Fly:
+	if insect_instance is Fly or insect_instance is FireFly:
 		var side = randi() % 3
 		match side:
 			0: # Top
