@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://bsvhk3geqhqpi"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_upolo"]
+
+[resource]
+script = ExtResource("1_upolo")
+id = "rage_amount"
+max_quantity = 6
+name = "Saliva Nourishment"
+description = "Swallow increase 50% more saliva in the bubble"

@@ -5,13 +5,15 @@ extends Node
 @onready var rage_timer: Timer = $RageTimer
 
 const FULL_RAGE = 100
-
+var base_rage_time = 0
 var raging: bool = false
 
 func _ready() -> void:
 	progress_bar.value = 0
 	progress_bar.material.set_shader_parameter("percentage", 0)
 	GameEvents.rage_increased.connect(on_rage_amount_increased)
+	GameEvents.upgrade_added.connect(on_upgrade_added)
+	base_rage_time = rage_timer.wait_time
 	rage_timer.timeout.connect(on_rage_timer_timeout)
 
 func on_rage_timer_timeout() -> void:
@@ -48,3 +50,7 @@ func set_rainbow_frog(outline_size: float) -> void:
 	if not frog_node:
 		return
 	frog_node.frog_sprite.material.set_shader_parameter("outline_size", outline_size)
+
+func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
+	if upgrade.id == "rage_time_increase":
+		rage_timer.wait_time = base_rage_time + current_upgrades["rage_time_increase"]["quantity"] * 1.5

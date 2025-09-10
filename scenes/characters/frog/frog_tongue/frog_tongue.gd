@@ -9,6 +9,7 @@ const VIEW_MARGIN := 30
 
 var shoot_speed = 0
 var toughness := 0
+var rage_increase_amount = 0
 var return_speed := 1000.0
 var camera: Camera2D
 var cam_shake_noise: FastNoiseLite
@@ -44,7 +45,7 @@ func on_head_area_entered(area: Area2D) -> void:
 			return
 		AudioManager.tongue_hit_sfx.play()
 		current_state = States.PULL_BACK
-		GameEvents.emit_rage_increased(10)
+		GameEvents.emit_rage_increased(rage_increase_amount)
 		ate_sth = true
 		if area is Fly or area is FireFly:
 			eaten_points = 5

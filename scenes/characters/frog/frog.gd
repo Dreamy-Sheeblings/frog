@@ -18,11 +18,14 @@ var hunger_point: float = 50
 
 #Stats
 const BASE_SHOOT_SPEED = 500
+const BASE_RAGE_AMOUNT_INCREMENT = 5
 var shoot_speed = BASE_SHOOT_SPEED
 var base_swallow_time
 const BASE_TONGUE_TOUGHNESS = 3.5
 var tongue_toughness = BASE_TONGUE_TOUGHNESS
 var tongue_stuck := false
+var rage_amount_increment := 0
+var rage_combo: bool = false
 
 enum States {
 	SWAY,
@@ -64,6 +67,7 @@ func _process(delta: float) -> void:
 				tongue_instance.rotation_degrees = tongue_target.rotation_degrees
 				tongue_instance.shoot_speed = shoot_speed
 				tongue_instance.toughness = tongue_toughness
+				tongue_instance.rage_increase_amount = rage_amount_increment
 				if not multi_lickable:
 					current_state = States.EAT
 					
@@ -100,7 +104,6 @@ func on_swallow_timer_timeout() -> void:
 func on_rage_activated(is_active: bool) -> void:
 	if is_active:
 		multi_lickable = true
-		pass
 	else:
 		multi_lickable = false
 		lickable = false
@@ -115,7 +118,7 @@ func on_frog_devour_something(hunger_num: int, exp_point: ) -> void:
 		GameEvents.emit_hunger_progress_updated(hunger_point + (devour_combo_counter * 0.25))
 		GameEvents.emit_exp_increased(exp_point)
 	else:
-		if not multi_lickable:
+		if not multi_lickable or not rage_combo:
 			devour_combo_counter = 0
 	GameEvents.emit_devour_combo_text_updated(devour_combo_counter)
 
@@ -130,6 +133,13 @@ func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 	if upgrade.id == "mighty_tongue":
 		var percent_increment = current_upgrades["mighty_tongue"]["quantity"] * 0.5
 		tongue_toughness = BASE_TONGUE_TOUGHNESS * (1 + percent_increment)
+	if upgrade.id == "acquire_rage":
+		rage_amount_increment = BASE_RAGE_AMOUNT_INCREMENT
+	if upgrade.id == "rage_combo":
+		rage_combo = true
+	if upgrade.id == "rage_amount":
+		var percent_increment = current_upgrades["rage_amount"]["quantity"] * 0.5
+		rage_amount_increment = BASE_RAGE_AMOUNT_INCREMENT * (1 + percent_increment)
 
 func on_tongue_stuck(is_tongue_stuck: bool) -> void:
 	tongue_stuck = is_tongue_stuck

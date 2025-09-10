@@ -10,7 +10,7 @@ const TARGET_EXP_GROWTH = 2
 var current_upgrades = {}
 
 var current_exp = 0
-var target_exp = 2
+var target_exp = 1
 
 var current_lvl = 1
 
@@ -48,14 +48,36 @@ func apply_upgrade(upgrade: Upgrade):
 func pick_upgrades():
 	var chosen_upgrades: Array[Upgrade] = []
 	var filtered_upgrades = upgrade_pool.duplicate()
+
 	for i in 3:
 		if filtered_upgrades.is_empty():
 			break
+
+		# Remove upgrades that depend on others you don't have yet
+		filtered_upgrades = filtered_upgrades.filter(func(upgrade):
+			return not requires_unmet_dependency(upgrade, chosen_upgrades)
+		)
+
+		if filtered_upgrades.is_empty():
+			break
+
 		var chosen_upgrade = filtered_upgrades.pick_random() as Upgrade
 		chosen_upgrades.append(chosen_upgrade)
-		filtered_upgrades = filtered_upgrades.filter(func(upgrade): return upgrade.id != chosen_upgrade.id)
+
+		# Remove duplicates of the same upgrade id
+		filtered_upgrades = filtered_upgrades.filter(
+			func(upgrade): return upgrade.id != chosen_upgrade.id
+		)
+
 	return chosen_upgrades
 
+func requires_unmet_dependency(upgrade: Upgrade, chosen: Array) -> bool:
+	# Rage_time_increase requires acquire_rage to already be owned or picked this round
+	if upgrade.id == "rage_time_increase" or upgrade.id == "rage_amount" or upgrade.id == "rage_combo":
+		var has_acquire_rage = current_upgrades.has("acquire_rage") \
+			or chosen.any(func(c): return c.id == "acquire_rage")
+		return not has_acquire_rage
+	return false
 
 func on_upgrade_selected(upgrade: Upgrade) -> void:
 	apply_upgrade(upgrade)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3per6co1gvt0"]
+[gd_scene load_steps=11 format=3 uid="uid://c3per6co1gvt0"]
 
 [ext_resource type="Script" uid="uid://cv8jn8d3rtfws" path="res://scenes/managers/upgrade_manager/upgrade_manager.gd" id="1_tfkb6"]
 [ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="2_584le"]
@@ -6,8 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://cgnpws3s0n2x8" path="res://scenes/user_interface/upgrade_screen/upgrade_screen.tscn" id="4_584le"]
 [ext_resource type="Resource" uid="uid://c1m2k7w7ejfl8" path="res://resources/upgrades/tongue_swift.tres" id="4_hglea"]
 [ext_resource type="Resource" uid="uid://dx66wfa1t04tl" path="res://resources/upgrades/mighty_tongue.tres" id="5_bm4t0"]
+[ext_resource type="Resource" uid="uid://bb2lfw7yxh4b1" path="res://resources/upgrades/rage_aquire.tres" id="6_qg61f"]
+[ext_resource type="Resource" uid="uid://dqxfkc1eo07hd" path="res://resources/upgrades/rage_time.tres" id="7_1soku"]
+[ext_resource type="Resource" uid="uid://bsvhk3geqhqpi" path="res://resources/upgrades/rage_amount.tres" id="8_hnupv"]
+[ext_resource type="Resource" uid="uid://c4vhdl7o28db2" path="res://resources/upgrades/rage_combo.tres" id="9_u07bh"]
 
 [node name="UpgradeManager" type="Node"]
 script = ExtResource("1_tfkb6")
-upgrade_pool = Array[ExtResource("2_584le")]([ExtResource("3_hglea"), ExtResource("4_hglea"), ExtResource("5_bm4t0")])
+upgrade_pool = Array[ExtResource("2_584le")]([ExtResource("3_hglea"), ExtResource("4_hglea"), ExtResource("5_bm4t0"), ExtResource("6_qg61f"), ExtResource("7_1soku"), ExtResource("8_hnupv"), ExtResource("9_u07bh")])
 upgrade_screen_scene = ExtResource("4_584le")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://c4vhdl7o28db2"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_vvj0n"]
+
+[resource]
+script = ExtResource("1_vvj0n")
+id = "rage_combo"
+max_quantity = 1
+name = "Steady Spit"
+description = "Keep your combo going in wonderful mode"

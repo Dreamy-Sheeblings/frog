@@ -16,7 +16,7 @@ shader_parameter/wave_speed = 2.0
 script = ExtResource("1_7idg1")
 
 [node name="DifficultyTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 10.0
 autostart = true
 
 [node name="Timer" type="Timer" parent="."]
@@ -27,6 +27,7 @@ autostart = true
 position = Vector2(596, 299.599)
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("1_627gl")
+metadata/_edit_lock_ = true
 
 [node name="HungerProgressBar" type="TextureProgressBar" parent="."]
 material = SubResource("ShaderMaterial_554mg")
@@ -42,3 +43,4 @@ step = 0.01
 value = 50.0
 fill_mode = 3
 texture_progress = ExtResource("2_7idg1")
+metadata/_edit_lock_ = true

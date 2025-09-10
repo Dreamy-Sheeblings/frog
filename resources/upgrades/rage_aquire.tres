@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://bb2lfw7yxh4b1"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_wu15w"]
+
+[resource]
+script = ExtResource("1_wu15w")
+id = "acquire_rage"
+max_quantity = 1
+name = "Wonderful Saliva"
+description = "Swallowing fills up the saliva bubble"

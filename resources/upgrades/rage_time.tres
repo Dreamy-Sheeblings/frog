@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://dqxfkc1eo07hd"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_fwklb"]
+
+[resource]
+script = ExtResource("1_fwklb")
+id = "rage_time_increase"
+max_quantity = 4
+name = "Viscous Drool"
+description = "Extend the time of wonderful mode by 1.5 seconds"
