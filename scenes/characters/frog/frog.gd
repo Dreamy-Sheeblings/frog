@@ -3,16 +3,16 @@ extends Node2D
 
 @onready var tongue_target = $TongueTarget
 @onready var tongue_cooldown_bar: TextureProgressBar = $TongueTarget/CooldownBar
-@onready var anim_sprite = $AnimSprite
+@onready var anim_player: AnimationPlayer = $AnimPlayer
 @onready var swallow_timer: Timer = $Timers/SwallowTimer
-@onready var rage_timer: Timer = $Timers/RageTimer
+@onready var frog_sprite: Sprite2D = $Sprite
+
 @onready var tongue_scene: PackedScene = preload("res://scenes/characters/frog/frog_tongue/frog_tongue.tscn")
 @onready var tongue_list: Node2D = $TongueList
 
 var time: float = 0
 var lickable: bool = true
 var multi_lickable: bool = false
-var rage_amount := 0
 var devour_combo_counter := 0
 var hunger_point: float = 50
 
@@ -22,6 +22,7 @@ var shoot_speed = BASE_SHOOT_SPEED
 var base_swallow_time
 const BASE_TONGUE_TOUGHNESS = 3.5
 var tongue_toughness = BASE_TONGUE_TOUGHNESS
+var tongue_stuck := false
 
 enum States {
 	SWAY,
@@ -32,27 +33,26 @@ enum States {
 var current_state: States = States.SWAY
 
 func _ready() -> void:
-	GameEvents.rage_increased.connect(on_rage_increased)
 	GameEvents.frog_devour_something.connect(on_frog_devour_something)
 	GameEvents.emit_hunger_progress_updated(hunger_point)
 	GameEvents.hunger_progress_updated.connect(on_hunger_progress_updated)
 	GameEvents.upgrade_added.connect(on_upgrade_added)
+	GameEvents.tongue_stuck.connect(on_tongue_stuck)
+	GameEvents.rage_active.connect(on_rage_activated)
 	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
-	rage_timer.timeout.connect(on_rage_timer_timeout)
-	await get_tree().create_timer(0.5).timeout
-	GameEvents.emit_storm_casted(true)
 
 func _process(delta: float) -> void:
 	var tongue_cooldown_elapsed := swallow_timer.wait_time - swallow_timer.time_left
 	var tongue_cooldown_progress := tongue_cooldown_elapsed / swallow_timer.wait_time
 	tongue_cooldown_bar.value = tongue_cooldown_progress
 	if tongue_list.get_child_count() > 0:
-		if anim_sprite.animation != "mouth_opened":
-			anim_sprite.play("mouth_opened")
+		if tongue_stuck:
+			anim_player.play("stuck")
+		else:
+			anim_player.play("open_mouth")
 	else:
-		if anim_sprite.animation != "idle":
-			anim_sprite.play("idle")
+		anim_player.play("idle")
 	match current_state:
 		States.SWAY:
 			tongue_target.visible = true
@@ -97,24 +97,14 @@ func on_swallow_timer_timeout() -> void:
 	lickable = true
 	swallow_timer.stop()
 
-func on_rage_timer_timeout() -> void:
-	AudioManager.rage_exit_sfx.play()
-	set_rainbow_shader(0)
-	rage_timer.stop()
-	multi_lickable = false
-	lickable = false
-	rage_amount = 0
-	GameEvents.emit_rage_amount_updated(rage_amount)
-	swallow_timer.start()
-
-func on_rage_increased(number: int) -> void:
-	rage_amount += number
-	GameEvents.emit_rage_amount_updated(rage_amount)
-	if rage_amount >= 100 and not multi_lickable:
-		AudioManager.rage_enter_sfx.play()
-		set_rainbow_shader(1)
+func on_rage_activated(is_active: bool) -> void:
+	if is_active:
 		multi_lickable = true
-		rage_timer.start()
+		pass
+	else:
+		multi_lickable = false
+		lickable = false
+		swallow_timer.start()
 
 func on_frog_devour_something(hunger_num: int, exp_point: ) -> void:
 	if hunger_num > 0:
@@ -129,9 +119,6 @@ func on_frog_devour_something(hunger_num: int, exp_point: ) -> void:
 			devour_combo_counter = 0
 	GameEvents.emit_devour_combo_text_updated(devour_combo_counter)
 
-func set_rainbow_shader(outline_size: float) -> void:
-	anim_sprite.material.set_shader_parameter("outline_size", outline_size)
-
 func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 	if upgrade.id == "tongue_swift":
 		var percent_increment = current_upgrades["tongue_swift"]["quantity"] * 0.2
@@ -143,3 +130,6 @@ func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 	if upgrade.id == "mighty_tongue":
 		var percent_increment = current_upgrades["mighty_tongue"]["quantity"] * 0.5
 		tongue_toughness = BASE_TONGUE_TOUGHNESS * (1 + percent_increment)
+
+func on_tongue_stuck(is_tongue_stuck: bool) -> void:
+	tongue_stuck = is_tongue_stuck

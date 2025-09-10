@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pntbs2ugn6x8"
-path="res://.godot/imported/frog.png-bfae0eaa1a2a0dc1c93a27785789d11f.ctex"
+uid="uid://tu23x4w6hq3m"
+path="res://.godot/imported/rage_bubble.png-74c9b0a0fd683d2247d535e52c4813c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/characters/frog/frog.png"
-dest_files=["res://.godot/imported/frog.png-bfae0eaa1a2a0dc1c93a27785789d11f.ctex"]
+source_file="res://scenes/user_interface/rage_bubble/rage_bubble.png"
+dest_files=["res://.godot/imported/rage_bubble.png-74c9b0a0fd683d2247d535e52c4813c5.ctex"]
 
 [params]
 

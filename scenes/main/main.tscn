@@ -1,46 +1,52 @@
-[gd_scene load_steps=10 format=3 uid="uid://bug1l8g3cbkep"]
+[gd_scene load_steps=12 format=3 uid="uid://bug1l8g3cbkep"]
 
 [ext_resource type="PackedScene" uid="uid://cy25eoshuj2b5" path="res://scenes/user_interface/vignette/vignette.tscn" id="1_b1x3f"]
 [ext_resource type="PackedScene" uid="uid://bok7toi4jhycb" path="res://scenes/user_interface/exp_bar/exp_bar.tscn" id="1_l3cfh"]
-[ext_resource type="PackedScene" uid="uid://cagltfvifviwb" path="res://scenes/components/game_camera/game_camera.tscn" id="1_ow5a4"]
-[ext_resource type="PackedScene" uid="uid://bwpk101n37afm" path="res://scenes/components/managers/insect_spawner/insects_spawner.tscn" id="2_6q06x"]
+[ext_resource type="PackedScene" uid="uid://cagltfvifviwb" path="res://scenes/game_camera/game_camera.tscn" id="1_ow5a4"]
+[ext_resource type="PackedScene" uid="uid://bwpk101n37afm" path="res://scenes/managers/insect_spawner/insects_spawner.tscn" id="2_6q06x"]
+[ext_resource type="PackedScene" uid="uid://ddu6i8t6reu4q" path="res://scenes/managers/time_manager/time_manager.tscn" id="2_a8run"]
 [ext_resource type="PackedScene" uid="uid://dqlh0edvegos2" path="res://scenes/environment/background/background.tscn" id="2_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://c1ljkia4u5wil" path="res://scenes/characters/frog/frog.tscn" id="4_hujxm"]
-[ext_resource type="PackedScene" uid="uid://c3per6co1gvt0" path="res://scenes/components/managers/upgrade_manager/upgrade_manager.tscn" id="4_yyfjg"]
+[ext_resource type="PackedScene" uid="uid://c3per6co1gvt0" path="res://scenes/managers/upgrade_manager/upgrade_manager.tscn" id="4_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_counter/combo_counter.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://bey7vb1aqwgem" path="res://scenes/user_interface/hunger_bar/hunger_bar.tscn" id="5_ow5a4"]
+[ext_resource type="PackedScene" uid="uid://bo56p46bn8lij" path="res://scenes/user_interface/rage_bubble/rage_bubble.tscn" id="8_ouso4"]
 
 [node name="Main" type="Node"]
 
 [node name="GameCam" parent="." instance=ExtResource("1_ow5a4")]
 
+[node name="TimeManager" parent="." instance=ExtResource("2_a8run")]
+
 [node name="UpgradeManager" parent="." instance=ExtResource("4_yyfjg")]
 
-[node name="InsectsSpawner" parent="." instance=ExtResource("2_6q06x")]
+[node name="InsectsSpawner" parent="." node_paths=PackedStringArray("round_time_manager") instance=ExtResource("2_6q06x")]
+round_time_manager = NodePath("../TimeManager")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="ExpBar" parent="CanvasLayer" node_paths=PackedStringArray("upgrade_manager") instance=ExtResource("1_l3cfh")]
+[node name="ExpBar" parent="UILayer" node_paths=PackedStringArray("upgrade_manager") instance=ExtResource("1_l3cfh")]
 upgrade_manager = NodePath("../../UpgradeManager")
 
-[node name="ComboCounter" parent="CanvasLayer" instance=ExtResource("5_6q06x")]
-position = Vector2(109, 280)
+[node name="ComboCounter" parent="UILayer" instance=ExtResource("5_6q06x")]
+process_mode = 3
+position = Vector2(150, 275)
 
-[node name="HungerBar" parent="CanvasLayer" instance=ExtResource("5_ow5a4")]
+[node name="RageBubble" parent="UILayer" instance=ExtResource("8_ouso4")]
+
+[node name="HungerBar" parent="UILayer" instance=ExtResource("5_ow5a4")]
 
 [node name="Vignette" parent="." instance=ExtResource("1_b1x3f")]
 
 [node name="Background" parent="." instance=ExtResource("2_yyfjg")]
 
-[node name="Frog" parent="." instance=ExtResource("4_hujxm")]
-position = Vector2(320, 280)
+[node name="ObjectsLayer" type="Node2D" parent="Background" groups=["objects_layer"]]
 
-[node name="ObjectsLayer" type="Node2D" parent="." groups=["objects_layer"]]
-
-[node name="InsectsEnities" type="Node2D" parent="." groups=["entities_layer"]]
+[node name="InsectsEnities" type="Node2D" parent="Background" groups=["entities_layer"]]
 y_sort_enabled = true
 
-[node name="ColorRect" type="ColorRect" parent="." groups=["color_weather"]]
-offset_right = 640.0
-offset_bottom = 360.0
-color = Color(0.0784314, 0.0784314, 0.0784314, 0)
+[node name="Frog" parent="Background" instance=ExtResource("4_hujxm")]
+position = Vector2(320, 268)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Background" groups=["bg_modulate"]]
+z_index = -1

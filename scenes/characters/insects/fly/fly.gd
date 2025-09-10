@@ -8,7 +8,7 @@ var alive: bool = false
 var base_radius := 20.0
 var radius_jitter := 5.0
 
-var speed := 4.0
+var speed := 4.0 # Cap: 8
 var angle := 0.0
 
 var center := Vector2.ZERO
@@ -42,10 +42,7 @@ func _ready() -> void:
 	noise.frequency = 0.8
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	# Flying into the screen
-	fly_target = Vector2(
-		randf_range(viewport_rect.position.x + 50, viewport_rect.end.x + 50),
-		randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 150)
-	)
+	fly_target = get_random_fly_target_on_screen()
 
 func _process(delta: float) -> void:
 	$AnimSprite.flip_h = (fly_target.x > center.x)
@@ -66,10 +63,7 @@ func _process(delta: float) -> void:
 			States.FLY:
 				var to_target = fly_target - center
 				if to_target.length() < 5.0:
-					fly_target = Vector2(
-									randf_range(viewport_rect.position.x + 50, viewport_rect.end.x - 50),
-									randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 150)
-								)
+					fly_target = get_random_fly_target_on_screen()
 				else:
 					center += to_target.normalized() * 40 * delta
 			States.FLY_OUT:
@@ -91,6 +85,12 @@ func _on_mode_timer_timeout() -> void:
 	# Toggle between BUZZ and FLY
 	current_state = States.FLY if current_state == States.BUZZ else States.BUZZ
 	_reset_timer()
+
+func get_random_fly_target_on_screen() -> Vector2:
+	return Vector2(
+		randf_range(viewport_rect.position.x + 25, viewport_rect.end.x - 25),
+		randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 200)
+	)
 
 func get_random_offscreen_position(margin: float = 50.0) -> Vector2:
 	var side := randi() % 3 # 0=Top, 1=Right, 2=Bottom, 3=Left

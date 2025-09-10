@@ -41,6 +41,8 @@ objects_layer=""
 tongue=""
 upgrade_card=""
 color_weather=""
+bg_modulate=""
+frog="The Player"
 
 [gui]
 

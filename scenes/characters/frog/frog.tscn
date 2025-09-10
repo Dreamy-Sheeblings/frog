@@ -1,61 +1,98 @@
-[gd_scene load_steps=13 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=14 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://scenes/characters/frog/frog.gd" id="1_aoej0"]
-[ext_resource type="Texture2D" uid="uid://cs7m1n8md2b0y" path="res://scenes/characters/frog/frog.png" id="2_6wucm"]
 [ext_resource type="Shader" uid="uid://cd8key14dcmtn" path="res://scenes/characters/frog/rainbow_outline.gdshader" id="2_coxdj"]
 [ext_resource type="Texture2D" uid="uid://d3647nnbaey87" path="res://scenes/characters/frog/tongue_bar.png" id="3_onr3n"]
+[ext_resource type="Texture2D" uid="uid://pntbs2ugn6x8" path="res://scenes/characters/frog/frog.png" id="4_800jx"]
 [ext_resource type="Texture2D" uid="uid://cr7o2878rmfc3" path="res://scenes/characters/frog/tongue_progress.png" id="4_coxdj"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_800jx"]
+[sub_resource type="Animation" id="Animation_we62f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_800jx"]
+resource_name = "idle"
+length = 1.2
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1),
+"transitions": PackedFloat32Array(0.287175, 1, 1, 0.0824692),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_coxdj"]
+resource_name = "open_mouth"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_8fdhm"]
+resource_name = "stuck"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdhm"]
+_data = {
+&"RESET": SubResource("Animation_we62f"),
+&"idle": SubResource("Animation_800jx"),
+&"open_mouth": SubResource("Animation_coxdj"),
+&"stuck": SubResource("Animation_8fdhm")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_coxdj"]
 shader = ExtResource("2_coxdj")
 shader_parameter/outline_size = 0
-shader_parameter/speed = 0.5
+shader_parameter/speed = 1.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_coxdj"]
-atlas = ExtResource("2_6wucm")
-region = Rect2(0, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_800jx"]
-atlas = ExtResource("2_6wucm")
-region = Rect2(40, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_we62f"]
-atlas = ExtResource("2_6wucm")
-region = Rect2(80, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8fdhm"]
-atlas = ExtResource("2_6wucm")
-region = Rect2(120, 0, 40, 40)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_gbj2l"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_coxdj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_800jx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_we62f")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8fdhm")
-}],
-"loop": true,
-"name": &"mouth_opened",
-"speed": 5.0
-}]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_coxdj"]
+light_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ysx4s"]
 size = Vector2(20, 16)
 
-[node name="Frog" type="Node2D"]
+[node name="Frog" type="Node2D" groups=["frog"]]
 script = ExtResource("1_aoej0")
 
 [node name="Timers" type="Node" parent="."]
@@ -65,30 +102,39 @@ script = ExtResource("1_aoej0")
 [node name="RageTimer" type="Timer" parent="Timers"]
 wait_time = 5.0
 
-[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_800jx")
-scale = Vector2(2.5, 2.5)
-sprite_frames = SubResource("SpriteFrames_gbj2l")
-animation = &"idle"
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8fdhm")
+}
 autoplay = "idle"
-frame_progress = 0.812522
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_coxdj")
+scale = Vector2(5, 5)
+texture = ExtResource("4_800jx")
+hframes = 6
 
 [node name="TongueList" type="Node2D" parent="."]
 
 [node name="TongueTarget" type="Area2D" parent="."]
-z_index = 100
+visibility_layer = 2
+z_index = 10
+input_pickable = false
 
 [node name="CooldownBar" type="TextureProgressBar" parent="TongueTarget"]
-offset_left = -16.0
-offset_top = -67.0
-offset_right = 16.0
-offset_bottom = -47.0
+z_index = 1
+material = SubResource("CanvasItemMaterial_coxdj")
+offset_left = -21.0
+offset_top = -85.0
+offset_bottom = -72.0
+scale = Vector2(2, 2)
 max_value = 1.0
 step = 0.05
+value = 0.5
 fill_mode = 3
 texture_over = ExtResource("3_onr3n")
 texture_progress = ExtResource("4_coxdj")
 
 [node name="Cls" type="CollisionShape2D" parent="TongueTarget"]
-position = Vector2(0, -58)
+position = Vector2(0, -72)
 shape = SubResource("RectangleShape2D_ysx4s")

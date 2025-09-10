@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddu6i8t6reu4q"]
+
+[ext_resource type="Script" uid="uid://c31ffvw3eg1l2" path="res://scenes/managers/time_manager/time_manager.gd" id="1_pes7h"]
+
+[node name="TimeManager" type="Node"]
+script = ExtResource("1_pes7h")
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="WeatherTimer" type="Timer" parent="."]
+wait_time = 25.0

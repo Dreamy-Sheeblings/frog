@@ -4,6 +4,9 @@ extends Node
 @onready var timer: Timer = $Timer
 @onready var difficulty_timer: Timer = $DifficultyTimer
 
+const FULL_HUNGER = 100
+const SHADER_RATE = 0.03
+
 var tongue_stuck_dmg: float = 0.0
 var hunger_reduction: float = 3
 
@@ -20,11 +23,15 @@ func on_tongue_stuck(is_tongue_stuck: bool) -> void:
 		tongue_stuck_dmg = 0
 
 func on_timer_timeout() -> void:
-	progress_bar.value -= (hunger_reduction + tongue_stuck_dmg)
+	render_hunger_progress(progress_bar.value - (hunger_reduction + tongue_stuck_dmg))
 	GameEvents.emit_hunger_progress_updated(progress_bar.value)
 
 func on_difficulty_timer_timeout() -> void:
 	hunger_reduction += 0.15
 
 func on_hunger_progress_updated(amount: float) -> void:
-	progress_bar.value = amount
+	render_hunger_progress(amount)
+
+func render_hunger_progress(progress: float) -> void:
+	progress_bar.value = progress
+	progress_bar.material.set_shader_parameter("percentage", progress / FULL_HUNGER - SHADER_RATE)

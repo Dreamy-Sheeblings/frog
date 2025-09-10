@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bo56p46bn8lij"]
+
+[ext_resource type="Script" uid="uid://caa54xnwd4d18" path="res://scenes/user_interface/rage_bubble/rage_bubble.gd" id="1_jnrvp"]
+[ext_resource type="Shader" uid="uid://cg7404nfjd0gt" path="res://scripts/shaders/liquid_progress.gdshader" id="1_ogsto"]
+[ext_resource type="Texture2D" uid="uid://tu23x4w6hq3m" path="res://scenes/user_interface/rage_bubble/rage_bubble.png" id="2_jnrvp"]
+[ext_resource type="Texture2D" uid="uid://dse3flcpd7eyy" path="res://scenes/user_interface/rage_bubble/rage_liquid.png" id="3_6rt22"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ovgw1"]
+shader = ExtResource("1_ogsto")
+shader_parameter/percentage = 0.47
+shader_parameter/wave_freq = 8.0
+shader_parameter/wave_amp = 0.03
+shader_parameter/wave_speed = 5.0
+
+[node name="RageBubble" type="Node"]
+script = ExtResource("1_jnrvp")
+
+[node name="RageTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="ProgressBar" type="TextureProgressBar" parent="."]
+material = SubResource("ShaderMaterial_ovgw1")
+offset_left = 25.0
+offset_top = 270.0
+offset_right = 39.0
+offset_bottom = 284.0
+scale = Vector2(5, 5)
+max_value = 1.0
+step = 0.05
+value = 0.5
+fill_mode = 3
+texture_progress = ExtResource("3_6rt22")
+
+[node name="Bubble" type="Sprite2D" parent="."]
+position = Vector2(60, 305)
+scale = Vector2(5, 5)
+texture = ExtResource("2_jnrvp")

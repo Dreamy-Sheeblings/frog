@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3per6co1gvt0"]
 
-[ext_resource type="Script" uid="uid://cv8jn8d3rtfws" path="res://scenes/components/managers/upgrade_manager/upgrade_manager.gd" id="1_tfkb6"]
+[ext_resource type="Script" uid="uid://cv8jn8d3rtfws" path="res://scenes/managers/upgrade_manager/upgrade_manager.gd" id="1_tfkb6"]
 [ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="2_584le"]
 [ext_resource type="Resource" uid="uid://buklj02hubbhh" path="res://resources/upgrades/gobble_up.tres" id="3_hglea"]
 [ext_resource type="PackedScene" uid="uid://cgnpws3s0n2x8" path="res://scenes/user_interface/upgrade_screen/upgrade_screen.tscn" id="4_584le"]

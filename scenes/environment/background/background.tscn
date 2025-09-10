@@ -22,7 +22,7 @@ shader_parameter/wave_speed = 0.7
 script = ExtResource("1_65uit")
 
 [node name="ThunderStrikeTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 4.0
 
 [node name="Sky" type="ParallaxLayer" parent="."]
 

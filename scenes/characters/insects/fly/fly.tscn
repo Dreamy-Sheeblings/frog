@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxodetp2amu0b"]
+[gd_scene load_steps=11 format=3 uid="uid://cxodetp2amu0b"]
 
 [ext_resource type="Script" uid="uid://dcs6md7y101p0" path="res://scenes/characters/insects/fly/fly.gd" id="1_w51ox"]
 [ext_resource type="Texture2D" uid="uid://cd56fsp6eyvut" path="res://scenes/characters/insects/fly/fly.png" id="2_p35g7"]
 [ext_resource type="AudioStream" uid="uid://dk0ep8bssduft" path="res://assets/audio/insects/fly.mp3" id="3_dx8ku"]
+[ext_resource type="Texture2D" uid="uid://bl7t03h6rw4w7" path="res://scenes/environment/background/shine.png" id="4_kinh6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igwbq"]
 atlas = ExtResource("2_p35g7")
@@ -68,3 +69,11 @@ stream = ExtResource("3_dx8ku")
 volume_db = -5.0
 autoplay = true
 max_distance = 500.0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(-1, 1)
+scale = Vector2(0.5, 0.5)
+blend_mode = 2
+range_layer_min = -100
+texture = ExtResource("4_kinh6")

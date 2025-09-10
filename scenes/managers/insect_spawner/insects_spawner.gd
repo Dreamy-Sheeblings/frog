@@ -2,15 +2,19 @@ extends Node
 
 const DIFFICULTY_INTERVAL = 5
 
+@export var round_time_manager: Node
+
 @export var fly_scene: PackedScene
 @export var spider_scene: PackedScene
 @export var dragonfly_scene: PackedScene
-@onready var difficult_timer: Timer = $DifficultyTimer
+
 @onready var spawn_timer: Timer = $SpawnTimer
 
 var view_rect: Rect2
 var insect_table: WeightedTable = WeightedTable.new()
-var difficulty: int = 0
+const FLY_SPEED_CAP = 8
+const FLY_SPEED_GROWTH = 0.5
+var fly_speed: float = 4.0
 var base_spawn_time = 0
 
 const MARGIN := 15
@@ -20,7 +24,7 @@ func _ready() -> void:
 	base_spawn_time = spawn_timer.wait_time
 	randomize()
 	view_rect = get_viewport().get_visible_rect()
-	difficult_timer.timeout.connect(on_difficult_timer_timeout)
+	round_time_manager.difficulty_changed.connect(on_difficult_timer_timeout)
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
 
 func on_spawn_timer_timeout() -> void:
@@ -31,12 +35,12 @@ func on_spawn_timer_timeout() -> void:
 	if insect_instance is Fly:
 		var side = randi() % 3
 		match side:
-			0:
-				spawn_position = Vector2(randf_range(view_rect.position.x, view_rect.end.x), -MARGIN)
-			1:
-				spawn_position = Vector2(-MARGIN, randf_range(view_rect.position.y, view_rect.end.y - 100))
+			0: # Top
+				spawn_position = get_random_spawn_position_from_side(Sides.TOP)
+			1: # Right
+				spawn_position = get_random_spawn_position_from_side(Sides.RIGHT)
 			2:
-				spawn_position = Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y, view_rect.end.y - 100))
+				spawn_position = get_random_spawn_position_from_side(Sides.LEFT)
 	elif insect_instance is Spider:
 		var index = randi_range(2, 14)
 		spawn_position = Vector2(40 * index, -MARGIN)
@@ -44,16 +48,19 @@ func on_spawn_timer_timeout() -> void:
 		var side = randi() % 2
 		match side:
 			0: # Left side only
-				spawn_position = Vector2(-MARGIN, randf_range(view_rect.position.y + 50, view_rect.end.y - 150))
+				spawn_position = get_random_spawn_position_from_side(Sides.LEFT)
 			1: # Right side only
-				spawn_position = Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y, view_rect.end.y - 150))
+				spawn_position = get_random_spawn_position_from_side(Sides.RIGHT)
 	
 	var entities_layer = get_tree().get_first_node_in_group("entities_layer")
 	entities_layer.add_child(insect_instance)
 	insect_instance.global_position = spawn_position
+	if insect_instance is Fly:
+		insect_instance.speed = fly_speed
 
-func on_difficult_timer_timeout() -> void:
-	difficulty += 1
+func on_difficult_timer_timeout(difficulty: int) -> void:
+	if difficulty % 5 == 0:
+		fly_speed = min(fly_speed + FLY_SPEED_GROWTH, FLY_SPEED_CAP)
 	match difficulty:
 		3:
 			insect_table.add_item(dragonfly_scene, 3)
@@ -63,3 +70,20 @@ func on_difficult_timer_timeout() -> void:
 	time_off = min(time_off, 2)
 	spawn_timer.wait_time = base_spawn_time - time_off
 	spawn_timer.start()
+
+enum Sides {
+	LEFT,
+	RIGHT,
+	TOP
+}
+
+func get_random_spawn_position_from_side(side: Sides) -> Vector2:
+	match side:
+		Sides.LEFT:
+			return Vector2(-MARGIN, randf_range(view_rect.position.y + 25, view_rect.end.y - 200))
+		Sides.RIGHT:
+			return Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y + 25, view_rect.end.y - 200))
+		Sides.TOP:
+			return Vector2(randf_range(view_rect.position.x, view_rect.end.x), -MARGIN)
+
+	return Vector2.ZERO
