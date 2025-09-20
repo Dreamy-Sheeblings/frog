@@ -8,15 +8,18 @@ const DIFFICULTY_INTERVAL = 5
 @export var firefly_scene: PackedScene
 @export var spider_scene: PackedScene
 @export var dragonfly_scene: PackedScene
+@export var cicada_scene: PackedScene
 
 @onready var spawn_timer: Timer = $SpawnTimer
 
 var view_rect: Rect2
 var insect_table: WeightedTable = WeightedTable.new()
 const FLY_SPEED_CAP = 8
-const FLY_SPEED_GROWTH = 0.5
+const FLY_SPEED_GROWTH = 0.25
 var fly_speed: float = 4.0
 var base_spawn_time = 0
+var spawn_rate = 1
+var raining = false
 
 const MARGIN := 15
 
@@ -32,16 +35,20 @@ func _ready() -> void:
 func on_storm_casted(is_stormy: bool) -> void:
 	if is_stormy:
 		insect_table.add_item(firefly_scene, 18)
+		insect_table.remove_item(cicada_scene)
+		raining = true
 	else:
 		insect_table.remove_item(firefly_scene)
+		insect_table.add_item(cicada_scene, 8)
+		raining = false
 
 func on_spawn_timer_timeout() -> void:
 	spawn_timer.start()
-	for i in range(1):
+	for i in range(spawn_rate):
 		var insect_scene = insect_table.pick_item()
 		var spawn_position = Vector2()
 		var insect_instance = insect_scene.instantiate() as Node2D
-		if insect_instance is Fly or insect_instance is FireFly:
+		if insect_instance is Fly or insect_instance is FireFly or insect_instance is Cicada:
 			var side = randi() % 3
 			match side:
 				0: # Top
@@ -57,9 +64,9 @@ func on_spawn_timer_timeout() -> void:
 			var side = randi() % 2
 			match side:
 				0: # Left side only
-					spawn_position = get_random_spawn_position_from_side(Sides.LEFT)
+					spawn_position = get_random_spawn_position_from_side(Sides.LEFT, raining)
 				1: # Right side only
-					spawn_position = get_random_spawn_position_from_side(Sides.RIGHT)
+					spawn_position = get_random_spawn_position_from_side(Sides.RIGHT, raining)
 		
 		var entities_layer = get_tree().get_first_node_in_group("entities_layer")
 		entities_layer.add_child(insect_instance)
@@ -72,9 +79,15 @@ func on_difficult_timer_timeout(difficulty: int) -> void:
 		fly_speed = min(fly_speed + FLY_SPEED_GROWTH, FLY_SPEED_CAP)
 	match difficulty:
 		2:
-			insect_table.add_item(dragonfly_scene, 1)
+			insect_table.add_item(dragonfly_scene, 2)
+			insect_table.add_item(cicada_scene, 14)
 		3:
 			insect_table.add_item(spider_scene, 12)
+		# 4:
+		50:
+			spawn_rate = 2
+		90:
+			spawn_rate = 3
 	var time_off = (1. / 12) * difficulty
 	time_off = min(time_off, 0.5)
 	spawn_timer.wait_time = base_spawn_time - time_off
@@ -86,12 +99,15 @@ enum Sides {
 	TOP
 }
 
-func get_random_spawn_position_from_side(side: Sides) -> Vector2:
+func get_random_spawn_position_from_side(side: Sides, is_rain: bool = false) -> Vector2:
+	var max_height = 25
+	if is_rain:
+		max_height = 120
 	match side:
 		Sides.LEFT:
-			return Vector2(-MARGIN, randf_range(view_rect.position.y + 25, view_rect.end.y - 200))
+			return Vector2(-MARGIN, randf_range(view_rect.position.y + max_height, view_rect.end.y - 200))
 		Sides.RIGHT:
-			return Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y + 25, view_rect.end.y - 200))
+			return Vector2(view_rect.end.x + MARGIN, randf_range(view_rect.position.y + max_height, view_rect.end.y - 200))
 		Sides.TOP:
 			return Vector2(randf_range(view_rect.position.x, view_rect.end.x), -MARGIN)
 

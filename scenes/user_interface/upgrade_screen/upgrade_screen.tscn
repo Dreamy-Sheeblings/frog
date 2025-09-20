@@ -61,6 +61,7 @@ _data = {
 
 [node name="UpgradeScreen" type="CanvasLayer"]
 process_mode = 3
+layer = 2
 script = ExtResource("1_5smww")
 upgrade_card_scene = ExtResource("2_f2210")
 

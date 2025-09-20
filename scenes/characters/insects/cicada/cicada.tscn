@@ -1,0 +1,88 @@
+[gd_scene load_steps=12 format=3 uid="uid://dok481k4gbjak"]
+
+[ext_resource type="Texture2D" uid="uid://cav8q0rkjkywe" path="res://scenes/characters/insects/cicada/cicada.png" id="1_bgmap"]
+[ext_resource type="Script" uid="uid://wff6anh7ppxj" path="res://scenes/characters/insects/cicada/cicada.gd" id="1_sm61p"]
+[ext_resource type="AudioStream" uid="uid://dc1drhod4jwjb" path="res://assets/audio/insects/sfx_cicada_buzz.mp3" id="3_sm61p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tu400"]
+atlas = ExtResource("1_bgmap")
+region = Rect2(84, 0, 28, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjane"]
+atlas = ExtResource("1_bgmap")
+region = Rect2(112, 0, 28, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34f5t"]
+atlas = ExtResource("1_bgmap")
+region = Rect2(140, 0, 28, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xs4pg"]
+atlas = ExtResource("1_bgmap")
+region = Rect2(0, 0, 28, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxd80"]
+atlas = ExtResource("1_bgmap")
+region = Rect2(28, 0, 28, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3dhh"]
+atlas = ExtResource("1_bgmap")
+region = Rect2(56, 0, 28, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xqgq1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tu400")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjane")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34f5t")
+}],
+"loop": true,
+"name": &"buzz",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs4pg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxd80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3dhh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxd80")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lx0ql"]
+radius = 11.0
+
+[node name="Cicada" type="Area2D" groups=["edibles"]]
+script = ExtResource("1_sm61p")
+
+[node name="StateTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_xqgq1")
+animation = &"buzz"
+autoplay = "fly"
+frame_progress = 0.387514
+
+[node name="Cls" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lx0ql")
+
+[node name="BuzzSfx" type="AudioStreamPlayer2D" parent="." groups=["cicada_buzz"]]
+stream = ExtResource("3_sm61p")
+max_distance = 500.0
+bus = &"sfx"

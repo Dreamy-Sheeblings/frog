@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c815rxgap2lmh" path="res://scenes/characters/insects/dragonfly/dragonfly.gd" id="1_ltc5n"]
 [ext_resource type="Texture2D" uid="uid://cjdm2ftnga5vq" path="res://scenes/characters/insects/dragonfly/dragonfly.png" id="2_pu108"]
-[ext_resource type="AudioStream" uid="uid://b88jt3e0l063t" path="res://assets/audio/insects/dragonfly.mp3" id="3_jk0et"]
+[ext_resource type="AudioStream" uid="uid://b88jt3e0l063t" path="res://assets/audio/insects/sfx_dragonfly.mp3" id="3_jk0et"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pu108"]
 particle_flag_disable_z = true
@@ -66,3 +66,4 @@ stream = ExtResource("3_jk0et")
 volume_db = 10.0
 autoplay = true
 max_distance = 500.0
+bus = &"sfx"

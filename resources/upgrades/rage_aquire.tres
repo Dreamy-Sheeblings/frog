@@ -7,4 +7,4 @@ script = ExtResource("1_wu15w")
 id = "acquire_rage"
 max_quantity = 1
 name = "Wonderful Saliva"
-description = "Swallowing fills up the saliva bubble"
+description = "Swallowing fills up the saliva bubble, raging when full"

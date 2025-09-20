@@ -48,14 +48,19 @@ func on_head_area_entered(area: Area2D) -> void:
 		GameEvents.emit_rage_increased(rage_increase_amount)
 		ate_sth = true
 		if area is Fly or area is FireFly:
-			eaten_points = 5
+			eaten_points = 3
 			exp_points = 1
 		elif area is Dragonfly:
 			eaten_points = 7
 			exp_points = 999999
 		elif area is Spider:
-			eaten_points = 10
+			eaten_points = 8
 			exp_points = 2
+		elif area is Cicada:
+			area.sound_player.stop()
+			area.current_state = Cicada.States.EATEN
+			eaten_points = 5
+			exp_points = 1
 		area.queue_free()
 	if area.is_in_group("stuck"):
 		return_speed = 500

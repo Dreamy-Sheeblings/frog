@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://bug1l8g3cbkep"]
+[gd_scene load_steps=15 format=3 uid="uid://bug1l8g3cbkep"]
 
+[ext_resource type="Script" uid="uid://lxdwwh30h8q5" path="res://scenes/main/main.gd" id="1_7smn1"]
 [ext_resource type="PackedScene" uid="uid://cy25eoshuj2b5" path="res://scenes/user_interface/vignette/vignette.tscn" id="1_b1x3f"]
 [ext_resource type="PackedScene" uid="uid://bok7toi4jhycb" path="res://scenes/user_interface/exp_bar/exp_bar.tscn" id="1_l3cfh"]
 [ext_resource type="PackedScene" uid="uid://cagltfvifviwb" path="res://scenes/game_camera/game_camera.tscn" id="1_ow5a4"]
@@ -11,8 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_counter/combo_counter.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://bey7vb1aqwgem" path="res://scenes/user_interface/hunger_bar/hunger_bar.tscn" id="5_ow5a4"]
 [ext_resource type="PackedScene" uid="uid://bo56p46bn8lij" path="res://scenes/user_interface/rage_bubble/rage_bubble.tscn" id="8_ouso4"]
+[ext_resource type="Texture2D" uid="uid://cwvnj8fo8533g" path="res://assets/ui/pause_btn.png" id="10_raeie"]
+[ext_resource type="Texture2D" uid="uid://0yavjqclrkx8" path="res://assets/ui/pause_hover.png" id="11_hxu8e"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_7smn1")
 
 [node name="GameCam" parent="." instance=ExtResource("1_ow5a4")]
 
@@ -35,6 +39,19 @@ position = Vector2(150, 275)
 [node name="RageBubble" parent="UILayer" instance=ExtResource("8_ouso4")]
 
 [node name="HungerBar" parent="UILayer" instance=ExtResource("5_ow5a4")]
+
+[node name="PauseButtonLayer" type="CanvasLayer" parent="UILayer"]
+layer = 2
+
+[node name="PauseButton" type="TextureButton" parent="UILayer/PauseButtonLayer"]
+unique_name_in_owner = true
+offset_left = 568.0
+offset_top = 12.0
+offset_right = 579.0
+offset_bottom = 23.0
+scale = Vector2(5, 5)
+texture_normal = ExtResource("10_raeie")
+texture_hover = ExtResource("11_hxu8e")
 
 [node name="Vignette" parent="." instance=ExtResource("1_b1x3f")]
 

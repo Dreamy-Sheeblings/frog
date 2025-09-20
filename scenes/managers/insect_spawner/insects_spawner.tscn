@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwpk101n37afm"]
+[gd_scene load_steps=7 format=3 uid="uid://bwpk101n37afm"]
 
 [ext_resource type="Script" uid="uid://dxw56ks5jnlgr" path="res://scenes/managers/insect_spawner/insects_spawner.gd" id="1_1pdku"]
 [ext_resource type="PackedScene" uid="uid://cxodetp2amu0b" path="res://scenes/characters/insects/fly/fly.tscn" id="2_5fo2e"]
 [ext_resource type="PackedScene" uid="uid://cahnfwoy7feyb" path="res://scenes/characters/insects/firefly/firefly.tscn" id="3_6hg2b"]
 [ext_resource type="PackedScene" uid="uid://chfdaqxfq84dr" path="res://scenes/characters/insects/spider/spider.tscn" id="3_q6cc4"]
 [ext_resource type="PackedScene" uid="uid://c338r67pw8ujb" path="res://scenes/characters/insects/dragonfly/dragonfly.tscn" id="4_uabpt"]
+[ext_resource type="PackedScene" uid="uid://dok481k4gbjak" path="res://scenes/characters/insects/cicada/cicada.tscn" id="6_kow44"]
 
 [node name="InsectsSpawner" type="Node"]
 script = ExtResource("1_1pdku")
@@ -12,6 +13,7 @@ fly_scene = ExtResource("2_5fo2e")
 firefly_scene = ExtResource("3_6hg2b")
 spider_scene = ExtResource("3_q6cc4")
 dragonfly_scene = ExtResource("4_uabpt")
+cicada_scene = ExtResource("6_kow44")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 4.0

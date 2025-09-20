@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c1xrabkculklv"]
+[gd_scene load_steps=16 format=4 uid="uid://c1xrabkculklv"]
 
 [ext_resource type="Script" uid="uid://c8f6kbajjyvdk" path="res://auto_loads/audio_manager/audio_manager.gd" id="1_61g61"]
 [ext_resource type="AudioStream" uid="uid://pannqo2ee32g" path="res://assets/audio/frog/tongue/sfx_shoot_tongue.wav" id="2_haeon"]
@@ -13,6 +13,11 @@
 [ext_resource type="AudioStream" uid="uid://b7y6cexwu8m7u" path="res://assets/audio/card/sfx_card_selected.wav" id="11_4opek"]
 [ext_resource type="AudioStream" uid="uid://gysfr33340j2" path="res://assets/audio/environment/sfx_rain.mp3" id="12_3iup4"]
 [ext_resource type="AudioStream" uid="uid://bx2h1v5r1yuov" path="res://assets/audio/environment/sfx_thunder.mp3" id="13_57epe"]
+[ext_resource type="AudioStream" uid="uid://5q7030mjkgj7" path="res://assets/audio/ui/sfx_click.wav" id="15_bn8tc"]
+
+[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_kqagw"]
+data = PackedByteArray("cW9hZgAACG4BAKxECG4DeAAAAAAAAAAAAAAAAOAAQACgXs+Y2iGiGk5BAIIKYKaaogEX6EkEpgEvIyQ00wCGiKIBIKyowBRIPcAAggpgAgiimCmAfdu0wTX4pbDJJJBIogEgEgPZnIJMEigQCU0SCJDRBKYBK/GbXmtlksEkEgmwSASASAQ5i42gRRAIIIIDlNNNEggggq+Pp6SWGCGmAVaJBBBBBBBXsZMQoEAgNEE3iSmg0QQCCKKd8FJZDBIIXxgkEEEpgEGwSDMzAk4wAUMIIAIIBBBBsEgEPhMsMNM4OWGGmCCCmLBIBKswaQRTjMAggEEEEEGwQSmAQe0WWVfNJYYJBBBIsEgEgEpiapB9EkUQCAQQQaBBBBBBBA/Qb/90ssEkggiSCCASCASA9o3kSSKIAIIIUEEAlMAggg63ymSySGmASJIJ2niSARAKlpof3VlskhqmASZlYYUAAaAIID9jLZYJsgkEEZNFIoGkQQCA/US2w6DTBIDWhKEMpoFNNEH+MUuiSSCQQTsShKMcaIBBA/ALtktVEgkELBrAECiCAQQHwKZbYYJIIJM0qoJBEAEAgq+PqXw2GQSCLq0ZQSKIAIIBwdolhkkEggimtqgkgE0CCLKdoIbJJJBBsgnQlGFAAgGk01+AxSySQ7TAYmJASAAKtokAXghlkkmg001dk0YEALBAIID7RLLItggkEOSMFIKnGmiCA/US2aYYaYIJW1RgtAAFNEgHsgui2GCQ00xsSKSQCIBAIB/ToNssEkNNMbGijEEU0U00b5aYrZYYJBBerSoqFAAEAgrXSCGSSQSCCE4LBBAIIIIBGMQhOEJ75wgU498xHCY0AhcaCe+sD3zSFxoAK74oq6wS99d80nLrGhaBjjCe+esaEEIopxwhPfMUETGk40Zd8x311jRnzjjSG74gJxooooMdYXrHLvnLvhYl3zRRCccaEFABONAAABUdd9Y40QnGJR311jQKcaD1GF75xy6pNAoXHGiigURPnBIV11jCe+YRExxoFEJ75oAQnvrA980E5R1jl31zE+sKEgAohOXWNPcdd80CnvrvmhAMsITRQKcaFXfNJy5mXfUd840UU45YQhcusaD31jjlHVApxoFEJoEZYXvrrvmiABAABl1Se+scFoFFEJxooooXGiinCEDvrBBljjjjRCcaEFEJoGWEogA=")
+format = 3
 
 [node name="AudioManager" type="Node"]
 process_mode = 3
@@ -22,33 +27,46 @@ script = ExtResource("1_61g61")
 
 [node name="TongueShoot" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("2_haeon")
+volume_db = -2.0
+bus = &"sfx"
 
 [node name="TongueHit" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("3_m240t")
+bus = &"sfx"
 
 [node name="TongueStuck" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("4_fpwru")
+bus = &"sfx"
 
 [node name="TonguePull" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("5_x6jqk")
+bus = &"sfx"
 
 [node name="RageEnter" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("4_0qhmr")
+bus = &"sfx"
 
 [node name="RageExit" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("7_8ieki")
+bus = &"sfx"
 
 [node name="Swallow" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("3_bc3oy")
+bus = &"sfx"
 
 [node name="LvlUp" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("8_x6jqk")
+bus = &"sfx"
 
 [node name="CardHover" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("6_78sg7")
+volume_db = -5.0
+bus = &"sfx"
 
 [node name="CardSelected" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("11_4opek")
+volume_db = -5.0
+bus = &"sfx"
 
 [node name="Rain" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("12_3iup4")
@@ -57,4 +75,12 @@ bus = &"sfx"
 
 [node name="Thunder" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("13_57epe")
+bus = &"sfx"
+
+[node name="Pause" type="AudioStreamPlayer" parent="Sfx"]
+stream = SubResource("AudioStreamWAV_kqagw")
+bus = &"sfx"
+
+[node name="Click" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("15_bn8tc")
 bus = &"sfx"

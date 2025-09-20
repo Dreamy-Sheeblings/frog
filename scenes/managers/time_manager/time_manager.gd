@@ -16,12 +16,12 @@ func _ready() -> void:
 	difficult_timer.timeout.connect(on_difficult_timer_timeout)
 	weather_timer.timeout.connect(on_weather_timer_timeout)
 	GameEvents.storm_casted.connect(on_storm_casted)
-	weather_table.add_item("sunny", 4)
+	weather_table.add_item("sunny", 8)
 
 func on_difficult_timer_timeout() -> void:
 	round_difficulty += 1
 	difficulty_changed.emit(round_difficulty)
-	if round_difficulty == 5:
+	if round_difficulty == 10:
 		weather_table.add_item("stormy", 2)
 		stormy = true
 		GameEvents.emit_storm_cast(stormy)
@@ -32,7 +32,7 @@ func on_storm_casted(is_stormy: bool) -> void:
 		stormy = false
 
 func on_weather_timer_timeout() -> void:
-	if round_difficulty >= 6 and not stormy:
+	if round_difficulty >= 10 and not stormy:
 		var weather = weather_table.pick_item()
 		if weather == "stormy":
 			stormy = true

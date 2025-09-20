@@ -14,7 +14,7 @@ var time: float = 0
 var lickable: bool = true
 var multi_lickable: bool = false
 var devour_combo_counter := 0
-var hunger_point: float = 50
+var hunger_point: float = 30
 
 #Stats
 const BASE_SHOOT_SPEED = 500
@@ -26,6 +26,7 @@ var tongue_toughness = BASE_TONGUE_TOUGHNESS
 var tongue_stuck := false
 var rage_amount_increment := 0
 var rage_combo: bool = false
+var sway_speed: float = 2.0
 
 enum States {
 	SWAY,
@@ -42,6 +43,7 @@ func _ready() -> void:
 	GameEvents.upgrade_added.connect(on_upgrade_added)
 	GameEvents.tongue_stuck.connect(on_tongue_stuck)
 	GameEvents.rage_active.connect(on_rage_activated)
+	# GameEvents.cicada_buzzing.connect(on_cicada_buzzing)
 	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
 
@@ -56,6 +58,14 @@ func _process(delta: float) -> void:
 			anim_player.play("open_mouth")
 	else:
 		anim_player.play("idle")
+	var cicada_buzz_sounds = get_tree().get_nodes_in_group("cicada_buzz") as Array[AudioStreamPlayer2D]
+	for buzz_sound in cicada_buzz_sounds:
+		if buzz_sound.playing:
+			sway_speed = 4
+			break
+		else:
+			sway_speed = 2
+		
 	match current_state:
 		States.SWAY:
 			tongue_target.visible = true
@@ -72,7 +82,7 @@ func _process(delta: float) -> void:
 					current_state = States.EAT
 					
 			time += delta
-			var angle_degrees = sin(time * 2.0) * 75.0
+			var angle_degrees = sin(time * sway_speed) * 75.0
 			tongue_target.rotation_degrees = angle_degrees
 
 		States.EAT:
@@ -143,3 +153,9 @@ func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 
 func on_tongue_stuck(is_tongue_stuck: bool) -> void:
 	tongue_stuck = is_tongue_stuck
+
+# func on_cicada_buzzing(buzzing: bool):
+# 	if buzzing == true:
+# 		sway_speed = 4
+# 	else:
+# 		sway_speed = 2

@@ -17,3 +17,6 @@ extends Node
 # Environment
 @onready var rain_sfx: AudioStreamPlayer = $Sfx/Rain
 @onready var thunder_sfx: AudioStreamPlayer = $Sfx/Thunder
+# UI
+@onready var pause_sfx: AudioStreamPlayer = $Sfx/Pause
+@onready var click_sfx: AudioStreamPlayer = $Sfx/Click
