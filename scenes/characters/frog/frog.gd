@@ -15,7 +15,7 @@ var time: float = 0
 var lickable: bool = true
 var multi_lickable: bool = false
 var devour_combo_counter := 0
-var hunger_point: float = 0.5
+var hunger_point: float = 0.25
 
 #Stats
 const BASE_SHOOT_SPEED = 500

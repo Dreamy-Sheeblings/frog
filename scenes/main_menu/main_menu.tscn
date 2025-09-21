@@ -1,0 +1,244 @@
+[gd_scene load_steps=17 format=3 uid="uid://cg6jcoh02oble"]
+
+[ext_resource type="Shader" uid="uid://cd8key14dcmtn" path="res://scenes/characters/frog/rainbow_outline.gdshader" id="1_0ebjn"]
+[ext_resource type="Script" uid="uid://cgjtbomssjmwe" path="res://scenes/main_menu/main_menu.gd" id="1_3ovsr"]
+[ext_resource type="Texture2D" uid="uid://pntbs2ugn6x8" path="res://scenes/characters/frog/frog.png" id="1_fsom3"]
+[ext_resource type="Texture2D" uid="uid://gvq20n47ruty" path="res://scenes/environment/background/lily-pads.png" id="1_ob46e"]
+[ext_resource type="Texture2D" uid="uid://bu3h3k0rq6u6c" path="res://scenes/environment/background/pond-water.png" id="1_uqeha"]
+[ext_resource type="Shader" uid="uid://bndhje82i3848" path="res://scenes/environment/background/water.gdshader" id="1_wem23"]
+[ext_resource type="PackedScene" uid="uid://cy25eoshuj2b5" path="res://scenes/user_interface/vignette/vignette.tscn" id="7_5seab"]
+
+[sub_resource type="Animation" id="Animation_we62f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_bsj1w"]
+resource_name = "cry_begin"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.45),
+"transitions": PackedFloat32Array(1, 0.707107, 1),
+"update": 1,
+"values": [6, 7, 8]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"begin_cry"
+}, {
+"args": [],
+"method": &"play_cry_idle"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_8yp8g"]
+resource_name = "cry_idle"
+length = 0.6
+loop_mode = 2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [8, 9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_800jx"]
+resource_name = "idle"
+length = 1.2
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1),
+"transitions": PackedFloat32Array(0.287175, 1, 1, 0.0824692),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_coxdj"]
+resource_name = "open_mouth"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_8fdhm"]
+resource_name = "stuck"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdhm"]
+_data = {
+&"RESET": SubResource("Animation_we62f"),
+&"cry_begin": SubResource("Animation_bsj1w"),
+&"cry_idle": SubResource("Animation_8yp8g"),
+&"idle": SubResource("Animation_800jx"),
+&"open_mouth": SubResource("Animation_coxdj"),
+&"stuck": SubResource("Animation_8fdhm")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ovsr"]
+shader = ExtResource("1_wem23")
+shader_parameter/flow_dir = Vector2(-1, 0)
+shader_parameter/flow_speed = 0.03
+shader_parameter/wave_amp = 0.009
+shader_parameter/wave_freq = 28.0
+shader_parameter/wave_speed = 0.7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ob46e"]
+shader = ExtResource("1_0ebjn")
+shader_parameter/outline_size = 0
+shader_parameter/speed = 1.0
+
+[node name="MainMenu" type="Node"]
+script = ExtResource("1_3ovsr")
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8fdhm")
+}
+autoplay = "idle"
+
+[node name="Water" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_3ovsr")
+position = Vector2(-47, -190)
+scale = Vector2(8, 8)
+texture = ExtResource("1_uqeha")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Lily" type="Sprite2D" parent="."]
+position = Vector2(466, 97)
+scale = Vector2(8, 8)
+texture = ExtResource("1_ob46e")
+metadata/_edit_lock_ = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ob46e")
+position = Vector2(464, 237)
+scale = Vector2(8, 8)
+texture = ExtResource("1_fsom3")
+hframes = 11
+metadata/_edit_lock_ = true
+
+[node name="Vignette" parent="." instance=ExtResource("7_5seab")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.121569, 0.4, 0.694118, 1)
+theme_override_colors/font_outline_color = Color(0.121569, 0.4, 0.694118, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 32
+theme_override_font_sizes/font_size = 48
+text = "FROG GAME"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayBtn" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"MainMenuButton"
+theme_override_font_sizes/font_size = 24
+text = "PLAY"
+
+[node name="SettingBtn" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"MainMenuButton"
+theme_override_font_sizes/font_size = 24
+text = "SETTINGS"
+
+[node name="ExitBtn" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"MainMenuButton"
+theme_override_font_sizes/font_size = 24
+text = "EXIT"

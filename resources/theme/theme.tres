@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=15 format=3 uid="uid://c80sbce86mdm8"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://c80sbce86mdm8"]
 
 [ext_resource type="Texture2D" uid="uid://cn57y0vtf4u80" path="res://assets/ui/ui.png" id="1_8n3oo"]
 [ext_resource type="FontFile" uid="uid://d4ecco1teg23y" path="res://resources/theme/KarenFat.ttf" id="1_8tjqa"]
@@ -76,6 +76,14 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.121569, 0.4, 0.694118, 1)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tu17m"]
+texture = ExtResource("1_8n3oo")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(35, 19, 10, 10)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_orw62"]
 texture = ExtResource("1_8n3oo")
 texture_margin_left = 4.0
@@ -105,4 +113,6 @@ HSlider/styles/grabber_area = SubResource("StyleBoxFlat_56c54")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_8n3oo")
 HSlider/styles/slider = SubResource("StyleBoxFlat_orw62")
 Label/constants/line_spacing = 0
+MainMenuButton/base_type = &"Button"
+MainMenuButton/styles/normal = SubResource("StyleBoxTexture_tu17m")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_orw62")

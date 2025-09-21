@@ -6,14 +6,11 @@ extends CanvasLayer
 @onready var sfx_slider: HSlider = %SfxSlider
 @onready var window_button: Button = %WinModeToggleButton
 
-@onready var resume_button: TextureButton = %ResumeButton
-@onready var replay_button: TextureButton = %ReplayButton
 @onready var quit_button: TextureButton = %QuitButton
 
 var is_closing: bool = false
 
 func _ready() -> void:
-	get_tree().paused = true
 
 	panel.pivot_offset = panel.size / 2
 
@@ -21,13 +18,10 @@ func _ready() -> void:
 	music_slider.value_changed.connect(on_audio_slider_changed.bind("music"))
 	sfx_slider.value_changed.connect(on_audio_slider_changed.bind("sfx"))
 
-	update_display()
-
-	resume_button.pressed.connect(on_resume_pressed)
-	replay_button.pressed.connect(on_replay_pressed)
 	quit_button.pressed.connect(on_quit_pressed)
 
-	$AnimPlayer.play("default")
+	update_display()
+
 	var tween = create_tween()
 	tween.tween_property(panel, "scale", Vector2.ZERO, 0)
 	tween.tween_property(panel, "scale", Vector2.ONE, .3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
@@ -49,16 +43,9 @@ func on_window_button_toggled() -> void:
 
 	update_display()
 
-
-func on_resume_pressed() -> void:
-	close()
-
-func on_replay_pressed() -> void:
+func on_quit_pressed() -> void:
 	AudioManager.click_sfx.play()
-	ScreenTransition.transition()
-	await ScreenTransition.transitioned_halfway
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main/main.tscn")
+	close()
 
 
 func close() -> Signal:
@@ -66,7 +53,6 @@ func close() -> Signal:
 		return get_tree().create_timer(0).timeout # return dummy signal if already closing
 	AudioManager.click_sfx.play()
 	is_closing = true
-	$AnimPlayer.play_backwards("default")
 
 	var tween = create_tween()
 	tween.tween_property(panel, "scale", Vector2.ONE, 0)
@@ -74,7 +60,6 @@ func close() -> Signal:
 
 	await tween.finished
 
-	get_tree().paused = false
 	queue_free()
 
 	return get_tree().create_timer(0).timeout
@@ -99,9 +84,3 @@ func set_bus_volume_percent(bus_name: String, percent: float):
 
 func on_audio_slider_changed(value: float, bus_name: String) -> void:
 	set_bus_volume_percent(bus_name, value)
-
-func on_quit_pressed() -> void:
-	AudioManager.click_sfx.play()
-	ScreenTransition.transition()
-	await ScreenTransition.transitioned_halfway
-	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
