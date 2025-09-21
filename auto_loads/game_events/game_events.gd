@@ -7,6 +7,7 @@ signal rage_active(is_active: bool)
 signal frog_devour_something(hunger_pnt: int, exp_pnt: int)
 signal devour_combo_text_updated(number: int)
 signal hunger_progress_updated(amount: float)
+signal frog_died
 signal exp_increased(amount: int)
 signal upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary)
 signal tongue_stuck(is_tongue_stuck: bool)
@@ -42,3 +43,6 @@ func emit_death_warning(warn: bool):
 
 func emit_storm_cast(is_stormy: bool):
 	storm_casted.emit(is_stormy)
+
+func emit_frog_died():
+	frog_died.emit()

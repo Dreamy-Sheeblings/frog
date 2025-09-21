@@ -28,6 +28,7 @@ func _ready() -> void:
 	base_spawn_time = spawn_timer.wait_time
 	randomize()
 	GameEvents.storm_casted.connect(on_storm_casted)
+	GameEvents.frog_died.connect(on_frog_died)
 	view_rect = get_viewport().get_visible_rect()
 	round_time_manager.difficulty_changed.connect(on_difficult_timer_timeout)
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
@@ -41,6 +42,9 @@ func on_storm_casted(is_stormy: bool) -> void:
 		insect_table.remove_item(firefly_scene)
 		insect_table.add_item(cicada_scene, 8)
 		raining = false
+
+func on_frog_died() -> void:
+	spawn_timer.stop()
 
 func on_spawn_timer_timeout() -> void:
 	spawn_timer.start()
@@ -80,10 +84,10 @@ func on_difficult_timer_timeout(difficulty: int) -> void:
 	match difficulty:
 		2:
 			insect_table.add_item(dragonfly_scene, 2)
-			insect_table.add_item(cicada_scene, 14)
 		3:
 			insect_table.add_item(spider_scene, 12)
-		# 4:
+		4:
+			insect_table.add_item(cicada_scene, 8)
 		50:
 			spawn_rate = 2
 		90:

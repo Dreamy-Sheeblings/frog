@@ -20,3 +20,4 @@ extends Node
 # UI
 @onready var pause_sfx: AudioStreamPlayer = $Sfx/Pause
 @onready var click_sfx: AudioStreamPlayer = $Sfx/Click
+@onready var lose_sfx: AudioStreamPlayer = $Sfx/Lose

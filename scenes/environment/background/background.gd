@@ -13,6 +13,7 @@ var thunder_strike_time_remaining: int = 0
 
 func _ready() -> void:
 	GameEvents.storm_casted.connect(on_storm_casted)
+	GameEvents.frog_died.connect(on_frog_died)
 	thunder_strike_timer.timeout.connect(on_thunder_strike)
 
 func _process(delta: float) -> void:
@@ -75,3 +76,6 @@ func stop_storm() -> void:
 	get_tree().create_timer(15).timeout.connect(func():
 		GameEvents.emit_storm_cast(false)
 	)
+
+func on_frog_died() -> void:
+	thunder_strike_time_remaining = 0

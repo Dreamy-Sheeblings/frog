@@ -7,14 +7,15 @@ extends Node2D
 @onready var swallow_timer: Timer = $Timers/SwallowTimer
 @onready var frog_sprite: Sprite2D = $Sprite
 
-@onready var tongue_scene: PackedScene = preload("res://scenes/characters/frog/frog_tongue/frog_tongue.tscn")
+var tongue_scene: PackedScene = preload("res://scenes/characters/frog/frog_tongue/frog_tongue.tscn")
+var end_screen_scene: PackedScene = preload("res://scenes/user_interface/end_screen/end_screen.tscn")
 @onready var tongue_list: Node2D = $TongueList
 
 var time: float = 0
 var lickable: bool = true
 var multi_lickable: bool = false
 var devour_combo_counter := 0
-var hunger_point: float = 30
+var hunger_point: float = 0.5
 
 #Stats
 const BASE_SHOOT_SPEED = 500
@@ -27,6 +28,8 @@ var tongue_stuck := false
 var rage_amount_increment := 0
 var rage_combo: bool = false
 var sway_speed: float = 2.0
+var died: bool = false
+var cry_began: bool = false
 
 enum States {
 	SWAY,
@@ -43,11 +46,11 @@ func _ready() -> void:
 	GameEvents.upgrade_added.connect(on_upgrade_added)
 	GameEvents.tongue_stuck.connect(on_tongue_stuck)
 	GameEvents.rage_active.connect(on_rage_activated)
-	# GameEvents.cicada_buzzing.connect(on_cicada_buzzing)
 	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
 
 func _process(delta: float) -> void:
+	print(hunger_point)
 	var tongue_cooldown_elapsed := swallow_timer.wait_time - swallow_timer.time_left
 	var tongue_cooldown_progress := tongue_cooldown_elapsed / swallow_timer.wait_time
 	tongue_cooldown_bar.value = tongue_cooldown_progress
@@ -57,7 +60,11 @@ func _process(delta: float) -> void:
 		else:
 			anim_player.play("open_mouth")
 	else:
-		anim_player.play("idle")
+		if not died:
+			anim_player.play("idle")
+		else:
+			if not cry_began:
+				anim_player.play("cry_begin")
 	var cicada_buzz_sounds = get_tree().get_nodes_in_group("cicada_buzz") as Array[AudioStreamPlayer2D]
 	for buzz_sound in cicada_buzz_sounds:
 		if buzz_sound.playing:
@@ -92,9 +99,6 @@ func _process(delta: float) -> void:
 				current_state = States.SWAY
 				swallow_timer.start()
 
-		States.DIE:
-			queue_free()
-
 func on_hunger_progress_updated(value: float) -> void:
 	hunger_point = value
 	if hunger_point > 0 and hunger_point <= 10:
@@ -102,10 +106,18 @@ func on_hunger_progress_updated(value: float) -> void:
 	else:
 		GameEvents.emit_death_warning(false)
 	if hunger_point <= 0:
-		print("frog died")
+		GameEvents.emit_frog_died()
 		current_state = States.DIE
-	if hunger_point >= 100:
-		print("win")
+		died = true
+		disappear_tongue()
+		for tongue in tongue_list.get_children():
+			if tongue is FrogTongue:
+				tongue.on_frog_died()
+		anim_player.play("cry_begin")
+		GameEvents.hunger_progress_updated.disconnect(on_hunger_progress_updated)
+
+func play_cry_idle() -> void:
+	anim_player.play("cry_idle")
 
 func on_swallow_timer_timeout() -> void:
 	lickable = true
@@ -154,8 +166,18 @@ func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 func on_tongue_stuck(is_tongue_stuck: bool) -> void:
 	tongue_stuck = is_tongue_stuck
 
-# func on_cicada_buzzing(buzzing: bool):
-# 	if buzzing == true:
-# 		sway_speed = 4
-# 	else:
-# 		sway_speed = 2
+func begin_cry():
+	cry_began = true
+	render_end_screen()
+
+func disappear_tongue():
+	var tween = create_tween()
+	tween.set_parallel()
+	tween.tween_property(tongue_target, "scale", Vector2.ZERO, 0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
+	tween.tween_property(tongue_target, "modulate", Color(1, 1, 1, 0), 0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
+	tween.chain()
+
+func render_end_screen():
+	AudioManager.lose_sfx.play()
+	var end_screen = end_screen_scene.instantiate()
+	add_child(end_screen)

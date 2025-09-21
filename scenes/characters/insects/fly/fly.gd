@@ -43,6 +43,7 @@ func _ready() -> void:
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	# Flying into the screen
 	fly_target = get_random_fly_target_on_screen()
+	GameEvents.frog_died.connect(on_life_timer_timeout)
 
 func _process(delta: float) -> void:
 	$AnimSprite.flip_h = (fly_target.x > center.x)

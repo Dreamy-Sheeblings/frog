@@ -39,6 +39,9 @@ func _ready() -> void:
 	original_position = head.position
 	shoot_direction = Vector2.UP.rotated(head.rotation)
 
+func on_frog_died() -> void:
+	current_state = States.PULL_BACK
+
 func on_head_area_entered(area: Area2D) -> void:
 	if area.is_in_group("edibles") and not ate_sth:
 		if current_state == States.STUCK:
@@ -59,8 +62,8 @@ func on_head_area_entered(area: Area2D) -> void:
 		elif area is Cicada:
 			area.sound_player.stop()
 			area.current_state = Cicada.States.EATEN
-			eaten_points = 5
-			exp_points = 1
+			eaten_points = 6
+			exp_points = 2
 		area.queue_free()
 	if area.is_in_group("stuck"):
 		return_speed = 500

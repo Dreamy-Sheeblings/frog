@@ -52,7 +52,6 @@ func on_resume_pressed() -> void:
 	close()
 
 func on_replay_pressed() -> void:
-	close()
 	AudioManager.click_sfx.play()
 	ScreenTransition.transition()
 	await ScreenTransition.transitioned_halfway

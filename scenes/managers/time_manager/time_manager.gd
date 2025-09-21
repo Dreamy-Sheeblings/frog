@@ -16,7 +16,12 @@ func _ready() -> void:
 	difficult_timer.timeout.connect(on_difficult_timer_timeout)
 	weather_timer.timeout.connect(on_weather_timer_timeout)
 	GameEvents.storm_casted.connect(on_storm_casted)
+	GameEvents.frog_died.connect(on_frog_died)
 	weather_table.add_item("sunny", 8)
+
+func on_frog_died() -> void:
+	difficult_timer.stop()
+	weather_timer.stop()
 
 func on_difficult_timer_timeout() -> void:
 	round_difficulty += 1

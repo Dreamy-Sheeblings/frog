@@ -38,6 +38,7 @@ func _ready() -> void:
 	viewport_rect = get_viewport().get_visible_rect()
 	state_timer.timeout.connect(_on_mode_timer_timeout)
 	GameEvents.storm_casted.connect(on_storm_casted)
+	GameEvents.frog_died.connect(fly_out)
 	# Buzzing init
 	phase_offset = randf_range(0.0, TAU)
 	noise_seed_offset = randf_range(0.0, 1000.0)

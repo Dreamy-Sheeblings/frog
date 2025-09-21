@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://ba8d8gffnyfbf"]
+
+[ext_resource type="Texture2D" uid="uid://4fn67osg5o33" path="res://assets/ui/quit_btn.png" id="1_fdsjt"]
+[ext_resource type="Script" uid="uid://216vqb0c6qi0" path="res://scenes/user_interface/end_screen/end_screen.gd" id="1_gjsg8"]
+[ext_resource type="Texture2D" uid="uid://djwa5ywkkpd0j" path="res://assets/ui/quit_hover.png" id="2_gjsg8"]
+[ext_resource type="Texture2D" uid="uid://xihc8rx8p6xl" path="res://assets/ui/replay_btn.png" id="3_84sp6"]
+[ext_resource type="Texture2D" uid="uid://ddx5x52tuuqxt" path="res://assets/ui/replay_hover.png" id="4_6g54t"]
+
+[node name="EndScreen" type="CanvasLayer"]
+script = ExtResource("1_gjsg8")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 30
+
+[node name="Panel" type="PanelContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 140)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.121569, 0.4, 0.694118, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 32
+text = "YOU LOST"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="QuitButton" type="TextureButton" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("1_fdsjt")
+texture_hover = ExtResource("2_gjsg8")
+
+[node name="ReplayButton" type="TextureButton" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("3_84sp6")
+texture_hover = ExtResource("4_6g54t")

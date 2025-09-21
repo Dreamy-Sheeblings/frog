@@ -6,6 +6,10 @@ var pause_menu_scene: PackedScene = preload("res://scenes/user_interface/pause_m
 
 func _ready() -> void:
 	pause_button.pressed.connect(on_pause_pressed)
+	GameEvents.frog_died.connect(on_frog_died)
+
+func on_frog_died() -> void:
+	pause_button.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
