@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dps8hv727ln8a"]
+[gd_scene load_steps=6 format=3 uid="uid://dps8hv727ln8a"]
 
 [ext_resource type="Script" uid="uid://byb8ypxljeaop" path="res://scenes/characters/frog/frog_tongue/frog_tongue.gd" id="1_tryyp"]
 [ext_resource type="Texture2D" uid="uid://v8ho3luremn6" path="res://scenes/characters/frog/frog_tongue/tongue.png" id="1_yff7m"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wayxo"]
 size = Vector2(25, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjfxy"]
+size = Vector2(20, 223.5)
 
 [node name="FrogTongue" type="Node2D"]
 script = ExtResource("1_tryyp")
@@ -17,6 +20,7 @@ texture = ExtResource("1_yff7m")
 texture_mode = 1
 
 [node name="TongueHead" type="Area2D" parent="." groups=["tongue"]]
+collision_mask = 6
 
 [node name="Sprite" type="Sprite2D" parent="TongueHead"]
 position = Vector2(0, -58)
@@ -25,3 +29,10 @@ texture = ExtResource("2_tryyp")
 [node name="Cls" type="CollisionShape2D" parent="TongueHead"]
 position = Vector2(0, -58)
 shape = SubResource("RectangleShape2D_wayxo")
+
+[node name="InsectDetector" type="Area2D" parent="TongueHead"]
+collision_mask = 2
+
+[node name="Cls" type="CollisionShape2D" parent="TongueHead/InsectDetector"]
+position = Vector2(0, -180)
+shape = SubResource("RectangleShape2D_cjfxy")

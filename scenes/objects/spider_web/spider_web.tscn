@@ -8,6 +8,7 @@ radius = 20.0
 
 [node name="SpiderWeb" type="Area2D" groups=["stuck"]]
 scale = Vector2(1e-05, 1e-05)
+collision_layer = 4
 script = ExtResource("1_1vric")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

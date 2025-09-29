@@ -11,3 +11,31 @@ autostart = true
 
 [node name="WeatherTimer" type="Timer" parent="."]
 wait_time = 25.0
+
+[node name="RoundTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_top = 8
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_shadow_color = Color(0.121569, 0.4, 0.694118, 1)
+theme_override_colors/font_outline_color = Color(0.121569, 0.4, 0.694118, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 24
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 2

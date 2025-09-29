@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://q0nuhm16ytck"]
+[gd_scene load_steps=2 format=3 uid="uid://d4akoa28t2tap"]
 
-[ext_resource type="Script" uid="uid://ewl8w76cpbau" path="res://scenes/user_interface/combo_counter/combo_counter.gd" id="1_d8c15"]
+[ext_resource type="Script" uid="uid://djh07gpknv8w0" path="res://scenes/user_interface/score_counter/score_counter.gd" id="1_eigpt"]
 
-[node name="ComboCounter" type="Node2D"]
-script = ExtResource("1_d8c15")
+[node name="ScoreCounter" type="Node2D"]
+script = ExtResource("1_eigpt")
 
 [node name="NumberLabel" type="RichTextLabel" parent="."]
 custom_minimum_size = Vector2(100, 32)
@@ -17,7 +17,7 @@ theme_override_constants/outline_size = 12
 theme_override_constants/shadow_offset_y = 0
 theme_override_constants/shadow_offset_x = 0
 bbcode_enabled = true
-text = "[shake rate=25.0 level=1]100"
+text = "[shake rate=10.0 level=1]100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -41,6 +41,6 @@ theme_override_constants/outline_size = 16
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_offset_x = 1
 bbcode_enabled = true
-text = "[shake rate=5.0 level=1]COMBO"
+text = "[shake rate=5.0 level=1]points"
 horizontal_alignment = 1
 vertical_alignment = 1

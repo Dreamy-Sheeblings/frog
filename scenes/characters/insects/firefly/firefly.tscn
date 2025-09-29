@@ -40,6 +40,7 @@ animations = [{
 radius = 8.0
 
 [node name="Firefly" type="Area2D" groups=["edibles"]]
+collision_layer = 2
 script = ExtResource("1_rdvs2")
 
 [node name="LifeTimer" type="Timer" parent="."]

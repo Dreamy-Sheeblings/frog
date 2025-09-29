@@ -44,6 +44,7 @@ animations = [{
 radius = 8.0
 
 [node name="Fly" type="Area2D" groups=["edibles"]]
+collision_layer = 2
 script = ExtResource("1_w51ox")
 
 [node name="LifeTimer" type="Timer" parent="."]

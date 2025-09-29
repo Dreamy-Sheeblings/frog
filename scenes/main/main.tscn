@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bug1l8g3cbkep"]
+[gd_scene load_steps=25 format=3 uid="uid://bug1l8g3cbkep"]
 
 [ext_resource type="Script" uid="uid://lxdwwh30h8q5" path="res://scenes/main/main.gd" id="1_7smn1"]
 [ext_resource type="PackedScene" uid="uid://cy25eoshuj2b5" path="res://scenes/user_interface/vignette/vignette.tscn" id="1_b1x3f"]
@@ -11,9 +11,19 @@
 [ext_resource type="PackedScene" uid="uid://c3per6co1gvt0" path="res://scenes/managers/upgrade_manager/upgrade_manager.tscn" id="4_yyfjg"]
 [ext_resource type="PackedScene" uid="uid://q0nuhm16ytck" path="res://scenes/user_interface/combo_counter/combo_counter.tscn" id="5_6q06x"]
 [ext_resource type="PackedScene" uid="uid://bey7vb1aqwgem" path="res://scenes/user_interface/hunger_bar/hunger_bar.tscn" id="5_ow5a4"]
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="5_p8abn"]
+[ext_resource type="Resource" uid="uid://buklj02hubbhh" path="res://resources/upgrades/gobble_up.tres" id="6_s17dp"]
+[ext_resource type="Resource" uid="uid://c1m2k7w7ejfl8" path="res://resources/upgrades/tongue_swift.tres" id="7_37hlw"]
+[ext_resource type="Resource" uid="uid://dx66wfa1t04tl" path="res://resources/upgrades/mighty_tongue.tres" id="8_6llfj"]
 [ext_resource type="PackedScene" uid="uid://bo56p46bn8lij" path="res://scenes/user_interface/rage_bubble/rage_bubble.tscn" id="8_ouso4"]
+[ext_resource type="Resource" uid="uid://bb2lfw7yxh4b1" path="res://resources/upgrades/rage_aquire.tres" id="9_0bhws"]
+[ext_resource type="Resource" uid="uid://dqxfkc1eo07hd" path="res://resources/upgrades/rage_time.tres" id="10_62atk"]
 [ext_resource type="Texture2D" uid="uid://cwvnj8fo8533g" path="res://assets/ui/pause_btn.png" id="10_raeie"]
 [ext_resource type="Texture2D" uid="uid://0yavjqclrkx8" path="res://assets/ui/pause_hover.png" id="11_hxu8e"]
+[ext_resource type="Resource" uid="uid://bsvhk3geqhqpi" path="res://resources/upgrades/rage_amount.tres" id="11_i7in8"]
+[ext_resource type="Resource" uid="uid://c4vhdl7o28db2" path="res://resources/upgrades/rage_combo.tres" id="12_gkmcc"]
+[ext_resource type="Resource" uid="uid://crto6htuc57am" path="res://resources/upgrades/tongue_pierce.tres" id="13_7nlll"]
+[ext_resource type="PackedScene" uid="uid://d4akoa28t2tap" path="res://scenes/user_interface/score_counter/score_counter.tscn" id="17_s17dp"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7smn1")
@@ -23,6 +33,7 @@ script = ExtResource("1_7smn1")
 [node name="TimeManager" parent="." instance=ExtResource("2_a8run")]
 
 [node name="UpgradeManager" parent="." instance=ExtResource("4_yyfjg")]
+upgrade_pool = Array[ExtResource("5_p8abn")]([ExtResource("6_s17dp"), ExtResource("7_37hlw"), ExtResource("8_6llfj"), ExtResource("9_0bhws"), ExtResource("10_62atk"), ExtResource("11_i7in8"), ExtResource("12_gkmcc"), ExtResource("13_7nlll")])
 
 [node name="InsectsSpawner" parent="." node_paths=PackedStringArray("round_time_manager") instance=ExtResource("2_6q06x")]
 round_time_manager = NodePath("../TimeManager")
@@ -35,6 +46,9 @@ upgrade_manager = NodePath("../../UpgradeManager")
 [node name="ComboCounter" parent="UILayer" instance=ExtResource("5_6q06x")]
 process_mode = 3
 position = Vector2(150, 275)
+
+[node name="ScoreCounter" parent="UILayer" instance=ExtResource("17_s17dp")]
+position = Vector2(480, 279)
 
 [node name="RageBubble" parent="UILayer" instance=ExtResource("8_ouso4")]
 

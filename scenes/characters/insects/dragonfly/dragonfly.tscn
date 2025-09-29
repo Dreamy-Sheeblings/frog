@@ -44,6 +44,7 @@ animations = [{
 size = Vector2(30, 15)
 
 [node name="Dragonfly" type="Area2D" groups=["edibles"]]
+collision_layer = 2
 script = ExtResource("1_ltc5n")
 
 [node name="CPUParticles2D" type="GPUParticles2D" parent="."]

@@ -28,8 +28,8 @@ func on_timer_timeout() -> void:
 	GameEvents.emit_hunger_progress_updated(progress_bar.value)
 
 func on_difficulty_timer_timeout() -> void:
-	tongue_stuck_dmg = min(tongue_stuck_dmg + 0.15, 3)
-	hunger_reduction = min(hunger_reduction + 0.15, 5)
+	tongue_stuck_dmg = min(tongue_stuck_dmg + 0.15, 5)
+	hunger_reduction = min(hunger_reduction + 0.15, 10)
 
 
 func on_hunger_progress_updated(amount: float) -> void:

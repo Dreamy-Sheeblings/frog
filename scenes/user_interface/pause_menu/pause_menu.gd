@@ -54,6 +54,7 @@ func on_resume_pressed() -> void:
 	close()
 
 func on_replay_pressed() -> void:
+	AudioManager.rain_sfx.stop()
 	AudioManager.click_sfx.play()
 	ScreenTransition.transition()
 	await ScreenTransition.transitioned_halfway
@@ -101,7 +102,9 @@ func on_audio_slider_changed(value: float, bus_name: String) -> void:
 	set_bus_volume_percent(bus_name, value)
 
 func on_quit_pressed() -> void:
+	AudioManager.rain_sfx.stop()
 	AudioManager.click_sfx.play()
 	ScreenTransition.transition()
 	await ScreenTransition.transitioned_halfway
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")

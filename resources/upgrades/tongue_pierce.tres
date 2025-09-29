@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrade" load_steps=2 format=3 uid="uid://crto6htuc57am"]
+
+[ext_resource type="Script" uid="uid://butf1w80mvl3i" path="res://resources/upgrades/upgrade.gd" id="1_reig0"]
+
+[resource]
+script = ExtResource("1_reig0")
+id = "tongue_pierce"
+max_quantity = 1
+name = "Spear Tongue"
+description = "Allow the tongue to pierce through multiple insects"

@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=4 uid="uid://c1xrabkculklv"]
+[gd_scene load_steps=18 format=4 uid="uid://c1xrabkculklv"]
 
 [ext_resource type="Script" uid="uid://c8f6kbajjyvdk" path="res://auto_loads/audio_manager/audio_manager.gd" id="1_61g61"]
+[ext_resource type="AudioStream" uid="uid://cutxgkc2n57j1" path="res://assets/audio/bit-beats-7.mp3" id="2_eyrmi"]
 [ext_resource type="AudioStream" uid="uid://pannqo2ee32g" path="res://assets/audio/frog/tongue/sfx_shoot_tongue.wav" id="2_haeon"]
 [ext_resource type="AudioStream" uid="uid://bqki1ssplp6ib" path="res://assets/audio/frog/sfx_swallow.wav" id="3_bc3oy"]
 [ext_resource type="AudioStream" uid="uid://chpjlo0qp2aaw" path="res://assets/audio/frog/tongue/sfx_tongue_hit.wav" id="3_m240t"]
@@ -23,6 +24,14 @@ format = 3
 [node name="AudioManager" type="Node"]
 process_mode = 3
 script = ExtResource("1_61g61")
+
+[node name="Music" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("2_eyrmi")
+autoplay = true
+bus = &"music"
+parameters/looping = true
 
 [node name="Sfx" type="Node" parent="."]
 

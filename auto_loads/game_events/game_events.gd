@@ -4,7 +4,7 @@ extends Node
 signal rage_increased(number: float)
 signal rage_active(is_active: bool)
 # 
-signal frog_devour_something(hunger_pnt: int, exp_pnt: int)
+signal frog_devour_something(hunger_pnt: int, exp_pnt: int, combo_points: int)
 signal devour_combo_text_updated(number: int)
 signal hunger_progress_updated(amount: float)
 signal frog_died
@@ -13,6 +13,7 @@ signal upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary)
 signal tongue_stuck(is_tongue_stuck: bool)
 signal death_warning(warn: bool)
 signal storm_casted(is_stormy: bool)
+signal score_increased(amount: int)
 
 func emit_rage_increased(number: int):
 	rage_increased.emit(number)
@@ -20,8 +21,8 @@ func emit_rage_increased(number: int):
 func emit_rage_active(is_active: bool):
 	rage_active.emit(is_active)
 
-func emit_frog_devour_something(hunger_pnt: int, exp_pnt: int):
-	frog_devour_something.emit(hunger_pnt, exp_pnt)
+func emit_frog_devour_something(hunger_pnt: int, exp_pnt: int, combo_points: int):
+	frog_devour_something.emit(hunger_pnt, exp_pnt, combo_points)
 
 func emit_devour_combo_text_updated(number: int):
 	devour_combo_text_updated.emit(number)
@@ -46,3 +47,6 @@ func emit_storm_cast(is_stormy: bool):
 
 func emit_frog_died():
 	frog_died.emit()
+
+func emit_score_increased(amount: int):
+	score_increased.emit(amount)

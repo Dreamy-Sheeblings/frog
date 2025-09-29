@@ -6,6 +6,7 @@ extends Node2D
 @onready var anim_player: AnimationPlayer = $AnimPlayer
 @onready var swallow_timer: Timer = $Timers/SwallowTimer
 @onready var frog_sprite: Sprite2D = $Sprite
+@onready var time_manager: Node = $TimeManager
 
 var tongue_scene: PackedScene = preload("res://scenes/characters/frog/frog_tongue/frog_tongue.tscn")
 var end_screen_scene: PackedScene = preload("res://scenes/user_interface/end_screen/end_screen.tscn")
@@ -15,8 +16,8 @@ var time: float = 0
 var lickable: bool = true
 var multi_lickable: bool = false
 var devour_combo_counter := 0
-var hunger_point: float = 0.25
-
+var hunger_point: float = 30
+var combo_multiplier: float = 0.25
 #Stats
 const BASE_SHOOT_SPEED = 500
 const BASE_RAGE_AMOUNT_INCREMENT = 5
@@ -28,6 +29,7 @@ var tongue_stuck := false
 var rage_amount_increment := 0
 var rage_combo: bool = false
 var sway_speed: float = 2.0
+var tongue_piercing: bool = false
 var died: bool = false
 var cry_began: bool = false
 
@@ -46,11 +48,25 @@ func _ready() -> void:
 	GameEvents.upgrade_added.connect(on_upgrade_added)
 	GameEvents.tongue_stuck.connect(on_tongue_stuck)
 	GameEvents.rage_active.connect(on_rage_activated)
+	time_manager.difficulty_changed.connect(on_difficulty_changed)
 	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if (event.is_action_pressed("ui_accept") or event.is_action_pressed("left_click")) and lickable and current_state == States.SWAY:
+		var tongue_instance = tongue_scene.instantiate() as FrogTongue
+		tongue_list.add_child(tongue_instance)
+		AudioManager.tongue_shoot_sfx.play()
+		tongue_instance.global_position = tongue_target.global_position
+		tongue_instance.rotation_degrees = tongue_target.rotation_degrees
+		tongue_instance.shoot_speed = shoot_speed
+		tongue_instance.toughness = tongue_toughness
+		tongue_instance.rage_increase_amount = rage_amount_increment
+		tongue_instance.pierced = tongue_piercing
+		if not multi_lickable:
+			current_state = States.EAT
+
 func _process(delta: float) -> void:
-	print(hunger_point)
 	var tongue_cooldown_elapsed := swallow_timer.wait_time - swallow_timer.time_left
 	var tongue_cooldown_progress := tongue_cooldown_elapsed / swallow_timer.wait_time
 	tongue_cooldown_bar.value = tongue_cooldown_progress
@@ -76,17 +92,6 @@ func _process(delta: float) -> void:
 	match current_state:
 		States.SWAY:
 			tongue_target.visible = true
-			if Input.is_action_just_pressed("ui_accept") and lickable:
-				var tongue_instance = tongue_scene.instantiate() as FrogTongue
-				tongue_list.add_child(tongue_instance)
-				AudioManager.tongue_shoot_sfx.play()
-				tongue_instance.global_position = tongue_target.global_position
-				tongue_instance.rotation_degrees = tongue_target.rotation_degrees
-				tongue_instance.shoot_speed = shoot_speed
-				tongue_instance.toughness = tongue_toughness
-				tongue_instance.rage_increase_amount = rage_amount_increment
-				if not multi_lickable:
-					current_state = States.EAT
 					
 			time += delta
 			var angle_degrees = sin(time * sway_speed) * 75.0
@@ -131,13 +136,14 @@ func on_rage_activated(is_active: bool) -> void:
 		lickable = false
 		swallow_timer.start()
 
-func on_frog_devour_something(hunger_num: int, exp_point: ) -> void:
+func on_frog_devour_something(hunger_num: int, exp_point, combo_points) -> void:
 	if hunger_num > 0:
-		devour_combo_counter += 1
+		devour_combo_counter += combo_points
+		GameEvents.emit_score_increased((hunger_num * 10) + (combo_points * combo_multiplier))
 		hunger_point += hunger_num
 		AudioManager.swallow_sfx.play()
 		await get_tree().create_timer(0.5).timeout
-		GameEvents.emit_hunger_progress_updated(hunger_point + (devour_combo_counter * 0.25))
+		GameEvents.emit_hunger_progress_updated(hunger_point + (devour_combo_counter * combo_multiplier))
 		GameEvents.emit_exp_increased(exp_point)
 	else:
 		if not multi_lickable or not rage_combo:
@@ -148,6 +154,8 @@ func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 	if upgrade.id == "tongue_swift":
 		var percent_increment = current_upgrades["tongue_swift"]["quantity"] * 0.2
 		shoot_speed = BASE_SHOOT_SPEED * (1 + percent_increment)
+	if upgrade.id == "tongue_pierce":
+		tongue_piercing = true
 	if upgrade.id == "gobble_up":
 		var percent_reduction = current_upgrades["gobble_up"]["quantity"] * 0.15
 		swallow_timer.wait_time = base_swallow_time * (1 - percent_reduction)
@@ -162,6 +170,11 @@ func on_upgrade_added(upgrade: Upgrade, current_upgrades: Dictionary) -> void:
 	if upgrade.id == "rage_amount":
 		var percent_increment = current_upgrades["rage_amount"]["quantity"] * 0.5
 		rage_amount_increment = BASE_RAGE_AMOUNT_INCREMENT * (1 + percent_increment)
+
+func on_difficulty_changed(difficulty: int) -> void:
+	if difficulty % 15 == 0:
+		combo_multiplier = min(combo_multiplier + 0.25, 1.5)
+		
 
 func on_tongue_stuck(is_tongue_stuck: bool) -> void:
 	tongue_stuck = is_tongue_stuck

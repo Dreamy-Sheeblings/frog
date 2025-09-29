@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://c1ljkia4u5wil"]
+[gd_scene load_steps=17 format=3 uid="uid://c1ljkia4u5wil"]
 
 [ext_resource type="Script" uid="uid://v5wk6qtvg3uw" path="res://scenes/characters/frog/frog.gd" id="1_aoej0"]
+[ext_resource type="PackedScene" uid="uid://ddu6i8t6reu4q" path="res://scenes/managers/time_manager/time_manager.tscn" id="2_800jx"]
 [ext_resource type="Shader" uid="uid://cd8key14dcmtn" path="res://scenes/characters/frog/rainbow_outline.gdshader" id="2_coxdj"]
 [ext_resource type="Texture2D" uid="uid://d3647nnbaey87" path="res://scenes/characters/frog/tongue_bar.png" id="3_onr3n"]
 [ext_resource type="Texture2D" uid="uid://pntbs2ugn6x8" path="res://scenes/characters/frog/frog.png" id="4_800jx"]
@@ -148,6 +149,8 @@ size = Vector2(20, 16)
 
 [node name="Frog" type="Node2D" groups=["frog"]]
 script = ExtResource("1_aoej0")
+
+[node name="TimeManager" parent="." instance=ExtResource("2_800jx")]
 
 [node name="Timers" type="Node" parent="."]
 
