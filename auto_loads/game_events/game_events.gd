@@ -14,6 +14,7 @@ signal tongue_stuck(is_tongue_stuck: bool)
 signal death_warning(warn: bool)
 signal storm_casted(is_stormy: bool)
 signal score_increased(amount: int)
+signal honey_comb_collected(honey_points: float)
 
 func emit_rage_increased(number: int):
 	rage_increased.emit(number)
@@ -50,3 +51,6 @@ func emit_frog_died():
 
 func emit_score_increased(amount: int):
 	score_increased.emit(amount)
+
+func emit_honey_comb_collected(honey_points: float):
+	honey_comb_collected.emit(honey_points)

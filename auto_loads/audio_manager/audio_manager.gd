@@ -7,6 +7,7 @@ extends Node
 @onready var tongue_pull_sfx: AudioStreamPlayer = $Sfx/TonguePull
 ##
 @onready var swallow_sfx: AudioStreamPlayer = $Sfx/Swallow
+@onready var bee_sting_sfx: AudioStreamPlayer = $Sfx/BeeSting
 ## Rage
 @onready var rage_enter_sfx: AudioStreamPlayer = $Sfx/RageEnter
 @onready var rage_exit_sfx: AudioStreamPlayer = $Sfx/RageExit

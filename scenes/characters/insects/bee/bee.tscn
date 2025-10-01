@@ -1,22 +1,91 @@
-[gd_scene load_steps=4 format=3 uid="uid://cvycqq0rrfi5d"]
+[gd_scene load_steps=13 format=3 uid="uid://cvycqq0rrfi5d"]
 
 [ext_resource type="Script" uid="uid://bfjew84p33qxa" path="res://scenes/characters/insects/bee/bee.gd" id="1_akty2"]
+[ext_resource type="Shader" uid="uid://cr68yxhcg3mhn" path="res://scenes/characters/insects/bee/bee.gdshader" id="2_lj8nj"]
+[ext_resource type="Texture2D" uid="uid://ccx1n4thks0vs" path="res://scenes/characters/insects/bee/bee.png" id="2_yesbh"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_l2wui"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yv7gu"]
+resource_local_to_scene = true
+shader = ExtResource("2_lj8nj")
+shader_parameter/flash_enabled = false
+shader_parameter/flash_speed = 5.0
+shader_parameter/flash_color = Color(1, 0.32549, 0.258824, 0.654902)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yesbh"]
+atlas = ExtResource("2_yesbh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_celdd"]
+atlas = ExtResource("2_yesbh")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joyqd"]
+atlas = ExtResource("2_yesbh")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lj8nj"]
+atlas = ExtResource("2_yesbh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yv7gu"]
+atlas = ExtResource("2_yesbh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ul47t"]
+atlas = ExtResource("2_yesbh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_celdd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yesbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_celdd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_joyqd")
+}],
+"loop": true,
+"name": &"angry",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lj8nj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yv7gu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ul47t")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 15.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_akty2"]
-radius = 8.0
+radius = 12.0
 
-[node name="Bee" type="Area2D"]
+[node name="Bee" type="Area2D" groups=["bees", "edibles"]]
+collision_layer = 2
 script = ExtResource("1_akty2")
 
-[node name="Sprite" type="MeshInstance2D" parent="."]
-modulate = Color(1, 1, 0.458824, 1)
-scale = Vector2(15.4549, 15.4375)
-mesh = SubResource("SphereMesh_l2wui")
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_yv7gu")
+sprite_frames = SubResource("SpriteFrames_celdd")
+animation = &"angry"
+autoplay = "normal"
 
 [node name="Cls" type="CollisionShape2D" parent="."]
+position = Vector2(1, 2)
 shape = SubResource("CircleShape2D_akty2")
 
 [node name="LifeTimer" type="Timer" parent="."]
+wait_time = 30.0
+
+[node name="StateTimer" type="Timer" parent="."]
 wait_time = 3.0
+one_shot = true

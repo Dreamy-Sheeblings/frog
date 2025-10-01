@@ -3,8 +3,8 @@ extends CanvasLayer
 signal upgrade_selected(upgrade: Upgrade)
 
 @export var upgrade_card_scene: PackedScene
-
 @onready var card_row: HBoxContainer = $%CardRow
+@onready var announce_label: Label = %AnnounceLabel
 
 func _ready() -> void:
 	get_tree().paused = true

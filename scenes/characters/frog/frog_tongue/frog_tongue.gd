@@ -76,15 +76,18 @@ func on_head_area_entered(area: Area2D) -> void:
 			eaten_points += 3
 			exp_points += 1
 		elif area is Dragonfly:
-			eaten_points += 7
+			eaten_points += 4
 			exp_points += 999999
 		elif area is Spider:
 			eaten_points += 8
 			exp_points += 2
+		elif area is Bee:
+			eaten_points += 7
+			exp_points += 2
 		elif area is Cicada:
 			area.sound_player.stop()
 			area.current_state = Cicada.States.EATEN
-			eaten_points += 6
+			eaten_points += 5
 			exp_points += 2
 		area.queue_free()
 		
@@ -94,6 +97,11 @@ func on_head_area_entered(area: Area2D) -> void:
 		AudioManager.tongue_stuck_sfx.play()
 		touch_area = area
 		current_state = States.STUCK
+
+	if area.is_in_group("honey"):
+		area.be_collected()
+		current_state = States.PULL_BACK
+	
 
 func on_head_area_exited(area: Area2D) -> void:
 	if area.is_in_group("stuck") and area == touch_area:

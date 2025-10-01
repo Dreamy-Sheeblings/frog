@@ -70,7 +70,7 @@ collision_layer = 2
 script = ExtResource("1_sm61p")
 
 [node name="StateTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.0
 one_shot = true
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]

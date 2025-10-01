@@ -76,8 +76,13 @@ texture_hover = ExtResource("11_hxu8e")
 [node name="InsectsEnities" type="Node2D" parent="Background" groups=["entities_layer"]]
 y_sort_enabled = true
 
-[node name="Frog" parent="Background" instance=ExtResource("4_hujxm")]
+[node name="Frog" parent="Background" node_paths=PackedStringArray("time_manager") instance=ExtResource("4_hujxm")]
 position = Vector2(320, 268)
+time_manager = NodePath("../../TimeManager")
+metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background" groups=["bg_modulate"]]
 z_index = -1
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(320, 268)

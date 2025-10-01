@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://djh07gpknv8w0" path="res://scenes/user_interface/score_counter/score_counter.gd" id="1_eigpt"]
 
-[node name="ScoreCounter" type="Node2D"]
+[node name="ScoreCounter" type="Node2D" groups=["score"]]
 script = ExtResource("1_eigpt")
 
 [node name="NumberLabel" type="RichTextLabel" parent="."]

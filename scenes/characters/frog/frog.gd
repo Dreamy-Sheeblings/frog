@@ -6,11 +6,13 @@ extends Node2D
 @onready var anim_player: AnimationPlayer = $AnimPlayer
 @onready var swallow_timer: Timer = $Timers/SwallowTimer
 @onready var frog_sprite: Sprite2D = $Sprite
-@onready var time_manager: Node = $TimeManager
+@onready var hurt_area: Area2D = $HurtArea
+@onready var tongue_list: Node2D = $TongueList
+
+@export var time_manager: Node
 
 var tongue_scene: PackedScene = preload("res://scenes/characters/frog/frog_tongue/frog_tongue.tscn")
 var end_screen_scene: PackedScene = preload("res://scenes/user_interface/end_screen/end_screen.tscn")
-@onready var tongue_list: Node2D = $TongueList
 
 var time: float = 0
 var lickable: bool = true
@@ -48,6 +50,8 @@ func _ready() -> void:
 	GameEvents.upgrade_added.connect(on_upgrade_added)
 	GameEvents.tongue_stuck.connect(on_tongue_stuck)
 	GameEvents.rage_active.connect(on_rage_activated)
+	GameEvents.honey_comb_collected.connect(on_honey_comb_collected)
+	hurt_area.area_entered.connect(on_hurt_area_entered)
 	time_manager.difficulty_changed.connect(on_difficulty_changed)
 	base_swallow_time = swallow_timer.wait_time
 	swallow_timer.timeout.connect(on_swallow_timer_timeout)
@@ -67,6 +71,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			current_state = States.EAT
 
 func _process(delta: float) -> void:
+	# if Input.is_action_just_pressed("debug_die"):
+	# 	hunger_point = 0
+	# 	GameEvents.emit_hunger_progress_updated(hunger_point)
 	var tongue_cooldown_elapsed := swallow_timer.wait_time - swallow_timer.time_left
 	var tongue_cooldown_progress := tongue_cooldown_elapsed / swallow_timer.wait_time
 	tongue_cooldown_bar.value = tongue_cooldown_progress
@@ -82,12 +89,14 @@ func _process(delta: float) -> void:
 			if not cry_began:
 				anim_player.play("cry_begin")
 	var cicada_buzz_sounds = get_tree().get_nodes_in_group("cicada_buzz") as Array[AudioStreamPlayer2D]
+	var buzzing = false
+
 	for buzz_sound in cicada_buzz_sounds:
 		if buzz_sound.playing:
-			sway_speed = 4
+			buzzing = true
 			break
-		else:
-			sway_speed = 2
+
+	sway_speed = 4 if buzzing else 2
 		
 	match current_state:
 		States.SWAY:
@@ -139,7 +148,7 @@ func on_rage_activated(is_active: bool) -> void:
 func on_frog_devour_something(hunger_num: int, exp_point, combo_points) -> void:
 	if hunger_num > 0:
 		devour_combo_counter += combo_points
-		GameEvents.emit_score_increased((hunger_num * 10) + (combo_points * combo_multiplier))
+		GameEvents.emit_score_increased((hunger_num * 5) + combo_points)
 		hunger_point += hunger_num
 		AudioManager.swallow_sfx.play()
 		await get_tree().create_timer(0.5).timeout
@@ -181,7 +190,8 @@ func on_tongue_stuck(is_tongue_stuck: bool) -> void:
 
 func begin_cry():
 	cry_began = true
-	render_end_screen()
+	AudioManager.lose_sfx.play()
+	get_tree().create_timer(2).timeout.connect(render_end_screen)
 
 func disappear_tongue():
 	var tween = create_tween()
@@ -191,6 +201,15 @@ func disappear_tongue():
 	tween.chain()
 
 func render_end_screen():
-	AudioManager.lose_sfx.play()
 	var end_screen = end_screen_scene.instantiate()
 	add_child(end_screen)
+
+func on_hurt_area_entered(area: Area2D) -> void:
+	AudioManager.bee_sting_sfx.play()
+	if area.is_in_group("bees"):
+		hunger_point -= 10
+		GameEvents.emit_hunger_progress_updated(hunger_point)
+
+func on_honey_comb_collected(honey_points: float) -> void:
+	hunger_point += honey_points
+	GameEvents.emit_hunger_progress_updated(hunger_point)

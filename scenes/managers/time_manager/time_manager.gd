@@ -31,6 +31,7 @@ func on_round_timer_timeout() -> void:
 
 func on_frog_died() -> void:
 	difficult_timer.stop()
+	round_timer.stop()
 	weather_timer.stop()
 
 func on_difficult_timer_timeout() -> void:

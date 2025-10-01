@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtk5ayypfg4ym"]
+
+[ext_resource type="Script" uid="uid://c5pbkj2lyjw0m" path="res://scenes/objects/honey_comb/honey_comb.gd" id="1_fa6qx"]
+[ext_resource type="Texture2D" uid="uid://dgkfliigc01u1" path="res://scenes/objects/honey_comb/honey_comb.png" id="1_i4n8r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7nvf4"]
+radius = 17.0294
+
+[node name="HoneyComb" type="Area2D" groups=["honey"]]
+collision_layer = 4
+script = ExtResource("1_fa6qx")
+
+[node name="DuplicateTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="GrowTimer" type="Timer" parent="."]
+wait_time = 9.0
+autostart = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_i4n8r")
+
+[node name="Cls" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7nvf4")

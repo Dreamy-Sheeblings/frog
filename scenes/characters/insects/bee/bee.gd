@@ -1,104 +1,138 @@
+class_name Bee
 extends Area2D
 
-@onready var life_timer: Timer = $LifeTimer
+@onready var state_timer := $StateTimer
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite
 
-var speed := 80.0
-var noise := FastNoiseLite.new()
-var noise_offset := 0.0
+var alive: bool = false
 
-var change_dir_timer := 0.0
-var dir_change_interval := 1.5
+var speed := 10.0 # Cap: 8
 
-var direction := Vector2.RIGHT
-var hover_center := Vector2.ZERO
-var hover_radius := 100.0
+var center := Vector2.ZERO
 
-var viewport_rect: Rect2
-var pollinate_target: Node = null
-
-var pollinate_yet: bool = false
+var base_position: Vector2
+var amplitude: float = 5.0 # how far up/down
+var jitter_strength: float = 2.0 # optional tiny shake
 
 enum States {
-	BEE_IN,
-	BEE_OUT,
-	HOVER,
-	FLY_TO_FLOWER,
-	BEE_POLLINATE
+	FLY_IN,
+	BUZZ,
+	FLY,
+	FLY_OUT,
+	ANGRY
 }
 
-var current_state = States.BEE_IN
+var current_state = States.FLY_IN
+var fly_target: Vector2 = Vector2.ZERO
+var viewport_rect: Rect2
+var last_position := Vector2.ZERO
 
 func _ready() -> void:
 	randomize()
+	last_position = global_position
 	viewport_rect = get_viewport().get_visible_rect()
-	life_timer.timeout.connect(on_life_timer_timeout)
-	# Pick hover center inside viewport
-	hover_center = Vector2(
-		randf_range(viewport_rect.position.x + 100, viewport_rect.end.x - 100),
-		randf_range(viewport_rect.position.y + 100, viewport_rect.end.y - 150)
+	state_timer.timeout.connect(_on_mode_timer_timeout)
+	# Flying into the screen
+	fly_target = get_random_fly_target_on_screen()
+	GameEvents.frog_died.connect(on_life_timer_timeout)
+	GameEvents.honey_comb_collected.connect(on_honey_comb_collected)
+
+func on_honey_comb_collected(_honey_points: float) -> void:
+	anim_sprite.play("angry")
+	state_timer.stop()
+	current_state = States.ANGRY
+
+func charge_frog() -> void:
+	anim_sprite.material.set_shader_parameter("flash_enabled", true)
+	var timer = get_tree().create_timer(1.0, false, true) # ignore_time_scale = true
+	timer.timeout.connect(func():
+		var tween = create_tween()
+		tween.tween_method(tween_charge.bind(global_position), 0.0, 1.0, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUINT)
+		tween.tween_callback(queue_free)
 	)
 
-	# Noise setup
-	noise.seed = randi()
-	noise.frequency = 1.5
-	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	
+func tween_charge(percent: float, start_pos: Vector2) -> void:
+	var frog = get_tree().get_first_node_in_group("frog") as Node2D
+	if frog == null:
+		return
+	
+	global_position = start_pos.lerp(frog.global_position, percent)
 
 func _process(delta: float) -> void:
-	match current_state:
-		States.BEE_IN:
-			var to_target = hover_center - global_position
-			if to_target.length() > 5.0:
-				global_position += to_target.normalized() * speed * delta
-				rotation = to_target.angle()
-			else:
-				current_state = States.HOVER
-				life_timer.start()
-				change_dir_timer = 0.0
+	if current_state == States.ANGRY:
+		var frog = get_tree().get_first_node_in_group("frog") as Node2D
+		anim_sprite.flip_h = (frog.global_position.x > global_position.x)
+	else:
+		$AnimSprite.flip_h = (fly_target.x > center.x)
+	if not alive:
+		center = global_position
+		alive = true
+	else:
+		var t := Time.get_ticks_msec() / 1000.0
 
-		States.HOVER:
-			_hover_behavior(delta)
-
-		States.BEE_POLLINATE:
-			pollinate_yet = true
-
-		States.FLY_TO_FLOWER:
-			if pollinate_target and pollinate_target.is_inside_tree():
-				var flower_pos = pollinate_target.global_position - Vector2(0, 40)
-				if global_position.distance_to(flower_pos) <= 1:
-					current_state = States.BEE_POLLINATE
+		match current_state:
+			States.FLY_IN:
+				center = center.move_toward(fly_target, 60 * delta)
+				if center.distance_to(fly_target) < 5.0:
+					current_state = States.BUZZ
+					_reset_timer()
+			States.FLY:
+				var to_target = fly_target - center
+				if to_target.length() < 5.0:
+					fly_target = get_random_fly_target_on_screen()
 				else:
-					var to_target = flower_pos - global_position
-					global_position += to_target.normalized() * speed * delta
-			else:
-				current_state = States.BEE_OUT
+					center += to_target.normalized() * 40 * delta
+			States.FLY_OUT:
+				var to_target = fly_target - center
+				if to_target.length() < 5.0:
+					queue_free()
+				else:
+					center += to_target.normalized() * 40 * delta
 
-		States.BEE_OUT:
-			global_position += direction * speed * delta
-			rotation = direction.angle()
-			
+		var offset_y = sin(t * speed) * amplitude
+		var jitter = Vector2(randf_range(-jitter_strength, jitter_strength), 0)
+		global_position = center + Vector2(0, offset_y) + jitter
 
-func _hover_behavior(delta: float) -> void:
-	noise_offset += delta * 1.5
-	change_dir_timer -= delta
-	if change_dir_timer <= 0.0:
-		direction = direction.rotated(randf_range(-0.5, 0.5)).normalized()
-		change_dir_timer = randf_range(dir_change_interval * 0.7, dir_change_interval * 1.3)
+func _on_mode_timer_timeout() -> void:
+	# Toggle between BUZZ and FLY
+	current_state = States.FLY if current_state == States.BUZZ else States.BUZZ
+	_reset_timer()
 
-	if global_position.distance_to(hover_center) > hover_radius:
-		direction = (hover_center - global_position).normalized()
+func get_random_fly_target_on_screen() -> Vector2:
+	return Vector2(
+		randf_range(viewport_rect.position.x + 25, viewport_rect.end.x - 25),
+		randf_range(viewport_rect.position.y + 25, viewport_rect.end.y - 200)
+	)
 
-	var wobble_x = noise.get_noise_1d(noise_offset) * 30.0
-	var wobble_y = noise.get_noise_1d(noise_offset + 100.0) * 30.0
+func get_random_offscreen_position(margin: float = 50.0) -> Vector2:
+	var side := randi() % 3 # 0=Top, 1=Right, 2=Bottom, 3=Left
 
-	global_position += (direction * speed * delta) + Vector2(wobble_x, wobble_y) * delta
-	rotation = direction.angle()
+	match side:
+		0: # Top
+			return Vector2(
+				randf_range(viewport_rect.position.x, viewport_rect.end.x),
+				viewport_rect.position.y - margin
+			)
+		1: # Right
+			return Vector2(
+				viewport_rect.end.x + margin,
+				randf_range(viewport_rect.position.y, viewport_rect.end.y)
+			)
+		2: # Left
+			return Vector2(
+				viewport_rect.position.x - margin,
+				randf_range(viewport_rect.position.y, viewport_rect.end.y)
+			)
+	return Vector2.ZERO # fallback
 
 func on_life_timer_timeout() -> void:
-	if pollinate_yet:
-		current_state = States.BEE_OUT
-		return
+	anim_sprite.play("normal")
+	anim_sprite.material.set_shader_parameter("flash_enabled", false)
+	state_timer.stop()
+	fly_target = get_random_offscreen_position()
+	current_state = States.FLY_OUT
 
-	var flowers = get_tree().get_nodes_in_group("flower")
-	if flowers.size() > 0:
-		pollinate_target = flowers[randi() % flowers.size()]
-		current_state = States.FLY_TO_FLOWER
+func _reset_timer() -> void:
+	state_timer.wait_time = randf_range(3.0, 5.0)
+	state_timer.start()

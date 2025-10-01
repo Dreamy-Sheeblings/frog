@@ -30,7 +30,7 @@ var current_state = States.FLY_IN
 var fly_target: Vector2 = Vector2.ZERO
 var viewport_rect: Rect2
 var last_position := Vector2.ZERO
-var random_fly_count: int = 0
+var random_fly_count: int = 1
 
 func _ready() -> void:
 	randomize()
@@ -45,7 +45,6 @@ func _ready() -> void:
 	noise.seed = randi()
 	noise.frequency = 0.8
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	random_fly_count = randi_range(2, 3)
 	# Flying into the screen
 	fly_target = get_random_fly_target_on_screen()
 

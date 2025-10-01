@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="HighScore" load_steps=2 format=3 uid="uid://fp7r4urrvdrx"]
+
+[ext_resource type="Script" uid="uid://bcm3vkcis433g" path="res://resources/meta/high_score.gd" id="1_3perr"]
+
+[resource]
+script = ExtResource("1_3perr")
+value = 0
+tutorial_shown = false

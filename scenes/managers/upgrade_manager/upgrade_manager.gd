@@ -18,6 +18,8 @@ func _ready() -> void:
 	GameEvents.exp_increased.connect(on_exp_increased)
 
 func on_exp_increased(amount: int) -> void:
+	if upgrade_pool.is_empty():
+		return
 	current_exp = min(current_exp + amount, target_exp)
 	exp_updated.emit(current_exp, target_exp)
 	if current_exp >= target_exp:
@@ -84,6 +86,9 @@ func on_upgrade_selected(upgrade: Upgrade) -> void:
 
 
 func on_level_up(_current_level):
+	if upgrade_pool.is_empty():
+		return
+
 	var upgrade_screen_instance = upgrade_screen_scene.instantiate()
 	add_child(upgrade_screen_instance)
 	AudioManager.lvl_up_sfx.play()

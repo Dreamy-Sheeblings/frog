@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d3u7d4nfvxvha"
-path="res://.godot/imported/sfx_1.wav-020d18e81585e8409c3a5d86b6f50884.sample"
+path="res://.godot/imported/sfx_bee_sting.wav-8c8745006d67a9c2c3483e0dddec68a6.sample"
 
 [deps]
 
-source_file="res://assets/audio/sfx_1.wav"
-dest_files=["res://.godot/imported/sfx_1.wav-020d18e81585e8409c3a5d86b6f50884.sample"]
+source_file="res://assets/audio/insects/sfx_bee_sting.wav"
+dest_files=["res://.godot/imported/sfx_bee_sting.wav-8c8745006d67a9c2c3483e0dddec68a6.sample"]
 
 [params]
 
